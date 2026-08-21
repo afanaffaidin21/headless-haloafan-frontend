@@ -12,7 +12,7 @@ import { SITE_CONFIG } from "@/lib/seed";
 import { routing } from "@/i18n/routing";
 
 const PORTRAIT =
-  "https://haloafan.com/wp-content/uploads/2026/05/photo-portfolio-with-caption-820x1024.png";
+  "https://cms.haloafan.com/wp-content/uploads/2026/05/photo-portfolio-with-caption-820x1024.png";
 
 const CODE_THEME_JSON = `{
   "version": 2,

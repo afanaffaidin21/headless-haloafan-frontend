@@ -26,7 +26,7 @@ import {
 } from "@/lib/seed";
 
 const PORTRAIT =
-  "https://haloafan.com/wp-content/uploads/2026/05/photo-portfolio-with-caption-820x1024.png";
+  "https://cms.haloafan.com/wp-content/uploads/2026/05/photo-portfolio-with-caption-820x1024.png";
 
 const ICONS: Record<string, LucideIcon> = {
   "code-xml": CodeXml,

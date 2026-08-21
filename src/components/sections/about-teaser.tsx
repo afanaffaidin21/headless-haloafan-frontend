@@ -5,7 +5,7 @@ import { QuickFacts } from "@/components/ui/quick-facts";
 import { SITE_CONFIG } from "@/lib/seed";
 
 const PORTRAIT =
-  "https://haloafan.com/wp-content/uploads/2026/05/photo-portfolio-with-caption-820x1024.png";
+  "https://cms.haloafan.com/wp-content/uploads/2026/05/photo-portfolio-with-caption-820x1024.png";
 
 const QUICK_FACTS = [
   { k: "LOCATION", v: "Surabaya, ID" },

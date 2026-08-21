@@ -27,7 +27,7 @@ export const SITE_CONFIG: SiteConfig = {
   stats: { years: "5+", projects: "15+", clients: "10+" },
 };
 
-const wp = "https://haloafan.com/wp-content/uploads/2026/05";
+const wp = "https://cms.haloafan.com/wp-content/uploads/2026/05";
 
 export const SEED_PROJECTS: Project[] = [
   {
