@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   Design Tokens — Dark Editorial × Brutalist Accent × Tech
+   Sumber: docs/design.md §2
+   Default: DARK  ·  Light mode via <html class="light">
+   ============================================================ */
+:root {
+  --color-bg: #0a0a0c;
+  --color-panel: #121215;
+  --color-paper: #18181d;
+  --color-ink: #f2f1ec;
+  --color-muted: #8f8b83;
+  --color-line: #27272e;
+  --color-accent: #4ade80;
+  --color-accent-dim: #1f3d2c;
+}
+
+.light {
+  --color-bg: #f7f4ef;
+  --color-panel: #ffffff;
+  --color-paper: #faf9f6;
+  --color-ink: #1a1a1a;
+  --color-muted: #6b6560;
+  --color-line: #e7e1d8;
+  --color-accent: #16a34a;
+  --color-accent-dim: #e7f4ea;
+}
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-panel: var(--color-panel);
+  --color-paper: var(--color-paper);
+  --color-ink: var(--color-ink);
+  --color-muted: var(--color-muted);
+  --color-line: var(--color-line);
+  --color-accent: var(--color-accent);
+  --color-accent-dim: var(--color-accent-dim);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --shadow-hard: 6px 6px 0 0 #0e0e11;
+  --shadow-hard-sm: 4px 4px 0 0 #0e0e11;
+  --shadow-hard-accent: 5px 5px 0 0 var(--color-accent-dim);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Mono micro-labels */
+.mono-label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Brutalist hard offset shadow */
+.hard-shadow {
+  box-shadow: var(--shadow-hard);
+}
+
+/* Section eyebrow marker (green bar) */
+.eyebrow-marker {
+  width: 26px;
+  height: 3px;
+  background: var(--color-accent);
+  flex-shrink: 0;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* Scroll reveal base (JS adds .revealed) */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* ============================================================
+   Grid overlay (easter egg: Ctrl/Cmd+G)
+   ============================================================ */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+}
+.grid-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(74, 222, 128, 0.08),
+    rgba(74, 222, 128, 0.08) 1px,
+    transparent 1px,
+    transparent calc(100% / 12)
+  );
+}
+
+/* ============================================================
+   Print: hanya tampilkan CV modal saat print
+   ============================================================ */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-area,
+  .print-area * {
+    visibility: visible !important;
+  }
+  .print-area {
+    position: fixed !important;
+    inset: 0 !important;
+    overflow: visible !important;
+    background: #fff !important;
+    color: #111 !important;
+  }
+}

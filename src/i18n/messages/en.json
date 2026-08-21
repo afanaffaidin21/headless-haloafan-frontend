@@ -1,0 +1,240 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "experiments": "Experiments",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact",
+    "available": "Available for work"
+  },
+  "pathSwitcher": {
+    "title": "Select Your Intent Path",
+    "hint": "Page content adapts to your goal — hire me or explore full-time.",
+    "freelance": {
+      "kicker": "Freelance Client Path",
+      "heading": "I want to hire a freelancer",
+      "desc": "Focus on direct client services: bug fixing, custom WordPress development, speed optimization, and turn-key site builds.",
+      "focus": "Services & Projects",
+      "cta": "Activate Path"
+    },
+    "fulltime": {
+      "kicker": "Recruiter / Hiring Path",
+      "heading": "I want to explore full-time hiring",
+      "desc": "Focus on career trajectory: 5+ years experience, WordPress engineering, and a formal CV ready to download.",
+      "focus": "Experience & CV",
+      "cta": "Activate Path"
+    },
+    "reset": "Switch back to Neutral View"
+  },
+  "hero": {
+    "eyebrow": "WordPress Developer & AI-Driven — Surabaya, ID",
+    "line1": "Crafting Impactful Websites",
+    "line2": "That Look Good & Work Great.",
+    "sub": "A website designer & developer who combines visual thinking and technical know-how to help your brand stand out online.",
+    "ctaPrimary": "Let's Get Started",
+    "ctaSecondary": "View Projects",
+    "stats": {
+      "years": "Years Experience",
+      "projects": "Projects Delivered",
+      "clients": "Happy Clients"
+    },
+    "marquee": [
+      "WORDPRESS",
+      "HEADLESS CMS",
+      "NEXT.JS",
+      "TAILWIND",
+      "TYPESCRIPT",
+      "WPGraphQL"
+    ]
+  },
+  "projects": {
+    "eyebrow": "All Work",
+    "heading": "Projects",
+    "homeHeading": "Selected Projects",
+    "sub": "A showcase of tailor-made websites, engineered from the ground up for speed, scalability, and exceptional user experience.",
+    "viewAll": "View All Projects",
+    "viewCase": "View Case Study",
+    "live": "Live Site"
+  },
+  "caseStudy": {
+    "eyebrow": "Case Study",
+    "visitLive": "Visit Live Site",
+    "backToProjects": "Back to Projects",
+    "overview": "Overview",
+    "challenge": "The Challenge",
+    "process": "My Role & Process",
+    "stack": "Tech Stack",
+    "results": "Results & Impact",
+    "gallery": "Inside the Website",
+    "nextProject": "Next Project",
+    "prevProject": "Previous Project",
+    "atAGlance": "At a Glance",
+    "ctaHeading": "Have a similar project in mind?",
+    "ctaSub": "Let's build something great together — just tell me about your project.",
+    "ctaPrimary": "Let's Talk"
+  },
+  "experiments": {
+    "eyebrow": "Experiments",
+    "heading": "Vibe Coding Experiments",
+    "sub": "Quick builds and side projects — small ideas pushed to production fast. Built with AI-assisted workflows, because shipping beats perfecting.",
+    "marquee": [
+      "BUILD",
+      "SHIP",
+      "LEARN",
+      "REPEAT",
+      "HAVE FUN"
+    ],
+    "ctaHeading": "Want to see a real project?",
+    "ctaSub": "Explore the full case studies — real clients, real results.",
+    "ctaPrimary": "View Case Studies",
+    "ctaSecondary": "Back to Home"
+  },
+  "blog": {
+    "eyebrow": "Blog",
+    "heading": "The Dev Log",
+    "sub": "Documenting my journey through code — practical tips, quick fixes, and insights on building better websites.",
+    "featured": "Featured",
+    "readArticle": "Read Article",
+    "viewAll": "View All Articles",
+    "ctaHeading": "Enjoying the read?",
+    "ctaSub": "Have questions about modern WordPress or need help with your site?",
+    "ctaPrimary": "Let's Talk",
+    "ctaSecondary": "View My Work"
+  },
+  "about": {
+    "eyebrow": "About",
+    "heading": "About Me",
+    "homeHeading": "Know Who I Am",
+    "sub": "WordPress Developer & AI-Driven — helping brands and institutions build fast, secure, and maintainable websites.",
+    "focusEyebrow": "What I Focus On",
+    "experienceEyebrow": "Experience",
+    "skillsEyebrow": "Skills & Toolbox",
+    "educationEyebrow": "Education",
+    "achievementsEyebrow": "Achievements & Recognition",
+    "ctaHeading": "Let's build something great together.",
+    "ctaSub": "Tell me about your project — I'll take care of the rest.",
+    "ctaPrimary": "Let's Talk",
+    "ctaSecondary": "Download CV"
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "heading": "Let's Talk",
+    "sub": "Tell me about your project, ask a question, or just say hello. I usually respond within 12 hours.",
+    "detailsLabel": "Contact Details",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "location": "Location",
+    "responseTime": "Response Time",
+    "formLabel": "Send a Message",
+    "name": "Your name",
+    "emailPlaceholder": "you@example.com",
+    "message": "Tell me about your project...",
+    "submit": "Send Message",
+    "note": "I typically respond within 12 hours",
+    "success": "Message sent — I'll get back to you within 12 hours.",
+    "error": "Something went wrong. Please try again or contact me via WhatsApp."
+  },
+  "footer": {
+    "copyright": "© 2026. Designed & Developed by haloafan",
+    "powered": "Headless WordPress + Next.js"
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "heading": "Some Doubts",
+    "sub": "Your answers await right here.",
+    "asideLabel": "More Questions",
+    "asideHeading": "Let's talk about your project.",
+    "asideBody": "Have more questions or want to start collaborating? Send me a message.",
+    "asideCta": "WhatsApp Me",
+    "note": "Response time typically within 12 hours"
+  },
+  "meta": {
+    "title": "Haloafan — WordPress Developer & AI-Driven",
+    "description": "Crafting impactful websites that look good & work great."
+  },
+  "home": {
+    "ctaHeading": "Have something in mind?",
+    "ctaSub": "Let's build something great together — just tell me about your project.",
+    "ctaPrimary": "Let's Talk",
+    "ctaEmail": "hello@haloafan.com"
+  },
+  "pathContent": {
+    "neutral": {
+      "badge": "Available for work",
+      "ctaPrimary": "Let's Get Started",
+      "ctaSecondary": "View Projects",
+      "stats": [
+        {
+          "num": "5+",
+          "label": "Years Experience"
+        },
+        {
+          "num": "15+",
+          "label": "Projects Delivered"
+        },
+        {
+          "num": "10+",
+          "label": "Happy Clients"
+        }
+      ],
+      "factStatus": "Available for work"
+    },
+    "freelance": {
+      "badge": "Available for new projects",
+      "ctaPrimary": "WhatsApp Me",
+      "ctaSecondary": "View Projects",
+      "stats": [
+        {
+          "num": "10+",
+          "label": "Happy Clients"
+        },
+        {
+          "num": "15+",
+          "label": "Projects Delivered"
+        },
+        {
+          "num": "5+",
+          "label": "Years Experience"
+        }
+      ],
+      "factStatus": "Freelance — Open"
+    },
+    "fulltime": {
+      "badge": "Open to full-time opportunities",
+      "ctaPrimary": "Download CV",
+      "ctaSecondary": "View Projects",
+      "stats": [
+        {
+          "num": "3+",
+          "label": "Years Support"
+        },
+        {
+          "num": "100+",
+          "label": "Tickets Resolved"
+        },
+        {
+          "num": "1st",
+          "label": "Winner UNAIR"
+        }
+      ],
+      "factStatus": "Open to Full-time"
+    },
+    "cta": {
+      "neutral": {
+        "primary": "Let's Talk",
+        "secondary": "hello@haloafan.com"
+      },
+      "freelance": {
+        "primary": "WhatsApp Me",
+        "secondary": "hello@haloafan.com"
+      },
+      "fulltime": {
+        "primary": "Download CV",
+        "secondary": "Connect on LinkedIn"
+      }
+    }
+  },
+  "cv": {
+    "download": "Download PDF"
+  }
+}

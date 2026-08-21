@@ -1,0 +1,240 @@
+{
+  "nav": {
+    "projects": "Proyek",
+    "experiments": "Eksperimen",
+    "blog": "Blog",
+    "about": "Tentang",
+    "contact": "Kontak",
+    "available": "Tersedia untuk bekerja"
+  },
+  "pathSwitcher": {
+    "title": "Pilih Jalur Anda",
+    "hint": "Konten halaman menyesuaikan tujuan Anda — sewa jasa atau jelajahi peluang kerja.",
+    "freelance": {
+      "kicker": "Jalur Klien Freelance",
+      "heading": "Saya ingin menyewa freelancer",
+      "desc": "Fokus pada layanan langsung: perbaikan bug, pengembangan WordPress, optimasi kecepatan, dan pembuatan website turn-key.",
+      "focus": "Layanan & Proyek",
+      "cta": "Aktifkan Jalur"
+    },
+    "fulltime": {
+      "kicker": "Jalur Rekruter / Kerja",
+      "heading": "Saya ingin merekrut full-time",
+      "desc": "Fokus pada perjalanan karier: pengalaman 5+ tahun, rekayasa WordPress, dan CV formal siap diunduh.",
+      "focus": "Pengalaman & CV",
+      "cta": "Aktifkan Jalur"
+    },
+    "reset": "Kembalikan ke Tampilan Netral"
+  },
+  "hero": {
+    "eyebrow": "WordPress Developer & AI-Driven — Surabaya, ID",
+    "line1": "Menciptakan Website Berdampak",
+    "line2": "Tampil Bagus & Berfungsi Hebat.",
+    "sub": "Seorang desainer & pengembang website yang memadukan pemikiran visual dan kemampuan teknis untuk membuat brand Anda menonjol secara online.",
+    "ctaPrimary": "Mulai Sekarang",
+    "ctaSecondary": "Lihat Proyek",
+    "stats": {
+      "years": "Tahun Pengalaman",
+      "projects": "Proyek Selesai",
+      "clients": "Klien Puas"
+    },
+    "marquee": [
+      "WORDPRESS",
+      "HEADLESS CMS",
+      "NEXT.JS",
+      "TAILWIND",
+      "TYPESCRIPT",
+      "WPGraphQL"
+    ]
+  },
+  "projects": {
+    "eyebrow": "Semua Karya",
+    "heading": "Proyek",
+    "homeHeading": "Proyek Pilihan",
+    "sub": "Kumpulan website yang dibuat dari nol dengan fokus pada kecepatan, skalabilitas, dan pengalaman pengguna yang luar biasa.",
+    "viewAll": "Lihat Semua Proyek",
+    "viewCase": "Lihat Studi Kasus",
+    "live": "Situs Live"
+  },
+  "caseStudy": {
+    "eyebrow": "Studi Kasus",
+    "visitLive": "Kunjungi Situs",
+    "backToProjects": "Kembali ke Proyek",
+    "overview": "Ringkasan",
+    "challenge": "Tantangan",
+    "process": "Peran & Proses",
+    "stack": "Teknologi",
+    "results": "Hasil & Dampak",
+    "gallery": "Di Dalam Website",
+    "nextProject": "Proyek Berikutnya",
+    "prevProject": "Proyek Sebelumnya",
+    "atAGlance": "Sekilas",
+    "ctaHeading": "Ada proyek serupa?",
+    "ctaSub": "Mari membangun sesuatu yang hebat bersama — ceritakan saja proyek Anda.",
+    "ctaPrimary": "Mari Bicara"
+  },
+  "experiments": {
+    "eyebrow": "Eksperimen",
+    "heading": "Eksperimen Vibe Coding",
+    "sub": "Proyek cepat dan sampingan — ide kecil yang dirilis cepat. Dibangun dengan alur kerja berbantuan AI, karena merilis lebih baik daripada menyempurnakan.",
+    "marquee": [
+      "BUAT",
+      "RILIS",
+      "BELAJAR",
+      "ULANGI",
+      "SERU"
+    ],
+    "ctaHeading": "Ingin melihat proyek nyata?",
+    "ctaSub": "Jelajahi studi kasus lengkap — klien nyata, hasil nyata.",
+    "ctaPrimary": "Lihat Studi Kasus",
+    "ctaSecondary": "Kembali ke Beranda"
+  },
+  "blog": {
+    "eyebrow": "Blog",
+    "heading": "The Dev Log",
+    "sub": "Mendokumentasikan perjalanan saya dalam kode — tips praktis, perbaikan cepat, dan wawasan membangun website yang lebih baik.",
+    "featured": "Pilihan",
+    "readArticle": "Baca Artikel",
+    "viewAll": "Lihat Semua Artikel",
+    "ctaHeading": "Menikmati bacaannya?",
+    "ctaSub": "Punya pertanyaan tentang WordPress modern atau butuh bantuan untuk situs Anda?",
+    "ctaPrimary": "Mari Bicara",
+    "ctaSecondary": "Lihat Karya Saya"
+  },
+  "about": {
+    "eyebrow": "Tentang",
+    "heading": "Tentang Saya",
+    "homeHeading": "Kenali Saya",
+    "sub": "WordPress Developer & AI-Driven — membantu brand dan institusi membangun website yang cepat, aman, dan mudah dikelola.",
+    "focusEyebrow": "Fokus Utama",
+    "experienceEyebrow": "Pengalaman",
+    "skillsEyebrow": "Keterampilan & Peralatan",
+    "educationEyebrow": "Pendidikan",
+    "achievementsEyebrow": "Pencapaian & Penghargaan",
+    "ctaHeading": "Mari membangun sesuatu yang hebat bersama.",
+    "ctaSub": "Ceritakan proyek Anda — saya urus sisanya.",
+    "ctaPrimary": "Mari Bicara",
+    "ctaSecondary": "Unduh CV"
+  },
+  "contact": {
+    "eyebrow": "Kontak",
+    "heading": "Mari Bicara",
+    "sub": "Ceritakan proyek Anda, ajukan pertanyaan, atau sekadar menyapa. Biasanya saya merespons dalam 12 jam.",
+    "detailsLabel": "Detail Kontak",
+    "whatsapp": "WhatsApp",
+    "email": "Email",
+    "location": "Lokasi",
+    "responseTime": "Waktu Respons",
+    "formLabel": "Kirim Pesan",
+    "name": "Nama Anda",
+    "emailPlaceholder": "anda@contoh.com",
+    "message": "Ceritakan proyek Anda...",
+    "submit": "Kirim Pesan",
+    "note": "Biasanya saya merespons dalam 12 jam",
+    "success": "Pesan terkirim — saya akan membalas dalam 12 jam.",
+    "error": "Terjadi kesalahan. Silakan coba lagi atau hubungi saya via WhatsApp."
+  },
+  "footer": {
+    "copyright": "© 2026. Dirancang & Dikembangkan oleh haloafan",
+    "powered": "Headless WordPress + Next.js"
+  },
+  "faq": {
+    "eyebrow": "FAQ",
+    "heading": "Masih Ragu",
+    "sub": "Jawaban Anda tersedia di sini.",
+    "asideLabel": "Pertanyaan Lain",
+    "asideHeading": "Mari bicarakan proyek Anda.",
+    "asideBody": "Masih ada pertanyaan atau ingin mulai berkolaborasi? Kirim pesan.",
+    "asideCta": "WhatsApp Saya",
+    "note": "Waktu respons biasanya dalam 12 jam"
+  },
+  "meta": {
+    "title": "Haloafan — WordPress Developer & AI-Driven",
+    "description": "Menciptakan website berdampak yang tampil bagus dan berfungsi hebat."
+  },
+  "home": {
+    "ctaHeading": "Ada ide yang ingin diwujudkan?",
+    "ctaSub": "Mari membangun sesuatu yang hebat bersama — ceritakan saja proyek Anda.",
+    "ctaPrimary": "Mari Bicara",
+    "ctaEmail": "hello@haloafan.com"
+  },
+  "pathContent": {
+    "neutral": {
+      "badge": "Tersedia untuk bekerja",
+      "ctaPrimary": "Mulai Sekarang",
+      "ctaSecondary": "Lihat Proyek",
+      "stats": [
+        {
+          "num": "5+",
+          "label": "Tahun Pengalaman"
+        },
+        {
+          "num": "15+",
+          "label": "Proyek Selesai"
+        },
+        {
+          "num": "10+",
+          "label": "Klien Puas"
+        }
+      ],
+      "factStatus": "Tersedia untuk bekerja"
+    },
+    "freelance": {
+      "badge": "Terbuka proyek baru",
+      "ctaPrimary": "WhatsApp Saya",
+      "ctaSecondary": "Lihat Proyek",
+      "stats": [
+        {
+          "num": "10+",
+          "label": "Klien Puas"
+        },
+        {
+          "num": "15+",
+          "label": "Proyek Selesai"
+        },
+        {
+          "num": "5+",
+          "label": "Tahun Pengalaman"
+        }
+      ],
+      "factStatus": "Freelance — Terbuka"
+    },
+    "fulltime": {
+      "badge": "Terbuka peluang full-time",
+      "ctaPrimary": "Unduh CV",
+      "ctaSecondary": "Lihat Proyek",
+      "stats": [
+        {
+          "num": "3+",
+          "label": "Tahun Support"
+        },
+        {
+          "num": "100+",
+          "label": "Tiket Selesai"
+        },
+        {
+          "num": "1st",
+          "label": "Juara UNAIR"
+        }
+      ],
+      "factStatus": "Terbuka Full-time"
+    },
+    "cta": {
+      "neutral": {
+        "primary": "Mari Bicara",
+        "secondary": "hello@haloafan.com"
+      },
+      "freelance": {
+        "primary": "WhatsApp Saya",
+        "secondary": "hello@haloafan.com"
+      },
+      "fulltime": {
+        "primary": "Unduh CV",
+        "secondary": "Terhubung di LinkedIn"
+      }
+    }
+  },
+  "cv": {
+    "download": "Unduh PDF"
+  }
+}
