@@ -51,6 +51,7 @@ export const PROJECTS_QUERY = /* GraphQL */ `
         id
         slug
         title
+        excerpt
         featuredImage { node { sourceUrl } }
         projectFields {
           client
@@ -68,7 +69,7 @@ export const PROJECTS_QUERY = /* GraphQL */ `
           stack { technology }
           results { result }
           stats { number label }
-          screenshots
+          screenshots { nodes { sourceUrl } }
           liveUrl
         }
       }
@@ -101,7 +102,9 @@ export const POSTS_QUERY = /* GraphQL */ `
         slug
         title
         date
+        modified
         excerpt
+        content
         featuredImage { node { sourceUrl } }
         categories { nodes { name } }
         tags { nodes { name } }

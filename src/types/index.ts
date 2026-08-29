@@ -10,7 +10,7 @@ export interface Project {
   title: string;
   client: string;
   year: string;
-  category: "academic" | "blogging" | "company-profile";
+  category: string;
   role: string;
   timeline: string;
   description: string;
@@ -47,6 +47,7 @@ export interface BlogPost {
   slug: string;
   title: string;
   date: string;
+  modified?: string;
   category: string;
   excerpt: string;
   content: string;

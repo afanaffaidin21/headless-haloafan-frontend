@@ -62,10 +62,14 @@
     "eyebrow": "All Work",
     "heading": "Projects",
     "homeHeading": "Selected Projects",
-    "sub": "A showcase of tailor-made websites, engineered from the ground up for speed, scalability, and exceptional user experience.",
-    "viewAll": "View All Projects",
-    "viewCase": "View Case Study",
-    "live": "Live Site"
+      "sub": "A showcase of tailor-made websites, engineered from the ground up for speed, scalability, and exceptional user experience.",
+      "viewAll": "View All Projects",
+      "viewCase": "View Case Study",
+      "live": "Live Site",
+      "emptyHeading": "No published projects yet.",
+      "emptySub": "Published projects will appear here once they are available.",
+      "unavailableHeading": "Projects are temporarily unavailable.",
+      "unavailableSub": "The content source did not respond. Please try this page again shortly."
   },
   "caseStudy": {
     "eyebrow": "Case Study",
@@ -117,11 +121,15 @@
     "sub": "Documenting my journey through code — practical tips, quick fixes, and insights on building better websites.",
     "featured": "Featured",
     "readArticle": "Read Article",
-    "viewAll": "View All Articles",
-    "ctaHeading": "Enjoying the read?",
-    "ctaSub": "Have questions about modern WordPress or need help with your site?",
-    "ctaPrimary": "Let's Talk",
-    "ctaSecondary": "View My Work"
+      "viewAll": "View All Articles",
+      "ctaHeading": "Enjoying the read?",
+      "ctaSub": "Have questions about modern WordPress or need help with your site?",
+      "ctaPrimary": "Let's Talk",
+      "ctaSecondary": "View My Work",
+      "emptyHeading": "No published articles yet.",
+      "emptySub": "New articles will appear here once they are published.",
+      "unavailableHeading": "Articles are temporarily unavailable.",
+      "unavailableSub": "The content source did not respond. Please try this page again shortly."
   },
   "about": {
     "eyebrow": "About",

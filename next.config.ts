@@ -24,11 +24,6 @@ const nextConfig: NextConfig = {
     // Redirect lama (WordPress) → baru
     return [
       {
-        source: "/universitas-sunan-gresik",
-        destination: "/projects/universitas-sunan-gresik",
-        permanent: true,
-      },
-      {
         source: "/menulis-id",
         destination: "/projects/menulis-id",
         permanent: true,
@@ -36,11 +31,6 @@ const nextConfig: NextConfig = {
       {
         source: "/karyapratama-packaging",
         destination: "/projects/karyapratama-packaging",
-        permanent: true,
-      },
-      {
-        source: "/id/universitas-sunan-gresik",
-        destination: "/id/projects/universitas-sunan-gresik",
         permanent: true,
       },
       {
