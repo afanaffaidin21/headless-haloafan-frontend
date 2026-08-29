@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { CvProvider } from "@/components/providers/cv-provider";
-import { CvModal } from "@/components/ui/cv-modal";
+import { LazyCvModal } from "@/components/ui/lazy-cv-modal";
 import { GridOverlay } from "@/components/ui/grid-overlay";
+import { JsonLd } from "@/components/seo/json-ld";
 import { routing } from "@/i18n/routing";
+import { createPageMetadata } from "@/lib/seo";
+import { getCanonicalUrl, localizedPath, SITE_URL } from "@/lib/site-url";
+import { SITE_CONFIG } from "@/lib/seed";
 import "../globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -29,31 +33,25 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export const metadata: Metadata = {
-  title: {
-    default: "Haloafan — WordPress Developer & AI-Driven",
-    template: "%s · Haloafan",
-  },
-  description:
-    "WordPress Developer & AI-Driven. Crafting impactful websites that look good & work great. Based in Surabaya, Indonesia.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://haloafan.com"),
-  openGraph: {
-    title: "Haloafan — WordPress Developer & AI-Driven",
-    description: "Crafting impactful websites that look good & work great.",
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://haloafan.com",
-    siteName: "Haloafan",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Haloafan — WordPress Developer & AI-Driven",
-    description: "Crafting impactful websites that look good & work great.",
-  },
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
+
+  return {
+    ...createPageMetadata({
+      locale,
+      path: "/",
+      title: t("title"),
+      description: t("description"),
+    }),
+    metadataBase: new URL(SITE_URL),
+    icons: { icon: "/favicon.ico" },
+  };
+}
 
 export default async function LocaleLayout({
   children,
@@ -73,38 +71,32 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                name: "Haloafan",
-                url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://haloafan.com",
-                inLanguage: locale,
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "Person",
-                name: "Ahmad Afan Affaidin",
-                jobTitle: "WordPress Developer",
-                url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://haloafan.com",
-                sameAs: [
-                  "https://www.linkedin.com/in/afanaffaidin/",
-                  "https://www.instagram.com/afan_work/",
-                  "https://dribbble.com/afanwork",
-                  "https://github.com/afanaffaidin21",
-                ],
-              },
-            ]),
-          }}
+        <JsonLd
+          data={[
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": `${SITE_URL}/#website`,
+              name: "Haloafan",
+              url: getCanonicalUrl(localizedPath("/", locale)),
+              inLanguage: locale === "id" ? "id-ID" : "en-US",
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "@id": `${SITE_URL}/#person`,
+              name: SITE_CONFIG.name,
+              jobTitle: SITE_CONFIG.role,
+              url: getCanonicalUrl("/about"),
+              sameAs: Object.values(SITE_CONFIG.socials),
+            },
+          ]}
         />
         <ThemeProvider defaultTheme="dark">
           <NextIntlClientProvider messages={messages}>
             <CvProvider>
               {children}
-              <CvModal />
+              <LazyCvModal />
               <GridOverlay />
             </CvProvider>
           </NextIntlClientProvider>

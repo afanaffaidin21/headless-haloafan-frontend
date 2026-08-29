@@ -7,6 +7,10 @@ export async function ExperimentsSection() {
   const experiments = await getExperiments();
   const featured = experiments.slice(0, 4);
 
+  if (featured.length === 0) {
+    return null;
+  }
+
   return (
     <section className="px-6 py-16 md:px-12 md:py-24">
       <div className="flex flex-col gap-5">

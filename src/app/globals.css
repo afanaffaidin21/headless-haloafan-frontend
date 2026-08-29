@@ -16,6 +16,9 @@
   --color-line: #27272e;
   --color-accent: #4ade80;
   --color-accent-dim: #1f3d2c;
+  --color-accent-text: #4ade80;
+  --color-danger: #ef4444;
+  --color-focus: #4ade80;
 }
 
 .light {
@@ -27,6 +30,9 @@
   --color-line: #e7e1d8;
   --color-accent: #16a34a;
   --color-accent-dim: #e7f4ea;
+  --color-accent-text: #166534;
+  --color-danger: #b91c1c;
+  --color-focus: #166534;
 }
 
 @theme inline {
@@ -38,6 +44,9 @@
   --color-line: var(--color-line);
   --color-accent: var(--color-accent);
   --color-accent-dim: var(--color-accent-dim);
+  --color-accent-text: var(--color-accent-text);
+  --color-danger: var(--color-danger);
+  --color-focus: var(--color-focus);
 
   --font-display: var(--font-display);
   --font-body: var(--font-body);
@@ -53,6 +62,41 @@ body {
   color: var(--color-ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Keep keyboard focus visible across themes and native controls. */
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+/* The compact accent token is intentionally retained for fills; use the
+   stronger text token when it appears on a light surface. */
+.text-accent {
+  color: var(--color-accent-text);
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border: 2px solid var(--color-focus);
+  background: var(--color-panel);
+  color: var(--color-ink);
+  padding: 0.75rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+#main-content {
+  scroll-margin-top: 5rem;
 }
 
 /* Mono micro-labels */
@@ -102,6 +146,21 @@ body {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+  .animate-pulse {
+    animation: none !important;
+  }
+  .skip-link {
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (forced-colors: active) {
+  :where(a, button, input, textarea, select):focus-visible {
+    outline: 2px solid CanvasText;
   }
 }
 /* ============================================================

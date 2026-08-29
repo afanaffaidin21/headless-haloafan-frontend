@@ -5,32 +5,43 @@
     "blog": "Blog",
     "about": "Tentang",
     "contact": "Kontak",
-    "available": "Tersedia untuk bekerja"
+    "available": "Terbuka untuk full-time & freelance",
+    "label": "Navigasi utama",
+    "skipToContent": "Lewati ke konten utama",
+    "openMenu": "Buka menu",
+    "closeMenu": "Tutup menu",
+    "mobileMenu": "Navigasi mobile",
+    "language": "Bahasa"
+  },
+  "theme": {
+    "label": "Tema",
+    "dark": "Mode gelap",
+    "light": "Mode terang"
   },
   "pathSwitcher": {
     "title": "Pilih Jalur Anda",
-    "hint": "Konten halaman menyesuaikan tujuan Anda — sewa jasa atau jelajahi peluang kerja.",
+    "hint": "Pilih jalur untuk menyewa jasa saya atau membahas peluang full-time.",
     "freelance": {
       "kicker": "Jalur Klien Freelance",
       "heading": "Saya ingin menyewa freelancer",
       "desc": "Fokus pada layanan langsung: perbaikan bug, pengembangan WordPress, optimasi kecepatan, dan pembuatan website turn-key.",
       "focus": "Layanan & Proyek",
-      "cta": "Aktifkan Jalur"
+      "cta": "Lihat layanan freelance"
     },
     "fulltime": {
       "kicker": "Jalur Rekruter / Kerja",
       "heading": "Saya ingin merekrut full-time",
-      "desc": "Fokus pada perjalanan karier: pengalaman 5+ tahun, rekayasa WordPress, dan CV formal siap diunduh.",
+      "desc": "Lihat pengalaman rekayasa WordPress dan CV saya sebelum membahas posisi full-time.",
       "focus": "Pengalaman & CV",
-      "cta": "Aktifkan Jalur"
+      "cta": "Lihat pengalaman kerja"
     },
     "reset": "Kembalikan ke Tampilan Netral"
   },
   "hero": {
-    "eyebrow": "WordPress Developer & AI-Driven — Surabaya, ID",
+    "eyebrow": "WordPress Developer & Web Engineer — Surabaya, ID",
     "line1": "Menciptakan Website Berdampak",
     "line2": "Tampil Bagus & Berfungsi Hebat.",
-    "sub": "Seorang desainer & pengembang website yang memadukan pemikiran visual dan kemampuan teknis untuk membuat brand Anda menonjol secara online.",
+    "sub": "Saya membangun dan meningkatkan website yang cepat dan mudah dikelola dengan memadukan pemikiran visual dan rekayasa web praktis.",
     "ctaPrimary": "Mulai Sekarang",
     "ctaSecondary": "Lihat Proyek",
     "stats": {
@@ -68,6 +79,7 @@
     "gallery": "Di Dalam Website",
     "nextProject": "Proyek Berikutnya",
     "prevProject": "Proyek Sebelumnya",
+    "navigation": "Navigasi proyek",
     "atAGlance": "Sekilas",
     "ctaHeading": "Ada proyek serupa?",
     "ctaSub": "Mari membangun sesuatu yang hebat bersama — ceritakan saja proyek Anda.",
@@ -84,6 +96,16 @@
       "ULANGI",
       "SERU"
     ],
+    "emptyHeading": "Belum ada eksperimen yang dipublikasikan.",
+    "emptySub": "Eksperimen akan muncul di sini setelah halaman detailnya siap.",
+    "unavailableHeading": "Eksperimen sementara tidak tersedia.",
+    "unavailableSub": "Sumber konten tidak merespons. Silakan coba buka kembali halaman ini beberapa saat lagi.",
+    "loading": "Memuat eksperimen",
+    "errorHeading": "Eksperimen tidak dapat dimuat.",
+    "errorSub": "Terjadi kendala tak terduga saat memuat halaman ini. Silakan coba lagi.",
+    "retry": "Coba lagi",
+    "back": "Kembali ke Eksperimen",
+    "technologies": "Perangkat dan teknologi",
     "ctaHeading": "Ingin melihat proyek nyata?",
     "ctaSub": "Jelajahi studi kasus lengkap — klien nyata, hasil nyata.",
     "ctaPrimary": "Lihat Studi Kasus",
@@ -105,7 +127,9 @@
     "eyebrow": "Tentang",
     "heading": "Tentang Saya",
     "homeHeading": "Kenali Saya",
-    "sub": "WordPress Developer & AI-Driven — membantu brand dan institusi membangun website yang cepat, aman, dan mudah dikelola.",
+    "sub": "WordPress developer dan web engineer yang membantu brand serta institusi membangun website yang cepat, mudah digunakan, dan mudah dikelola.",
+    "focusValue": "Pengembangan WordPress",
+    "status": "Terbuka untuk full-time & freelance",
     "focusEyebrow": "Fokus Utama",
     "experienceEyebrow": "Pengalaman",
     "skillsEyebrow": "Keterampilan & Peralatan",
@@ -132,7 +156,24 @@
     "submit": "Kirim Pesan",
     "note": "Biasanya saya merespons dalam 12 jam",
     "success": "Pesan terkirim — saya akan membalas dalam 12 jam.",
-    "error": "Terjadi kesalahan. Silakan coba lagi atau hubungi saya via WhatsApp."
+    "error": "Terjadi kesalahan. Silakan coba lagi atau hubungi saya via WhatsApp.",
+    "required": "Wajib diisi",
+    "validationSummary": "Periksa kolom yang ditandai lalu coba lagi.",
+    "nameRequired": "Silakan masukkan nama Anda.",
+    "nameTooLong": "Nama sebaiknya tidak lebih dari 120 karakter.",
+    "emailRequired": "Silakan masukkan alamat email Anda.",
+    "emailInvalid": "Silakan masukkan alamat email yang valid.",
+    "emailTooLong": "Alamat email sebaiknya tidak lebih dari 254 karakter.",
+    "messageRequired": "Silakan tulis pesan Anda.",
+    "messageTooShort": "Silakan tulis setidaknya 10 karakter.",
+    "messageTooLong": "Pesan sebaiknya tidak lebih dari 5.000 karakter.",
+    "sending": "Mengirim…",
+    "offline": "Anda sedang offline. Sambungkan kembali lalu coba lagi.",
+    "networkError": "Pesan belum dapat dikirim. Periksa koneksi lalu coba lagi.",
+    "serviceUnavailable": "Layanan pesan sedang tidak tersedia. Silakan coba lagi atau gunakan WhatsApp.",
+    "serverError": "Pesan belum dapat diterima. Silakan coba lagi atau gunakan WhatsApp.",
+    "rateLimited": "Terlalu banyak percobaan. Tunggu sebentar lalu coba lagi.",
+    "deliveryRejected": "Pesan belum dapat diterima. Periksa kembali data Anda lalu coba lagi."
   },
   "footer": {
     "copyright": "© 2026. Dirancang & Dikembangkan oleh haloafan",
@@ -146,11 +187,28 @@
     "asideHeading": "Mari bicarakan proyek Anda.",
     "asideBody": "Masih ada pertanyaan atau ingin mulai berkolaborasi? Kirim pesan.",
     "asideCta": "WhatsApp Saya",
-    "note": "Waktu respons biasanya dalam 12 jam"
+    "note": "Waktu respons biasanya dalam 12 jam",
+    "items": [
+      {
+        "id": "fulltime",
+        "question": "Apakah Anda terbuka untuk peluang full-time?",
+        "answer": "Ya. Saya terbuka untuk peluang full-time. Anda dapat melihat pengalaman saya di CV, terhubung melalui LinkedIn, atau menghubungi saya untuk membahas posisi yang tersedia."
+      },
+      {
+        "id": "pricing",
+        "question": "Bagaimana cara kerja harga proyek?",
+        "answer": "Setiap proyek dihitung berdasarkan ruang lingkup, kompleksitas, dan timeline. Setelah diskusi singkat, saya akan mengirim proposal dengan harga yang jelas dan tetap."
+      },
+      {
+        "id": "timeline",
+        "question": "Berapa lama waktu pengerjaan proyek?",
+        "answer": "Sebagian besar proyek membutuhkan waktu 2–6 minggu, tergantung ruang lingkupnya. Timeline yang jelas akan tercantum dalam proposal sebelum proyek dimulai."
+      }
+    ]
   },
   "meta": {
-    "title": "Haloafan — WordPress Developer & AI-Driven",
-    "description": "Menciptakan website berdampak yang tampil bagus dan berfungsi hebat."
+    "title": "Haloafan — WordPress Developer & Web Engineer",
+    "description": "Membangun website WordPress yang cepat dan mudah dikelola untuk bisnis dan tim."
   },
   "home": {
     "ctaHeading": "Ada ide yang ingin diwujudkan?",
@@ -160,7 +218,7 @@
   },
   "pathContent": {
     "neutral": {
-      "badge": "Tersedia untuk bekerja",
+      "badge": "Terbuka untuk full-time & freelance",
       "ctaPrimary": "Mulai Sekarang",
       "ctaSecondary": "Lihat Proyek",
       "stats": [
@@ -177,7 +235,7 @@
           "label": "Klien Puas"
         }
       ],
-      "factStatus": "Tersedia untuk bekerja"
+      "factStatus": "Terbuka untuk full-time & freelance"
     },
     "freelance": {
       "badge": "Terbuka proyek baru",
@@ -197,7 +255,7 @@
           "label": "Tahun Pengalaman"
         }
       ],
-      "factStatus": "Freelance — Terbuka"
+      "factStatus": "Terbuka untuk proyek freelance"
     },
     "fulltime": {
       "badge": "Terbuka peluang full-time",
@@ -217,7 +275,7 @@
           "label": "Juara UNAIR"
         }
       ],
-      "factStatus": "Terbuka Full-time"
+      "factStatus": "Terbuka untuk peluang full-time"
     },
     "cta": {
       "neutral": {
@@ -235,6 +293,8 @@
     }
   },
   "cv": {
-    "download": "Unduh PDF"
+    "download": "Unduh PDF",
+    "title": "Curriculum vitae",
+    "close": "Tutup CV"
   }
 }

@@ -33,7 +33,7 @@ export function PathSwitcher() {
         </p>
       </div>
 
-      <div className="mt-6 grid gap-5 md:grid-cols-2">
+      <div className="mt-6 grid min-w-0 gap-5 md:grid-cols-2">
         {paths.map(({ key, icon: Icon }) => {
           const active = path === key;
           const data = t.raw(`pathSwitcher.${key}`) as Record<string, string>;
@@ -42,38 +42,39 @@ export function PathSwitcher() {
               key={key}
               type="button"
               onClick={() => setPath(key)}
-              className={`group flex flex-col gap-3.5 border p-6 text-left transition-all ${
+              aria-pressed={active}
+              className={`group flex w-full min-w-0 max-w-full flex-col gap-3.5 border p-6 text-left transition-all ${
                 active
                   ? "border-accent bg-paper shadow-hard-accent"
                   : "border-line bg-panel"
               }`}
             >
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-4">
+              <div className="flex min-w-0 items-start justify-between">
+                <div className="flex min-w-0 items-center gap-4">
                   <span
                     className={`flex h-11 w-11 items-center justify-center border border-line ${
                       active ? "bg-accent-dim" : "bg-panel"
                     }`}
                   >
-                    <Icon className="h-5 w-5 text-accent" />
+                    <Icon aria-hidden="true" className="h-5 w-5 text-accent" />
                   </span>
-                  <span className="flex flex-col gap-1">
+                  <span className="flex min-w-0 flex-col gap-1">
                     <span className="font-mono text-[11px] tracking-wider text-accent">
                       {data.kicker.toUpperCase()}
                     </span>
-                    <span className="font-display text-[22px] text-ink">
+                    <span className="break-words font-display text-[22px] text-ink">
                       {data.heading}
                     </span>
                   </span>
                 </div>
                 {active && (
                   <span className="hidden h-6 w-6 items-center justify-center bg-accent md:flex">
-                    <Check className="h-4 w-4 text-[#0a0a0c]" />
+                    <Check aria-hidden="true" className="h-4 w-4 text-[#0a0a0c]" />
                   </span>
                 )}
               </div>
 
-              <p className="text-sm leading-relaxed text-muted">{data.desc}</p>
+              <p className="min-w-0 break-words text-sm leading-relaxed text-muted">{data.desc}</p>
 
               <div className="flex flex-col items-start gap-2 border-t border-line pt-4 md:flex-row md:items-center md:justify-between">
                 <span className="font-mono text-[11px] tracking-wider text-muted">
@@ -85,7 +86,7 @@ export function PathSwitcher() {
                   }`}
                 >
                   {data.cta.toUpperCase()}{" "}
-                  <ArrowRight className="h-3.5 w-3.5" />
+                  <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
                 </span>
               </div>
             </button>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import {
   CodeXml,
@@ -15,7 +16,9 @@ import { PageHeader } from "@/components/ui/page-header";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Button } from "@/components/ui/button";
 import { CvDownloadButton } from "@/components/ui/cv-download-button";
+import { SafeImage } from "@/components/ui/safe-image";
 import { FinalCTA } from "@/components/ui/final-cta";
+import { JsonLd } from "@/components/seo/json-ld";
 import {
   SITE_CONFIG,
   SEED_FOCUS,
@@ -24,6 +27,8 @@ import {
   SEED_EDUCATION,
   SEED_ACHIEVEMENTS,
 } from "@/lib/seed";
+import { createPageMetadata } from "@/lib/seo";
+import { getCanonicalUrl, localizedPath, SITE_URL } from "@/lib/site-url";
 
 const PORTRAIT =
   "https://cms.haloafan.com/wp-content/uploads/2026/05/photo-portfolio-with-caption-820x1024.png";
@@ -37,6 +42,21 @@ const ICONS: Record<string, LucideIcon> = {
   layers: Layers,
 };
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "about" });
+  return createPageMetadata({
+    locale,
+    path: "/about",
+    title: t("heading"),
+    description: t("sub"),
+  });
+}
+
 export default async function AboutPage({
   params,
 }: {
@@ -48,19 +68,31 @@ export default async function AboutPage({
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          url: getCanonicalUrl(localizedPath("/about", locale)),
+          name: t("heading"),
+          description: t("sub"),
+          inLanguage: locale === "id" ? "id-ID" : "en-US",
+          about: { "@id": `${SITE_URL}/#person` },
+        }}
+      />
       <Header active="about" />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <PageHeader eyebrow="01" title={t("heading")} sub={t("sub")} />
 
         {/* Intro */}
         <section className="flex flex-col gap-16 px-6 pb-16 md:px-12 md:pb-24 lg:flex-row lg:items-start">
           <div className="flex w-full max-w-[380px] flex-col gap-3.5">
-            <div className="overflow-hidden border border-line">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative h-[420px] overflow-hidden border border-line md:h-[470px]">
+              <SafeImage
                 src={PORTRAIT}
                 alt={SITE_CONFIG.name}
-                className="h-[420px] w-full object-cover md:h-[470px]"
+                sizes="(max-width: 1023px) calc(100vw - 3rem), 380px"
+                loading="eager"
+                className="h-full w-full object-cover"
               />
             </div>
             <div className="flex items-center justify-between">
@@ -92,7 +124,7 @@ export default async function AboutPage({
                 ["LOCATION", "Surabaya, ID"],
                 ["EXPERIENCE", "5+ Years"],
                 ["EDUCATION", "S.Kom UNAIR"],
-                ["STATUS", "Available"],
+                ["STATUS", t("status")],
               ].map(([k, v], i) => (
                 <div
                   key={k}
@@ -139,9 +171,9 @@ export default async function AboutPage({
             {SEED_EXPERIENCE.map((e) => (
               <div
                 key={e.company}
-                className="flex items-start gap-10 border-t border-line py-6"
+                className="flex flex-col items-start gap-3 border-t border-line py-6 md:flex-row md:gap-10"
               >
-                <span className="w-[200px] shrink-0 font-mono text-xs text-accent">
+                <span className="font-mono text-xs text-accent md:w-[200px] md:shrink-0">
                   {e.period}
                 </span>
                 <div className="flex flex-col gap-2">

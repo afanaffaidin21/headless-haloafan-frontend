@@ -2,17 +2,15 @@
  * API layer — ambil data dari WPGraphQL, fallback ke seed saat WP kosong/gagal.
  * Semua fungsi hanya dipanggil di Server Components (RSC).
  */
+import { unstable_cache } from "next/cache";
 import {
   EXPERIMENTS_QUERY,
   POSTS_QUERY,
   PROJECTS_QUERY,
   fetchGraphQL,
 } from "./graphql";
-import {
-  SEED_EXPERIMENTS,
-  SEED_POSTS,
-  SEED_PROJECTS,
-} from "./seed";
+import { SEED_POSTS, SEED_PROJECTS } from "./seed";
+import { getExperimentCachePolicy } from "./experiment-cache-policy";
 import type { BlogPost, Experiment, Project } from "@/types";
 
 interface ProjectNode {
@@ -104,6 +102,16 @@ function mapExperiment(n: ExperimentNode): Experiment {
   };
 }
 
+function isPublishedExperiment(experiment: Experiment): boolean {
+  return Boolean(
+    experiment.id.trim() &&
+      experiment.slug.trim() &&
+      experiment.title.trim() &&
+      experiment.index.trim() &&
+      experiment.description.trim()
+  );
+}
+
 function mapPost(n: PostNode): BlogPost {
   return {
     id: n.id,
@@ -131,16 +139,79 @@ export async function getProjects(): Promise<Project[]> {
   }
 }
 
-export async function getExperiments(): Promise<Experiment[]> {
-  try {
+export interface ExperimentsResult {
+  experiments: Experiment[];
+  status: "available" | "empty" | "unavailable";
+}
+
+const {
+  dataRevalidationSeconds,
+  unavailableRevalidationSeconds,
+} = getExperimentCachePolicy();
+
+// Cache only successful CMS responses (including a genuinely empty collection).
+// If revalidation throws, Next's data cache keeps serving the last successful
+// snapshot instead of replacing it with an outage-shaped empty result.
+const getCachedPublishedExperiments = unstable_cache(
+  async (): Promise<Experiment[]> => {
     const data = await fetchGraphQL<{
       experiments: { nodes: ExperimentNode[] };
-    }>(EXPERIMENTS_QUERY);
+    }>(EXPERIMENTS_QUERY, undefined, { cache: "no-store" });
     const nodes = data?.experiments?.nodes ?? [];
-    return nodes.length > 0 ? nodes.map(mapExperiment) : SEED_EXPERIMENTS;
-  } catch {
-    return SEED_EXPERIMENTS;
+    return nodes.map(mapExperiment).filter(isPublishedExperiment);
+  },
+  ["published-experiments-data-v2"],
+  { revalidate: dataRevalidationSeconds }
+);
+
+// A cold-start outage is cached separately and briefly. This shared guard also
+// prevents invalid detail slugs from causing one CMS request per route hit.
+const getCachedExperimentsResult = unstable_cache(
+  async (): Promise<ExperimentsResult> => {
+    try {
+      const experiments = await getCachedPublishedExperiments();
+      return {
+        experiments,
+        status: experiments.length > 0 ? "available" : "empty",
+      };
+    } catch {
+      return { experiments: [], status: "unavailable" };
+    }
+  },
+  ["published-experiments-availability-v2"],
+  { revalidate: unavailableRevalidationSeconds }
+);
+
+let lastKnownExperiments: Experiment[] | undefined;
+
+export async function getExperimentsResult(): Promise<ExperimentsResult> {
+  const result = await getCachedExperimentsResult();
+
+  if (result.status !== "unavailable") {
+    lastKnownExperiments = result.experiments;
+    return result;
   }
+
+  if (lastKnownExperiments !== undefined) {
+    return {
+      experiments: lastKnownExperiments,
+      status: lastKnownExperiments.length > 0 ? "available" : "empty",
+    };
+  }
+
+  return result;
+}
+
+export async function getExperiments(): Promise<Experiment[]> {
+  const { experiments } = await getExperimentsResult();
+  return experiments;
+}
+
+export async function getExperiment(
+  slug: string
+): Promise<Experiment | undefined> {
+  const experiments = await getExperiments();
+  return experiments.find((experiment) => experiment.slug === slug);
 }
 
 export async function getPosts(): Promise<BlogPost[]> {

@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import type { Experiment } from "@/types";
 
@@ -10,9 +11,10 @@ export function ExperimentRow({
   className?: string;
 }) {
   return (
-    <article
+    <Link
+      href={`/experiments/${experiment.slug}`}
       className={cn(
-        "group flex items-center gap-7 border-t border-line py-6 transition-colors",
+        "group flex items-center gap-7 border-t border-line py-6 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus",
         className
       )}
     >
@@ -40,7 +42,7 @@ export function ExperimentRow({
         ))}
       </div>
 
-      <ArrowUpRight className="h-5 w-5 shrink-0 text-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-    </article>
+      <ArrowUpRight aria-hidden="true" className="h-5 w-5 shrink-0 text-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+    </Link>
   );
 }

@@ -1,12 +1,8 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { getExperiments, getPosts, getProjects } from "@/lib/api";
-
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://haloafan.com";
-
-function localize(path: string, locale: string) {
-  return locale === routing.defaultLocale ? path : `/${locale}${path}`;
-}
+import { isIndexableContent } from "@/lib/seo";
+import { encodeSlug, getCanonicalUrl, localizedPath } from "@/lib/site-url";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [projects, experiments, posts] = await Promise.all([
@@ -16,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
 
   const staticRoutes = [
-    { path: "", priority: 1, changeFrequency: "monthly" as const },
+    { path: "/", priority: 1, changeFrequency: "monthly" as const },
     { path: "/projects", priority: 0.9, changeFrequency: "monthly" as const },
     { path: "/experiments", priority: 0.7, changeFrequency: "monthly" as const },
     { path: "/blog", priority: 0.8, changeFrequency: "weekly" as const },
@@ -24,40 +20,52 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/contact", priority: 0.6, changeFrequency: "yearly" as const },
   ];
 
+  const indexableProjects = projects.filter((project) =>
+    isIndexableContent(project, ["slug", "title", "description"])
+  );
+  const indexableExperiments = experiments.filter((experiment) =>
+    isIndexableContent(experiment, ["slug", "title", "description", "index"])
+  );
+  const indexablePosts = posts.filter((post) =>
+    isIndexableContent(post, ["slug", "title", "excerpt", "date"])
+  );
+
   const entries: MetadataRoute.Sitemap = [];
 
   for (const locale of routing.locales) {
     for (const route of staticRoutes) {
       entries.push({
-        url: `${baseUrl}${localize(route.path, locale)}`,
-        lastModified: new Date(),
+        url: getCanonicalUrl(localizedPath(route.path, locale)),
         changeFrequency: route.changeFrequency,
         priority: route.priority,
       });
     }
 
-    for (const project of projects) {
+    for (const project of indexableProjects) {
       entries.push({
-        url: `${baseUrl}${localize(`/projects/${project.slug}`, locale)}`,
-        lastModified: new Date(),
+        url: getCanonicalUrl(
+          localizedPath(`/projects/${encodeSlug(project.slug)}`, locale)
+        ),
         changeFrequency: "monthly",
         priority: 0.8,
       });
     }
 
-    for (const experiment of experiments) {
+    for (const experiment of indexableExperiments) {
       entries.push({
-        url: `${baseUrl}${localize(`/experiments/${experiment.slug}`, locale)}`,
-        lastModified: new Date(),
+        url: getCanonicalUrl(
+          localizedPath(`/experiments/${encodeSlug(experiment.slug)}`, locale)
+        ),
         changeFrequency: "monthly",
         priority: 0.5,
       });
     }
 
-    for (const post of posts) {
+    for (const post of indexablePosts) {
       entries.push({
-        url: `${baseUrl}${localize(`/blog/${post.slug}`, locale)}`,
-        lastModified: new Date(),
+        url: getCanonicalUrl(
+          localizedPath(`/blog/${encodeSlug(post.slug)}`, locale)
+        ),
         changeFrequency: "weekly",
         priority: 0.7,
       });

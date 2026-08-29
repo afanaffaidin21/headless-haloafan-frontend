@@ -9,7 +9,11 @@ import { Button } from "@/components/ui/button";
 import { ArticleCard } from "@/components/cards/article-card";
 import { getPost, getPosts } from "@/lib/api";
 import { SITE_CONFIG } from "@/lib/seed";
+import { SafeImage } from "@/components/ui/safe-image";
 import { routing } from "@/i18n/routing";
+import { JsonLd } from "@/components/seo/json-ld";
+import { createPageMetadata, isIndexableContent, noIndexMetadata } from "@/lib/seo";
+import { encodeSlug, getCanonicalUrl, localizedPath, SITE_URL } from "@/lib/site-url";
 
 const PORTRAIT =
   "https://cms.haloafan.com/wp-content/uploads/2026/05/photo-portfolio-with-caption-820x1024.png";
@@ -38,12 +42,19 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const post = await getPost(slug);
-  return {
-    title: post ? post.title : "Blog",
-    description: post?.excerpt,
-  };
+  if (!post || !isIndexableContent(post, ["slug", "title", "excerpt", "date"])) {
+    return noIndexMetadata("Blog");
+  }
+
+  return createPageMetadata({
+    locale,
+    path: `/blog/${encodeSlug(post.slug)}`,
+    title: post.title,
+    description: post.excerpt,
+    type: "article",
+  });
 }
 
 export default async function BlogDetailPage({
@@ -55,38 +66,33 @@ export default async function BlogDetailPage({
   setRequestLocale(locale);
   const post = await getPost(slug);
 
-  if (!post) {
+  if (!post || !isIndexableContent(post, ["slug", "title", "excerpt", "date"])) {
     notFound();
   }
 
   const all = await getPosts();
   const related = all.filter((p) => p.id !== post.id).slice(0, 3);
+  const canonical = getCanonicalUrl(
+    localizedPath(`/blog/${encodeSlug(post.slug)}`, locale)
+  );
 
   return (
     <>
       <Header active="blog" />
-      <main className="flex-1">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BlogPosting",
-              headline: post.title,
-              description: post.excerpt,
-              datePublished: post.date,
-              articleSection: post.category,
-              image: post.featuredImage || undefined,
-              url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://haloafan.com"}/blog/${post.slug}`,
-              author: {
-                "@type": "Person",
-                name: "Ahmad Afan Affaidin",
-              },
-              publisher: {
-                "@type": "Person",
-                name: "Ahmad Afan Affaidin",
-              },
-            }),
+      <main id="main-content" tabIndex={-1} className="flex-1">
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "@id": `${canonical}#article`,
+            headline: post.title,
+            description: post.excerpt,
+            datePublished: post.date,
+            articleSection: post.category || undefined,
+            url: canonical,
+            inLanguage: locale === "id" ? "id-ID" : "en-US",
+            author: { "@id": `${SITE_URL}/#person` },
+            publisher: { "@id": `${SITE_URL}/#person` },
           }}
         />
         {/* Article Header */}
@@ -114,12 +120,13 @@ export default async function BlogDetailPage({
         {/* Hero Image */}
         <div className="px-6 pb-10 md:px-12 md:pb-[72px]">
           {post.featuredImage && (
-            <div className="overflow-hidden border border-line shadow-hard">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative h-[420px] overflow-hidden border border-line shadow-hard">
+              <SafeImage
                 src={post.featuredImage}
                 alt={post.title}
-                className="h-[420px] w-full object-cover"
+                sizes="(max-width: 767px) calc(100vw - 3rem), calc(100vw - 6rem)"
+                loading="eager"
+                className="h-full w-full object-cover"
               />
             </div>
           )}
@@ -167,7 +174,10 @@ export default async function BlogDetailPage({
                   theme.json
                 </span>
               </div>
-              <pre className="overflow-x-auto p-5 font-mono text-[14px] leading-[1.7] text-accent">
+              <pre
+                tabIndex={0}
+                className="overflow-x-auto p-5 font-mono text-[14px] leading-[1.7] text-accent"
+              >
                 {CODE_THEME_JSON}
               </pre>
             </div>
@@ -217,11 +227,11 @@ export default async function BlogDetailPage({
         {/* Author */}
         <div className="px-6 pb-10 md:px-12 md:pb-[72px]">
           <div className="flex items-center gap-5 border border-line bg-panel p-6">
-            <div className="h-16 w-16 shrink-0 overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden">
+              <SafeImage
                 src={PORTRAIT}
                 alt={SITE_CONFIG.name}
+                sizes="64px"
                 className="h-full w-full object-cover"
               />
             </div>
@@ -233,7 +243,7 @@ export default async function BlogDetailPage({
                 {SITE_CONFIG.name}
               </span>
               <span className="text-[14px] text-muted">
-                WordPress Developer & AI-Driven — documenting my journey through
+                WordPress Developer & Web Engineer — documenting my journey through
                 code.
               </span>
             </div>

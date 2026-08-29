@@ -1,10 +1,29 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { MessageCircle, Mail, MapPin, Timer } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { PageHeader } from "@/components/ui/page-header";
 import { ContactForm } from "@/components/sections/contact-form";
+import { JsonLd } from "@/components/seo/json-ld";
 import { SITE_CONFIG } from "@/lib/seed";
+import { createPageMetadata } from "@/lib/seo";
+import { getCanonicalUrl, localizedPath, SITE_URL } from "@/lib/site-url";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "contact" });
+  return createPageMetadata({
+    locale,
+    path: "/contact",
+    title: t("heading"),
+    description: t("sub"),
+  });
+}
 
 function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -63,8 +82,19 @@ export default async function ContactPage({
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          url: getCanonicalUrl(localizedPath("/contact", locale)),
+          name: t("heading"),
+          description: t("sub"),
+          inLanguage: locale === "id" ? "id-ID" : "en-US",
+          mainEntity: { "@id": `${SITE_URL}/#person` },
+        }}
+      />
       <Header active="contact" />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <PageHeader eyebrow="01" title={t("heading")} sub={t("sub")} />
 
         <div className="flex flex-col gap-16 px-6 pb-16 md:px-12 md:pb-24 lg:flex-row lg:items-start">

@@ -30,7 +30,7 @@ export async function ProjectsSection() {
           href="/projects"
           className="hidden items-center gap-2.5 text-[15px] font-medium text-accent md:flex"
         >
-          {t("viewAll")} <ArrowRight className="h-[18px] w-[18px]" />
+          {t("viewAll")} <ArrowRight aria-hidden="true" className="h-[18px] w-[18px]" />
         </Link>
       </div>
 
@@ -44,7 +44,7 @@ export async function ProjectsSection() {
         href="/projects"
         className="mt-10 flex items-center gap-2.5 text-[15px] font-medium text-accent md:hidden"
       >
-        {t("viewAll")} <ArrowRight className="h-[18px] w-[18px]" />
+        {t("viewAll")} <ArrowRight aria-hidden="true" className="h-[18px] w-[18px]" />
       </Link>
     </section>
   );

@@ -54,7 +54,7 @@ export async function CaseStudyRow({ project }: { project: Project }) {
             className="flex w-fit items-center gap-2.5 border border-accent px-5 py-3 text-[14px] font-medium text-accent transition-colors hover:bg-accent hover:text-[#0a0a0c]"
           >
             {t("viewCase")}
-            <ArrowUpRight className="h-4 w-4" />
+            <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
           </Link>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import type { Experiment } from "@/types";
 
@@ -10,9 +11,10 @@ export function ExperimentCard({
   className?: string;
 }) {
   return (
-    <article
+    <Link
+      href={`/experiments/${experiment.slug}`}
       className={cn(
-        "group flex flex-col border border-line bg-panel shadow-hard-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none",
+        "group flex flex-col border border-line bg-panel shadow-hard-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-focus",
         className
       )}
     >
@@ -29,13 +31,13 @@ export function ExperimentCard({
           <span className="border border-white/20 bg-white/5 px-2.5 py-1 font-mono text-[9px] tracking-wider text-[#d9d9d9]">
             EXPERIMENT {experiment.index}
           </span>
-          <ArrowUpRight className="h-4 w-4 text-accent transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          <ArrowUpRight aria-hidden="true" className="h-4 w-4 text-[#4ade80] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </div>
         <span className="relative z-10 font-display text-[56px] leading-none text-white">
           {experiment.index}
         </span>
         <div className="relative z-10 flex items-center justify-between font-mono text-[9px]">
-          <span className="text-accent">● Built for the joy of building</span>
+          <span className="text-[#4ade80]">● Built for the joy of building</span>
           <span className="text-[#b9b9b9]">Open →</span>
         </div>
       </div>
@@ -59,6 +61,6 @@ export function ExperimentCard({
           ))}
         </div>
       </div>
-    </article>
+    </Link>
   );
 }

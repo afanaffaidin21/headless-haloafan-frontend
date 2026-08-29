@@ -1,16 +1,35 @@
-const API_URL = process.env.WORDPRESS_API_URL ?? "https://haloafan.com/graphql";
+const API_URL =
+  process.env.WORDPRESS_API_URL ?? "https://cms.haloafan.com/graphql";
+
+function getRequestTimeout() {
+  const configured = Number(process.env.WORDPRESS_API_TIMEOUT_MS ?? 5000);
+
+  if (!Number.isFinite(configured)) {
+    return 5000;
+  }
+
+  return Math.min(Math.max(configured, 1000), 15000);
+}
 
 export async function fetchGraphQL<T>(
   query: string,
-  variables?: Record<string, unknown>
+  variables?: Record<string, unknown>,
+  options?: { cache?: RequestCache }
 ): Promise<T> {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, variables }),
-    next: {
-      revalidate: Number(process.env.NEXT_PUBLIC_REVALIDATE_SECONDS ?? 300),
-    },
+    ...(options?.cache === "no-store"
+      ? { cache: "no-store" as const }
+      : {
+          next: {
+            revalidate: Number(
+              process.env.NEXT_PUBLIC_REVALIDATE_SECONDS ?? 300
+            ),
+          },
+        }),
+    signal: AbortSignal.timeout(getRequestTimeout()),
   });
 
   if (!res.ok) {
