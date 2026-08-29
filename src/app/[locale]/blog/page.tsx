@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { FinalCTA } from "@/components/ui/final-cta";
 import { ArticleCard } from "@/components/cards/article-card";
 import { Link } from "@/i18n/navigation";
-import { getPosts } from "@/lib/api";
+import { getPostsResult } from "@/lib/api";
 import { SafeImage } from "@/components/ui/safe-image";
 import { createPageMetadata } from "@/lib/seo";
+import { CmsCollectionState } from "@/components/ui/cms-collection-state";
 
 const CHIPS = ["All", "Learn Journey", "Tutorials", "Tips & Fixes"];
 
@@ -37,7 +38,7 @@ export default async function BlogPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("blog");
-  const posts = await getPosts();
+  const { items: posts, status } = await getPostsResult();
   const [featured, ...rest] = posts;
 
   return (
@@ -62,8 +63,23 @@ export default async function BlogPage({
           ))}
         </div>
 
-        {/* Featured post */}
-        {featured && (
+        {posts.length === 0 ? (
+          <div className="px-6 pb-16 md:px-12 md:pb-24">
+            <CmsCollectionState
+              heading={
+                status === "unavailable"
+                  ? t("unavailableHeading")
+                  : t("emptyHeading")
+              }
+              description={
+                status === "unavailable" ? t("unavailableSub") : t("emptySub")
+              }
+            />
+          </div>
+        ) : (
+          <>
+            {/* Featured post */}
+            {featured && (
           <div className="px-6 pb-10 md:px-12 md:pb-14">
             <article className="flex flex-col overflow-hidden border border-line bg-panel shadow-hard-sm lg:flex-row">
               {featured.featuredImage && (
@@ -104,21 +120,23 @@ export default async function BlogPage({
               </div>
             </article>
           </div>
-        )}
+            )}
 
         {/* Grid */}
-        <div className="grid gap-6 px-6 pb-16 md:px-12 md:pb-24 md:grid-cols-2 xl:grid-cols-3">
-          {rest.slice(0, 3).map((post) => (
-            <ArticleCard key={post.id} post={post} />
-          ))}
-        </div>
+            <div className="grid gap-6 px-6 pb-16 md:px-12 md:pb-24 md:grid-cols-2 xl:grid-cols-3">
+              {rest.slice(0, 3).map((post) => (
+                <ArticleCard key={post.id} post={post} />
+              ))}
+            </div>
 
-        <FinalCTA heading={t("ctaHeading")} sub={t("ctaSub")}>
-          <Button variant="primary" href="/contact">
-            {t("ctaPrimary")}
-          </Button>
-          <Button href="/projects">{t("ctaSecondary")}</Button>
-        </FinalCTA>
+            <FinalCTA heading={t("ctaHeading")} sub={t("ctaSub")}>
+              <Button variant="primary" href="/contact">
+                {t("ctaPrimary")}
+              </Button>
+              <Button href="/projects">{t("ctaSecondary")}</Button>
+            </FinalCTA>
+          </>
+        )}
       </main>
       <Footer />
     </>

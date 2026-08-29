@@ -5,21 +5,22 @@ import { ArrowUpRight, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
+import { CmsCollectionState } from "@/components/ui/cms-collection-state";
 import { FinalCTA } from "@/components/ui/final-cta";
 import { BrowserFrame } from "@/components/ui/browser-frame";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Link } from "@/i18n/navigation";
-import { getProject, getProjects } from "@/lib/api";
+import { getProjectResult, getProjects } from "@/lib/api";
 import { routing } from "@/i18n/routing";
 import { JsonLd } from "@/components/seo/json-ld";
 import { createPageMetadata, isIndexableContent, noIndexMetadata } from "@/lib/seo";
 import { encodeSlug, getCanonicalUrl, localizedPath, SITE_URL } from "@/lib/site-url";
 
-export function generateStaticParams() {
+
+export async function generateStaticParams() {
+  const projects = await getProjects();
   return routing.locales.flatMap((locale) =>
-    ["universitas-sunan-gresik", "menulis-id", "karyapratama-packaging"].map(
-      (slug) => ({ locale, slug })
-    )
+    projects.map((project) => ({ locale, slug: project.slug }))
   );
 }
 
@@ -29,8 +30,12 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const project = await getProject(slug);
-  if (!project || !isIndexableContent(project, ["slug", "title", "description"])) {
+  const { project, status } = await getProjectResult(slug);
+  if (
+    status === "unavailable" ||
+    !project ||
+    !isIndexableContent(project, ["slug", "title", "description"])
+  ) {
     return noIndexMetadata("Case Study");
   }
 
@@ -50,7 +55,24 @@ export default async function CaseStudyPage({
   const { locale, slug } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("caseStudy");
-  const project = await getProject(slug);
+  const projectsT = await getTranslations("projects");
+  const result = await getProjectResult(slug);
+  const project = result.project;
+
+  if (result.status === "unavailable") {
+    return (
+      <>
+        <Header active="projects" />
+        <main id="main-content" tabIndex={-1} className="flex-1 px-6 py-16 md:px-12 md:py-24">
+          <CmsCollectionState
+            heading={projectsT("unavailableHeading")}
+            description={projectsT("unavailableSub")}
+          />
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   if (!project || !isIndexableContent(project, ["slug", "title", "description"])) {
     notFound();
@@ -163,7 +185,7 @@ export default async function CaseStudyPage({
                 ["DELIVERABLE", project.category.replace("-", " ").toUpperCase()],
                 ["TECH", project.stack.slice(0, 3).join(" · ")],
                 ["TIMELINE", project.timeline],
-              ].map(([k, v]) => (
+              ].filter(([, v]) => v).map(([k, v]) => (
                 <div
                   key={k}
                   className="flex items-start justify-between gap-3 border-t border-line px-5 py-4"
@@ -205,9 +227,11 @@ export default async function CaseStudyPage({
                   </span>
                   <div className="flex flex-col gap-1.5">
                     <h3 className="font-display text-2xl text-ink">{step.title}</h3>
-                    <p className="max-w-[720px] text-[15px] leading-relaxed text-muted">
-                      {step.description}
-                    </p>
+                    {step.description && (
+                      <p className="max-w-[720px] text-[15px] leading-relaxed text-muted">
+                        {step.description}
+                      </p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -233,6 +257,7 @@ export default async function CaseStudyPage({
         )}
 
         {/* Results */}
+        {(project.stats.length > 0 || project.results.length > 0) && (
         <section className="flex flex-col gap-7 px-6 pb-16 md:px-12 md:pb-24">
           <SectionHeader eyebrow="06" title={t("results")} />
           <div className="grid gap-6 md:grid-cols-3">
@@ -260,8 +285,10 @@ export default async function CaseStudyPage({
             ))}
           </div>
         </section>
+        )}
 
         {/* Gallery */}
+        {project.screenshots.length > 0 && (
         <section className="flex flex-col gap-7 px-6 pb-16 md:px-12 md:pb-24">
           <SectionHeader eyebrow="07" title={t("gallery")} />
           <div className="grid gap-6 md:grid-cols-3">
@@ -279,6 +306,7 @@ export default async function CaseStudyPage({
             ))}
           </div>
         </section>
+        )}
 
         <FinalCTA heading={t("ctaHeading")} sub={t("ctaSub")}>
           <Button variant="primary" href="/contact">

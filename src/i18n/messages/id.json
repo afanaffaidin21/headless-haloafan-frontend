@@ -62,10 +62,14 @@
     "eyebrow": "Semua Karya",
     "heading": "Proyek",
     "homeHeading": "Proyek Pilihan",
-    "sub": "Kumpulan website yang dibuat dari nol dengan fokus pada kecepatan, skalabilitas, dan pengalaman pengguna yang luar biasa.",
-    "viewAll": "Lihat Semua Proyek",
-    "viewCase": "Lihat Studi Kasus",
-    "live": "Situs Live"
+      "sub": "Kumpulan website yang dibuat dari nol dengan fokus pada kecepatan, skalabilitas, dan pengalaman pengguna yang luar biasa.",
+      "viewAll": "Lihat Semua Proyek",
+      "viewCase": "Lihat Studi Kasus",
+      "live": "Situs Live",
+      "emptyHeading": "Belum ada proyek yang dipublikasikan.",
+      "emptySub": "Proyek yang dipublikasikan akan muncul di sini saat tersedia.",
+      "unavailableHeading": "Proyek sementara tidak tersedia.",
+      "unavailableSub": "Sumber konten tidak merespons. Silakan coba lagi beberapa saat lagi."
   },
   "caseStudy": {
     "eyebrow": "Studi Kasus",
@@ -117,11 +121,15 @@
     "sub": "Mendokumentasikan perjalanan saya dalam kode — tips praktis, perbaikan cepat, dan wawasan membangun website yang lebih baik.",
     "featured": "Pilihan",
     "readArticle": "Baca Artikel",
-    "viewAll": "Lihat Semua Artikel",
-    "ctaHeading": "Menikmati bacaannya?",
-    "ctaSub": "Punya pertanyaan tentang WordPress modern atau butuh bantuan untuk situs Anda?",
-    "ctaPrimary": "Mari Bicara",
-    "ctaSecondary": "Lihat Karya Saya"
+      "viewAll": "Lihat Semua Artikel",
+      "ctaHeading": "Menikmati bacaannya?",
+      "ctaSub": "Punya pertanyaan tentang WordPress modern atau butuh bantuan untuk situs Anda?",
+      "ctaPrimary": "Mari Bicara",
+      "ctaSecondary": "Lihat Karya Saya",
+      "emptyHeading": "Belum ada artikel yang dipublikasikan.",
+      "emptySub": "Artikel baru akan muncul di sini setelah dipublikasikan.",
+      "unavailableHeading": "Artikel sementara tidak tersedia.",
+      "unavailableSub": "Sumber konten tidak merespons. Silakan coba lagi beberapa saat lagi."
   },
   "about": {
     "eyebrow": "Tentang",

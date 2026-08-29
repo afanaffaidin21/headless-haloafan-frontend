@@ -99,6 +99,87 @@ body {
   scroll-margin-top: 5rem;
 }
 
+/* WordPress/Gutenberg article content is rendered from a server-side
+   allowlist. Keep its native structure readable without allowing long code or
+   media blocks to widen the page. */
+.article-content {
+  color: var(--color-ink);
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+.article-content > * + * {
+  margin-top: 1.5rem;
+}
+.article-content h2,
+.article-content h3,
+.article-content h4 {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  line-height: 1.15;
+}
+.article-content h2 { font-size: 1.875rem; }
+.article-content h3 { font-size: 1.5rem; }
+.article-content h4 { font-size: 1.25rem; }
+.article-content ul,
+.article-content ol {
+  padding-left: 1.5rem;
+}
+.article-content ul { list-style: disc; }
+.article-content ol { list-style: decimal; }
+.article-content li + li { margin-top: 0.5rem; }
+.article-content a {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.article-content blockquote {
+  background: var(--color-panel);
+  border-left: 2px solid var(--color-line);
+  color: var(--color-muted);
+  padding: 0.75rem 1rem;
+}
+.article-content figure,
+.article-content img {
+  max-width: 100%;
+}
+.article-content img {
+  height: auto;
+}
+.article-content figcaption {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+.article-content pre {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1.25rem;
+  white-space: pre;
+}
+.article-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+.article-content :not(pre) > code {
+  background: var(--color-panel);
+  padding: 0.1em 0.3em;
+}
+.article-content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+.article-content th,
+.article-content td {
+  border: 1px solid var(--color-line);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
 /* Mono micro-labels */
 .mono-label {
   font-family: var(--font-mono);

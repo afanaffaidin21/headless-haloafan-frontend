@@ -1,5 +1,5 @@
 /**
- * API layer — ambil data dari WPGraphQL, fallback ke seed saat WP kosong/gagal.
+ * API layer — ambil data publik dari WPGraphQL.
  * Semua fungsi hanya dipanggil di Server Components (RSC).
  */
 import { unstable_cache } from "next/cache";
@@ -9,31 +9,21 @@ import {
   PROJECTS_QUERY,
   fetchGraphQL,
 } from "./graphql";
-import { SEED_POSTS, SEED_PROJECTS } from "./seed";
 import { getExperimentCachePolicy } from "./experiment-cache-policy";
+import {
+  resolveCmsCollection,
+  type CmsCollectionResult,
+} from "./cms-collection";
+import {
+  isValidPost,
+  isValidProject,
+  mapPost,
+  mapProject,
+  sortPostsByDate,
+  type PostNode,
+  type ProjectNode,
+} from "./content-mapping";
 import type { BlogPost, Experiment, Project } from "@/types";
-
-interface ProjectNode {
-  id: string;
-  slug: string;
-  title: string;
-  featuredImage?: { node?: { sourceUrl?: string } };
-  projectFields?: {
-    client?: string;
-    year?: string;
-    category?: string;
-    role?: string;
-    timeline?: string;
-    description?: string;
-    problem?: string;
-    process?: { number?: string; title?: string; description?: string }[];
-    stack?: { technology?: string }[];
-    results?: { result?: string }[];
-    stats?: { number?: string; label?: string }[];
-    screenshots?: string[];
-    liveUrl?: string;
-  };
-}
 
 interface ExperimentNode {
   id: string;
@@ -43,50 +33,6 @@ interface ExperimentNode {
     index?: string;
     description?: string;
     tags?: { tag?: string }[];
-  };
-}
-
-interface PostNode {
-  id: string;
-  slug: string;
-  title: string;
-  date: string;
-  excerpt?: string;
-  featuredImage?: { node?: { sourceUrl?: string } };
-  categories?: { nodes?: { name?: string }[] };
-  tags?: { nodes?: { name?: string }[] };
-}
-
-function mapProject(n: ProjectNode): Project {
-  const f = n.projectFields ?? {};
-  return {
-    id: n.id,
-    slug: n.slug,
-    title: n.title,
-    client: f.client ?? n.title,
-    year: f.year ?? "",
-    category: (f.category ?? "academic") as Project["category"],
-    role: f.role ?? "",
-    timeline: f.timeline ?? "",
-    description: f.description ?? "",
-    problem: f.problem ?? "",
-    process:
-      f.process?.map((p) => ({
-        number: p.number ?? "",
-        title: p.title ?? "",
-        description: p.description ?? "",
-      })) ?? [],
-    stack: f.stack?.map((s) => s.technology ?? "").filter(Boolean) ?? [],
-    results:
-      f.results?.map((r) => r.result ?? "").filter(Boolean) ?? [],
-    stats:
-      f.stats?.map((s) => ({
-        number: s.number ?? "",
-        label: s.label ?? "",
-      })) ?? [],
-    screenshots: f.screenshots ?? [],
-    liveUrl: f.liveUrl ?? "",
-    featuredImage: n.featuredImage?.node?.sourceUrl ?? "",
   };
 }
 
@@ -110,33 +56,6 @@ function isPublishedExperiment(experiment: Experiment): boolean {
       experiment.index.trim() &&
       experiment.description.trim()
   );
-}
-
-function mapPost(n: PostNode): BlogPost {
-  return {
-    id: n.id,
-    slug: n.slug,
-    title: n.title,
-    date: n.date,
-    category: n.categories?.nodes?.[0]?.name ?? "Blog",
-    excerpt: n.excerpt?.replace(/<[^>]*>/g, "") ?? "",
-    content: "",
-    featuredImage: n.featuredImage?.node?.sourceUrl ?? "",
-    tags: n.tags?.nodes?.map((t) => t.name ?? "").filter(Boolean) ?? [],
-    readingMinutes: 0,
-  };
-}
-
-export async function getProjects(): Promise<Project[]> {
-  try {
-    const data = await fetchGraphQL<{ projects: { nodes: ProjectNode[] } }>(
-      PROJECTS_QUERY
-    );
-    const nodes = data?.projects?.nodes ?? [];
-    return nodes.length > 0 ? nodes.map(mapProject) : SEED_PROJECTS;
-  } catch {
-    return SEED_PROJECTS;
-  }
 }
 
 export interface ExperimentsResult {
@@ -214,38 +133,117 @@ export async function getExperiment(
   return experiments.find((experiment) => experiment.slug === slug);
 }
 
-export async function getPosts(): Promise<BlogPost[]> {
-  try {
-    const data = await fetchGraphQL<{ posts: { nodes: PostNode[] } }>(
-      POSTS_QUERY
-    );
-    const nodes = data?.posts?.nodes ?? [];
-    return nodes.length > 0 ? nodes.map(mapPost) : SEED_POSTS;
-  } catch {
-    return SEED_POSTS;
-  }
+export type ProjectsResult = CmsCollectionResult<Project>;
+export type PostsResult = CmsCollectionResult<BlogPost>;
+
+const getCachedPublishedProjects = unstable_cache(
+  async (): Promise<Project[]> => {
+    const data = await fetchGraphQL<{
+      projects: { nodes: ProjectNode[] };
+    }>(PROJECTS_QUERY, undefined, { cache: "no-store" });
+    return (data?.projects?.nodes ?? [])
+      .map(mapProject)
+      .filter(isValidProject);
+  },
+  ["published-projects-data-v1"],
+  { revalidate: dataRevalidationSeconds }
+);
+
+const getCachedProjectsResult = unstable_cache(
+  async (): Promise<ProjectsResult> => {
+    try {
+      const projects = await getCachedPublishedProjects();
+      return {
+        items: projects,
+        status: projects.length > 0 ? "available" : "empty",
+      };
+    } catch {
+      return { items: [], status: "unavailable" };
+    }
+  },
+  ["published-projects-availability-v1"],
+  { revalidate: unavailableRevalidationSeconds }
+);
+
+let lastKnownProjects: Project[] | undefined;
+
+export async function getProjectsResult(): Promise<ProjectsResult> {
+  const result = resolveCmsCollection(await getCachedProjectsResult(), lastKnownProjects);
+  if (result.status !== "unavailable") lastKnownProjects = result.items;
+  return result;
+}
+
+export async function getProjects(): Promise<Project[]> {
+  return (await getProjectsResult()).items;
+}
+
+export async function getProjectResult(slug: string): Promise<{
+  project: Project | undefined;
+  status: ProjectsResult["status"];
+}> {
+  const result = await getProjectsResult();
+  return {
+    project: result.items.find((project) => project.slug === slug),
+    status: result.status,
+  };
 }
 
 export async function getProject(slug: string): Promise<Project | undefined> {
-  try {
-    const data = await fetchGraphQL<{ projects: { nodes: ProjectNode[] } }>(
-      PROJECTS_QUERY
+  return (await getProjectResult(slug)).project;
+}
+
+const getCachedPublishedPosts = unstable_cache(
+  async (): Promise<BlogPost[]> => {
+    const data = await fetchGraphQL<{
+      posts: { nodes: PostNode[] };
+    }>(POSTS_QUERY, undefined, { cache: "no-store" });
+    return sortPostsByDate(
+      (data?.posts?.nodes ?? []).map(mapPost).filter(isValidPost)
     );
-    const found = data?.projects?.nodes?.find((n) => n.slug === slug);
-    if (found) return mapProject(found);
-  } catch {
-    // fallback ke seed di bawah
-  }
-  return SEED_PROJECTS.find((p) => p.slug === slug);
+  },
+  ["published-blog-posts-data-v1"],
+  { revalidate: dataRevalidationSeconds }
+);
+
+const getCachedPostsResult = unstable_cache(
+  async (): Promise<PostsResult> => {
+    try {
+      const posts = await getCachedPublishedPosts();
+      return {
+        items: posts,
+        status: posts.length > 0 ? "available" : "empty",
+      };
+    } catch {
+      return { items: [], status: "unavailable" };
+    }
+  },
+  ["published-blog-posts-availability-v1"],
+  { revalidate: unavailableRevalidationSeconds }
+);
+
+let lastKnownPosts: BlogPost[] | undefined;
+
+export async function getPostsResult(): Promise<PostsResult> {
+  const result = resolveCmsCollection(await getCachedPostsResult(), lastKnownPosts);
+  if (result.status !== "unavailable") lastKnownPosts = result.items;
+  return result;
+}
+
+export async function getPosts(): Promise<BlogPost[]> {
+  return (await getPostsResult()).items;
+}
+
+export async function getPostResult(slug: string): Promise<{
+  post: BlogPost | undefined;
+  status: PostsResult["status"];
+}> {
+  const result = await getPostsResult();
+  return {
+    post: result.items.find((post) => post.slug === slug),
+    status: result.status,
+  };
 }
 
 export async function getPost(slug: string): Promise<BlogPost | undefined> {
-  try {
-    const data = await fetchGraphQL<{ posts: { nodes: PostNode[] } }>(POSTS_QUERY);
-    const found = data?.posts?.nodes?.find((n) => n.slug === slug);
-    if (found) return mapPost(found);
-  } catch {
-    // fallback ke seed di bawah
-  }
-  return SEED_POSTS.find((p) => p.slug === slug);
+  return (await getPostResult(slug)).post;
 }

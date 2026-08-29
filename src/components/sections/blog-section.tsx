@@ -2,11 +2,12 @@ import { getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { ArticleCard } from "@/components/cards/article-card";
-import { getPosts } from "@/lib/api";
+import { CmsCollectionState } from "@/components/ui/cms-collection-state";
+import { getPostsResult } from "@/lib/api";
 
 export async function BlogSection() {
   const t = await getTranslations("blog");
-  const posts = await getPosts();
+  const { items: posts, status } = await getPostsResult();
   const featured = posts.slice(0, 3);
 
   return (
@@ -32,10 +33,25 @@ export async function BlogSection() {
         </Link>
       </div>
 
-      <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {featured.map((post) => (
-          <ArticleCard key={post.id} post={post} />
-        ))}
+      <div className="mt-14">
+        {featured.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {featured.map((post) => (
+              <ArticleCard key={post.id} post={post} />
+            ))}
+          </div>
+        ) : (
+          <CmsCollectionState
+            heading={
+              status === "unavailable"
+                ? t("unavailableHeading")
+                : t("emptyHeading")
+            }
+            description={
+              status === "unavailable" ? t("unavailableSub") : t("emptySub")
+            }
+          />
+        )}
       </div>
 
       <Link
