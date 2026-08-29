@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useId } from "react";
 import { useTranslations } from "next-intl";
 import { X, Download } from "lucide-react";
 import { useCv } from "@/components/providers/cv-provider";
@@ -14,11 +14,36 @@ import {
 export function CvModal() {
   const { isOpen, closeCv } = useCv();
   const t = useTranslations("cv");
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const titleId = useId();
 
   useEffect(() => {
     if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeCv();
+    closeButtonRef.current?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeCv();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(
+        dialogRef.current?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        ) ?? []
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
@@ -38,16 +63,17 @@ export function CvModal() {
       onClick={closeCv}
     >
       <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
-        aria-label="CV"
+        aria-labelledby={titleId}
         onClick={(e) => e.stopPropagation()}
         className="print-area flex max-h-[90vh] w-full max-w-[560px] flex-col overflow-hidden border border-line bg-panel shadow-[0_0_0_1px_#0a0a0c,8px_8px_0_0_#000]"
       >
         {/* Header */}
         <div className="flex items-center justify-between gap-4 border-b border-line px-7 py-6">
           <div className="flex flex-col gap-1">
-            <h2 className="font-display text-[26px] text-ink">
+            <h2 id={titleId} className="font-display text-[26px] text-ink">
               {SITE_CONFIG.name}
             </h2>
             <span className="font-mono text-[11px] tracking-wider text-accent">
@@ -55,12 +81,13 @@ export function CvModal() {
             </span>
           </div>
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={closeCv}
-            aria-label="Close"
+            aria-label={t("close")}
             className="flex h-9 w-9 items-center justify-center border border-line text-muted transition-colors hover:border-accent hover:text-accent"
           >
-            <X className="h-4 w-4" />
+            <X aria-hidden="true" className="h-4 w-4" />
           </button>
         </div>
 
@@ -127,7 +154,7 @@ export function CvModal() {
             onClick={() => window.print()}
             className="flex items-center gap-2 bg-accent px-4 py-2.5 text-[14px] font-medium text-[#0a0a0c]"
           >
-            <Download className="h-4 w-4" />
+            <Download aria-hidden="true" className="h-4 w-4" />
             {t("download")}
           </button>
         </div>

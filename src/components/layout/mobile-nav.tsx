@@ -1,14 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
-export function MobileNav() {
+export function MobileNav({
+  active,
+}: {
+  active?: "projects" | "experiments" | "blog" | "about" | "contact";
+}) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
+  const openButtonRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const menuId = useId();
+  const titleId = useId();
 
   const links: { key: "projects" | "experiments" | "blog" | "about"; href: string }[] = [
     { key: "projects", href: "/projects" },
@@ -17,38 +25,101 @@ export function MobileNav() {
     { key: "about", href: "/about" },
   ];
 
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    requestAnimationFrame(() => openButtonRef.current?.focus());
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const focusableSelector =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusFirst = () => closeButtonRef.current?.focus();
+    focusFirst();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMenu();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const dialog = document.getElementById(menuId);
+      if (!dialog) return;
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(focusableSelector)
+      ).filter((element) => !element.hasAttribute("disabled"));
+      if (focusable.length === 0) {
+        event.preventDefault();
+        return;
+      }
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [closeMenu, menuId, open]);
+
   return (
     <>
       <button
+        ref={openButtonRef}
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="Open menu"
+        aria-label={t("nav.openMenu")}
+        aria-expanded={open}
+        aria-controls={menuId}
         className="flex h-[34px] w-[38px] items-center justify-center border border-line text-ink lg:hidden"
       >
-        <Menu className="h-[18px] w-[18px]" />
+        <Menu aria-hidden="true" className="h-[18px] w-[18px]" />
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-bg lg:hidden">
+        <div
+          id={menuId}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          className="fixed inset-0 z-50 flex flex-col bg-bg lg:hidden"
+        >
           <div className="flex h-[64px] items-center justify-between border-b border-line px-6">
-            <span className="font-display text-[21px] text-ink">haloafan.</span>
+            <h2 id={titleId} className="font-display text-[21px] text-ink">
+              haloafan.
+            </h2>
             <button
+              ref={closeButtonRef}
               type="button"
-              onClick={() => setOpen(false)}
-              aria-label="Close menu"
+              onClick={closeMenu}
+              aria-label={t("nav.closeMenu")}
               className="flex h-[34px] w-[38px] items-center justify-center border border-line text-ink"
             >
-              <X className="h-[18px] w-[18px]" />
+              <X aria-hidden="true" className="h-[18px] w-[18px]" />
             </button>
           </div>
 
-          <nav className="flex flex-1 flex-col px-6 py-8">
+          <nav aria-label={t("nav.label")} className="flex flex-1 flex-col px-6 py-8">
             <ul className="flex flex-col">
               {links.map((link) => (
                 <li key={link.key} className="border-t border-line">
                   <Link
                     href={link.href}
-                    onClick={() => setOpen(false)}
+                    onClick={closeMenu}
+                    aria-current={active === link.key ? "page" : undefined}
                     className="block py-5 font-display text-[26px] text-ink"
                   >
                     {t(`nav.${link.key}`)}
@@ -66,7 +137,8 @@ export function MobileNav() {
               </div>
               <Link
                 href="/contact"
-                onClick={() => setOpen(false)}
+                onClick={closeMenu}
+                aria-current={active === "contact" ? "page" : undefined}
                 className="flex items-center justify-center border border-ink bg-accent px-6 py-4 text-[15px] font-medium text-[#0a0a0c]"
               >
                 {t("nav.contact")}

@@ -1,5 +1,6 @@
 import { ArrowUpRight, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SafeImage } from "@/components/ui/safe-image";
 
 const GRID_STYLE: React.CSSProperties = {
   backgroundImage:
@@ -18,6 +19,8 @@ interface BrowserFrameProps {
   gradient?: [string, string];
   className?: string;
   image?: string | null;
+  loading?: "lazy" | "eager";
+  sizes?: string;
   /** Saat false + image: gambar tampil bersih, teks overlay (client/title/status) disembunyikan. */
   overlayOnImage?: boolean;
   /** Posisi object-fit gambar. Default "top". */
@@ -35,6 +38,8 @@ export function BrowserFrame({
   gradient = ["#122b1c", "#0a0a0c"],
   className,
   image,
+  loading = "lazy",
+  sizes = "(max-width: 767px) calc(100vw - 3rem), (max-width: 1279px) calc(50vw - 4.5rem), 540px",
   overlayOnImage = true,
   objectPosition = "top",
 }: BrowserFrameProps) {
@@ -55,15 +60,15 @@ export function BrowserFrame({
       {/* Chrome bar */}
       <div className="flex items-center justify-between border-b border-line bg-paper px-3 py-2.5">
         <div className="flex items-center gap-1.5">
-          <span className="h-2 w-2 rounded-full bg-[#ef4444]" />
-          <span className="h-2 w-2 rounded-full bg-[#eab308]" />
-          <span className="h-2 w-2 rounded-full bg-[#22c55e]" />
+          <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#ef4444]" />
+          <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#eab308]" />
+          <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#22c55e]" />
         </div>
         <div className="flex items-center gap-1.5 border border-line bg-panel px-2.5 py-1">
-          <Globe className="h-2.5 w-2.5 text-accent" />
+          <Globe aria-hidden="true" className="h-2.5 w-2.5 text-accent" />
           <span className="font-mono text-[10px] text-muted">{url}</span>
         </div>
-        <ArrowUpRight className="h-3.5 w-3.5 text-muted" />
+        <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5 text-muted" />
       </div>
 
       {/* Canvas */}
@@ -75,10 +80,11 @@ export function BrowserFrame({
         }}
       >
         {image ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <SafeImage
             src={image}
             alt={title}
+            sizes={sizes}
+            loading={loading}
             className={`absolute inset-0 h-full w-full object-cover ${posClass}`}
           />
         ) : (
@@ -106,8 +112,8 @@ export function BrowserFrame({
             {tag}
           </span>
           {live && (
-            <span className="flex items-center gap-1.5 font-mono text-[9px] tracking-wider text-accent">
-              <span className="h-2 w-2 animate-pulse rounded-full bg-accent" />
+            <span className="flex items-center gap-1.5 font-mono text-[9px] tracking-wider text-[#4ade80]">
+              <span aria-hidden="true" className="h-2 w-2 animate-pulse rounded-full bg-accent" />
               LIVE SITE
             </span>
           )}
@@ -131,7 +137,7 @@ export function BrowserFrame({
         {/* Bottom: status (disembunyikan saat cleanImage) */}
         {!cleanImage && (
           <div className="relative z-10 flex items-center justify-between font-mono text-[9px]">
-            <span className="text-accent">✓ Production Ready</span>
+            <span className="text-[#4ade80]">✓ Production Ready</span>
             <span className="text-[#b9b9b9]">Click to open →</span>
           </div>
         )}

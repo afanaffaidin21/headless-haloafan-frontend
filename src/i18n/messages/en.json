@@ -5,32 +5,43 @@
     "blog": "Blog",
     "about": "About",
     "contact": "Contact",
-    "available": "Available for work"
+    "available": "Open to full-time & freelance work",
+    "label": "Primary navigation",
+    "skipToContent": "Skip to main content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "mobileMenu": "Mobile navigation",
+    "language": "Language"
+  },
+  "theme": {
+    "label": "Theme",
+    "dark": "Dark mode",
+    "light": "Light mode"
   },
   "pathSwitcher": {
     "title": "Select Your Intent Path",
-    "hint": "Page content adapts to your goal — hire me or explore full-time.",
+    "hint": "Choose a path for hiring me as a freelancer or exploring a full-time role.",
     "freelance": {
       "kicker": "Freelance Client Path",
       "heading": "I want to hire a freelancer",
       "desc": "Focus on direct client services: bug fixing, custom WordPress development, speed optimization, and turn-key site builds.",
       "focus": "Services & Projects",
-      "cta": "Activate Path"
+      "cta": "View freelance services"
     },
     "fulltime": {
       "kicker": "Recruiter / Hiring Path",
       "heading": "I want to explore full-time hiring",
-      "desc": "Focus on career trajectory: 5+ years experience, WordPress engineering, and a formal CV ready to download.",
+      "desc": "Review my WordPress engineering experience, CV, and work before discussing a full-time role.",
       "focus": "Experience & CV",
-      "cta": "Activate Path"
+      "cta": "View hiring experience"
     },
     "reset": "Switch back to Neutral View"
   },
   "hero": {
-    "eyebrow": "WordPress Developer & AI-Driven — Surabaya, ID",
+    "eyebrow": "WordPress Developer & Web Engineer — Surabaya, ID",
     "line1": "Crafting Impactful Websites",
     "line2": "That Look Good & Work Great.",
-    "sub": "A website designer & developer who combines visual thinking and technical know-how to help your brand stand out online.",
+    "sub": "I build and improve fast, maintainable websites by combining visual thinking with practical web engineering.",
     "ctaPrimary": "Let's Get Started",
     "ctaSecondary": "View Projects",
     "stats": {
@@ -68,6 +79,7 @@
     "gallery": "Inside the Website",
     "nextProject": "Next Project",
     "prevProject": "Previous Project",
+    "navigation": "Project navigation",
     "atAGlance": "At a Glance",
     "ctaHeading": "Have a similar project in mind?",
     "ctaSub": "Let's build something great together — just tell me about your project.",
@@ -84,6 +96,16 @@
       "REPEAT",
       "HAVE FUN"
     ],
+    "emptyHeading": "No experiments are published yet.",
+    "emptySub": "Published experiments will appear here once their detail pages are ready.",
+    "unavailableHeading": "Experiments are temporarily unavailable.",
+    "unavailableSub": "The content source did not respond. Please try this page again shortly.",
+    "loading": "Loading experiments",
+    "errorHeading": "Experiments could not be loaded.",
+    "errorSub": "An unexpected error interrupted this page. Try loading it again.",
+    "retry": "Try again",
+    "back": "Back to Experiments",
+    "technologies": "Tools and technologies",
     "ctaHeading": "Want to see a real project?",
     "ctaSub": "Explore the full case studies — real clients, real results.",
     "ctaPrimary": "View Case Studies",
@@ -105,7 +127,9 @@
     "eyebrow": "About",
     "heading": "About Me",
     "homeHeading": "Know Who I Am",
-    "sub": "WordPress Developer & AI-Driven — helping brands and institutions build fast, secure, and maintainable websites.",
+    "sub": "WordPress developer and web engineer helping brands and institutions build fast, usable, and maintainable websites.",
+    "focusValue": "WordPress development",
+    "status": "Open to full-time & freelance work",
     "focusEyebrow": "What I Focus On",
     "experienceEyebrow": "Experience",
     "skillsEyebrow": "Skills & Toolbox",
@@ -132,7 +156,24 @@
     "submit": "Send Message",
     "note": "I typically respond within 12 hours",
     "success": "Message sent — I'll get back to you within 12 hours.",
-    "error": "Something went wrong. Please try again or contact me via WhatsApp."
+    "error": "Something went wrong. Please try again or contact me via WhatsApp.",
+    "required": "Required",
+    "validationSummary": "Please check the highlighted fields and try again.",
+    "nameRequired": "Please enter your name.",
+    "nameTooLong": "Please keep your name under 120 characters.",
+    "emailRequired": "Please enter your email address.",
+    "emailInvalid": "Please enter a valid email address.",
+    "emailTooLong": "Please keep your email address under 254 characters.",
+    "messageRequired": "Please enter a message.",
+    "messageTooShort": "Please write at least 10 characters.",
+    "messageTooLong": "Please keep your message under 5,000 characters.",
+    "sending": "Sending…",
+    "offline": "You appear to be offline. Reconnect and try again.",
+    "networkError": "The message could not be sent. Check your connection and try again.",
+    "serviceUnavailable": "The message service is temporarily unavailable. Please try again or use WhatsApp.",
+    "serverError": "The message could not be accepted. Please try again or use WhatsApp.",
+    "rateLimited": "Too many attempts. Please wait a moment and try again.",
+    "deliveryRejected": "The message could not be accepted. Please check your details and try again."
   },
   "footer": {
     "copyright": "© 2026. Designed & Developed by haloafan",
@@ -146,11 +187,28 @@
     "asideHeading": "Let's talk about your project.",
     "asideBody": "Have more questions or want to start collaborating? Send me a message.",
     "asideCta": "WhatsApp Me",
-    "note": "Response time typically within 12 hours"
+    "note": "Response time typically within 12 hours",
+    "items": [
+      {
+        "id": "fulltime",
+        "question": "Are you open to full-time opportunities?",
+        "answer": "Yes. I am open to full-time opportunities. You can review my experience in the CV, connect with me on LinkedIn, or get in touch to discuss a role."
+      },
+      {
+        "id": "pricing",
+        "question": "How does your pricing work?",
+        "answer": "Every project is quoted based on scope, complexity, and timeline. After a short discovery call I'll send you a clear proposal with fixed pricing — no surprises."
+      },
+      {
+        "id": "timeline",
+        "question": "What is your typical project timeline?",
+        "answer": "Most projects take 2–6 weeks depending on scope. You'll receive a clear timeline in the proposal before we start."
+      }
+    ]
   },
   "meta": {
-    "title": "Haloafan — WordPress Developer & AI-Driven",
-    "description": "Crafting impactful websites that look good & work great."
+    "title": "Haloafan — WordPress Developer & Web Engineer",
+    "description": "Building fast, maintainable WordPress websites for businesses and teams."
   },
   "home": {
     "ctaHeading": "Have something in mind?",
@@ -160,7 +218,7 @@
   },
   "pathContent": {
     "neutral": {
-      "badge": "Available for work",
+      "badge": "Open to full-time & freelance work",
       "ctaPrimary": "Let's Get Started",
       "ctaSecondary": "View Projects",
       "stats": [
@@ -177,7 +235,7 @@
           "label": "Happy Clients"
         }
       ],
-      "factStatus": "Available for work"
+      "factStatus": "Open to full-time & freelance work"
     },
     "freelance": {
       "badge": "Available for new projects",
@@ -197,7 +255,7 @@
           "label": "Years Experience"
         }
       ],
-      "factStatus": "Freelance — Open"
+      "factStatus": "Available for freelance projects"
     },
     "fulltime": {
       "badge": "Open to full-time opportunities",
@@ -217,7 +275,7 @@
           "label": "Winner UNAIR"
         }
       ],
-      "factStatus": "Open to Full-time"
+      "factStatus": "Open to full-time opportunities"
     },
     "cta": {
       "neutral": {
@@ -235,6 +293,8 @@
     }
   },
   "cv": {
-    "download": "Download PDF"
+    "download": "Download PDF",
+    "title": "Curriculum vitae",
+    "close": "Close CV"
   }
 }

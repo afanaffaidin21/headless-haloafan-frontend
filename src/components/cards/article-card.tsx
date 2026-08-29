@@ -1,6 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import type { BlogPost } from "@/types";
+import { SafeImage } from "@/components/ui/safe-image";
 
 export function ArticleCard({
   post,
@@ -18,11 +19,11 @@ export function ArticleCard({
       )}
     >
       {post.featuredImage && (
-        <div className="h-[180px] overflow-hidden border-b border-line">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div className="relative h-[180px] overflow-hidden border-b border-line">
+          <SafeImage
             src={post.featuredImage}
             alt={post.title}
+            sizes="(max-width: 767px) calc(100vw - 3rem), (max-width: 1279px) calc(50vw - 4.5rem), 360px"
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
           />
         </div>

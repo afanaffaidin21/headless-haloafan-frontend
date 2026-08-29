@@ -5,15 +5,13 @@
  */
 import type {
   BlogPost,
-  Experiment,
-  FAQItem,
   Project,
   SiteConfig,
 } from "@/types";
 
 export const SITE_CONFIG: SiteConfig = {
   name: "Ahmad Afan Affaidin",
-  role: "WordPress Developer & AI-Driven",
+  role: "WordPress Developer & Web Engineer",
   location: "Surabaya, Indonesia",
   email: "hello@haloafan.com",
   whatsapp: "+62 857-0344-1199",
@@ -186,57 +184,6 @@ export const SEED_PROJECTS: Project[] = [
   },
 ];
 
-export const SEED_EXPERIMENTS: Experiment[] = [
-  {
-    id: "gym-tracker",
-    slug: "gym-tracker",
-    title: "Gym Tracker",
-    index: "01",
-    description: "A workout logging app with progress charts and streak tracking.",
-    tags: ["Next.js", "Tailwind", "Charts"],
-  },
-  {
-    id: "ai-prompt-studio",
-    slug: "ai-prompt-studio",
-    title: "AI Prompt Studio",
-    index: "02",
-    description: "A small toolkit for crafting, testing, and iterating LLM prompts.",
-    tags: ["React", "OpenAI", "Prompts"],
-  },
-  {
-    id: "pomodoro-focus",
-    slug: "pomodoro-focus",
-    title: "Pomodoro Focus",
-    index: "03",
-    description: "A distraction-free focus timer with session analytics.",
-    tags: ["Next.js", "Tailwind", "Timer"],
-  },
-  {
-    id: "weather-dashboard",
-    slug: "weather-dashboard",
-    title: "Weather Dashboard",
-    index: "04",
-    description: "Live weather with clean minimal visuals and location search.",
-    tags: ["TypeScript", "API", "Geo"],
-  },
-  {
-    id: "screenshot-comparator",
-    slug: "screenshot-comparator",
-    title: "Screenshot Comparator",
-    index: "05",
-    description: "Drag-and-drop before/after image comparison tool.",
-    tags: ["React", "Canvas", "Diff"],
-  },
-  {
-    id: "markdown-vault",
-    slug: "markdown-vault",
-    title: "Markdown Vault",
-    index: "06",
-    description: "A local-first note vault with fuzzy search and tagging.",
-    tags: ["Next.js", "MDX", "Search"],
-  },
-];
-
 export const SEED_POSTS: BlogPost[] = [
   {
     id: "building-layouts",
@@ -296,27 +243,6 @@ export const SEED_POSTS: BlogPost[] = [
   },
 ];
 
-export const SEED_FAQ: FAQItem[] = [
-  {
-    id: "fulltime",
-    question: "Are you available to hire full time?",
-    answer:
-      "At the moment I am not looking for full-time opportunities, but I am always open to discussing interesting collaborations and projects.",
-  },
-  {
-    id: "pricing",
-    question: "How does your pricing work?",
-    answer:
-      "Every project is quoted based on scope, complexity, and timeline. After a short discovery call I'll send you a clear proposal with fixed pricing — no surprises.",
-  },
-  {
-    id: "timeline",
-    question: "What is your typical project timeline?",
-    answer:
-      "Most projects take 2–6 weeks depending on scope. You'll receive a clear timeline in the proposal before we start.",
-  },
-];
-
 export interface FocusItem {
   title: string;
   description: string;
@@ -327,7 +253,7 @@ export const SEED_FOCUS: FocusItem[] = [
   { title: 'Performance & Speed', description: 'GTMetrix Grade A targets, Core Web Vitals, caching, and asset optimization.', icon: 'zap' },
   { title: 'Troubleshooting & Support', description: 'Hundreds of resolved tickets — plugin conflicts, JS bugs, layout shifts, and staging.', icon: 'wrench' },
   { title: 'Security & Setup', description: 'Turn-key domain, hosting, SSL, security headers, and reCAPTCHA protection.', icon: 'shield-check' },
-  { title: 'AI-Driven Workflows', description: 'AI-assisted copywriting, rapid bug analysis, and documentation that ships faster.', icon: 'sparkles' },
+  { title: 'AI-Assisted Workflow', description: 'AI-assisted copywriting, rapid bug analysis, and documentation that ships faster.', icon: 'sparkles' },
   { title: 'Headless & Next.js', description: 'Modern WordPress as a headless CMS with Next.js frontends for maximum speed.', icon: 'layers' },
 ];
 

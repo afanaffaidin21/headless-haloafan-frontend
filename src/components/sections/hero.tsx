@@ -44,14 +44,10 @@ export function Hero() {
             </span>
           </div>
 
-          <div className="flex flex-col gap-1">
-            <h1 className="font-display text-[40px] leading-[1.08] text-ink md:text-[78px] md:leading-[1.02]">
-              {t("hero.line1")}
-            </h1>
-            <h1 className="font-display italic text-[40px] leading-[1.08] text-accent md:text-[78px] md:leading-[1.02]">
-              {t("hero.line2")}
-            </h1>
-          </div>
+          <h1 className="font-display text-[40px] leading-[1.08] text-ink md:text-[78px] md:leading-[1.02]">
+            <span className="block">{t("hero.line1")}</span>
+            <span className="block italic text-accent">{t("hero.line2")}</span>
+          </h1>
 
           <p className="max-w-[620px] text-[16px] leading-relaxed text-muted md:text-[19px]">
             {t("hero.sub")}

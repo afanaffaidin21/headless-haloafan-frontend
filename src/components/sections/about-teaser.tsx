@@ -2,27 +2,31 @@ import { getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { QuickFacts } from "@/components/ui/quick-facts";
+import { SafeImage } from "@/components/ui/safe-image";
 import { SITE_CONFIG } from "@/lib/seed";
 
 const PORTRAIT =
   "https://cms.haloafan.com/wp-content/uploads/2026/05/photo-portfolio-with-caption-820x1024.png";
 
-const QUICK_FACTS = [
-  { k: "LOCATION", v: "Surabaya, ID" },
-  { k: "EXPERIENCE", v: "5+ Years" },
-  { k: "FOCUS", v: "Freelance + Full-time" },
-];
-
 export async function AboutTeaser() {
   const t = await getTranslations("about");
+  const quickFacts = [
+    { k: "LOCATION", v: "Surabaya, ID" },
+    { k: "EXPERIENCE", v: "5+ Years" },
+    { k: "FOCUS", v: t("focusValue") },
+  ];
 
   return (
     <section className="flex flex-col gap-14 px-6 py-16 md:px-12 md:py-24 lg:flex-row lg:items-start">
       {/* Portrait */}
       <div className="flex w-full max-w-[320px] flex-col gap-3.5">
-        <div className="overflow-hidden border border-line">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={PORTRAIT} alt={SITE_CONFIG.name} className="h-[420px] md:h-[400px] w-full object-cover" />
+        <div className="relative h-[420px] overflow-hidden border border-line md:h-[400px]">
+          <SafeImage
+            src={PORTRAIT}
+            alt={SITE_CONFIG.name}
+            sizes="(max-width: 1023px) calc(100vw - 3rem), 320px"
+            className="h-full w-full object-cover"
+          />
         </div>
         <div className="flex items-center justify-between">
           <span className="font-mono text-xs text-muted">{SITE_CONFIG.name}</span>
@@ -53,12 +57,12 @@ export async function AboutTeaser() {
           href="/about"
           className="flex w-fit items-center gap-2.5 text-[15px] font-medium text-accent"
         >
-          More About Me <ArrowRight className="h-[18px] w-[18px]" />
+          More About Me <ArrowRight aria-hidden="true" className="h-[18px] w-[18px]" />
         </Link>
       </div>
 
       {/* Quick Facts (STATUS adaptif per path) */}
-      <QuickFacts facts={QUICK_FACTS} />
+      <QuickFacts facts={quickFacts} />
     </section>
   );
 }

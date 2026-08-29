@@ -4,18 +4,24 @@ import { usePathname } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 
 export function LanguageSwitcher() {
   const pathname = usePathname();
   const router = useRouter();
   const locale = useLocale();
+  const t = useTranslations();
 
   function switchLocale(next: string) {
     router.replace(pathname, { locale: next });
   }
 
   return (
-    <div className="flex items-center border border-line">
+    <div
+      role="group"
+      aria-label={t("nav.language")}
+      className="flex items-center border border-line"
+    >
       {routing.locales.map((loc, i) => (
         <span key={loc} className="flex items-center">
           {i > 0 && <span className="text-muted">/</span>}

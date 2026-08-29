@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { MessageSquare } from "lucide-react";
 import { Accordion } from "@/components/ui/accordion";
-import { SITE_CONFIG, SEED_FAQ } from "@/lib/seed";
+import { SITE_CONFIG } from "@/lib/seed";
 
 function whatsappUrl(message: string) {
   return `https://wa.me/${SITE_CONFIG.whatsappRaw}?text=${encodeURIComponent(message)}`;
@@ -9,6 +9,7 @@ function whatsappUrl(message: string) {
 
 export async function FAQSection() {
   const t = await getTranslations("faq");
+  const items = t.raw("items") as { id: string; question: string; answer: string }[];
 
   return (
     <section className="px-6 py-16 md:px-12 md:py-24">
@@ -27,7 +28,7 @@ export async function FAQSection() {
 
       <div className="mt-12 flex flex-col gap-14 lg:flex-row lg:items-start">
         <Accordion
-          items={SEED_FAQ}
+          items={items}
           className="w-full max-w-[760px]"
         />
 
@@ -47,7 +48,7 @@ export async function FAQSection() {
             rel="noreferrer"
             className="mt-6 flex w-fit items-center gap-2.5 border border-ink bg-accent px-7 py-3.5 text-[15px] font-medium text-[#0a0a0c] shadow-hard"
           >
-            <MessageSquare className="h-4 w-4" />
+            <MessageSquare aria-hidden="true" className="h-4 w-4" />
             {t("asideCta")}
           </a>
           <p className="mt-6 font-mono text-xs text-ink">* {t("note")}</p>

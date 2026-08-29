@@ -11,6 +11,9 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Link } from "@/i18n/navigation";
 import { getProject, getProjects } from "@/lib/api";
 import { routing } from "@/i18n/routing";
+import { JsonLd } from "@/components/seo/json-ld";
+import { createPageMetadata, isIndexableContent, noIndexMetadata } from "@/lib/seo";
+import { encodeSlug, getCanonicalUrl, localizedPath, SITE_URL } from "@/lib/site-url";
 
 export function generateStaticParams() {
   return routing.locales.flatMap((locale) =>
@@ -25,12 +28,18 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const project = await getProject(slug);
-  return {
-    title: project ? `${project.title} — Case Study` : "Case Study",
-    description: project?.description,
-  };
+  if (!project || !isIndexableContent(project, ["slug", "title", "description"])) {
+    return noIndexMetadata("Case Study");
+  }
+
+  return createPageMetadata({
+    locale,
+    path: `/projects/${encodeSlug(project.slug)}`,
+    title: `${project.title} — Case Study`,
+    description: project.description,
+  });
 }
 
 export default async function CaseStudyPage({
@@ -43,7 +52,7 @@ export default async function CaseStudyPage({
   const t = await getTranslations("caseStudy");
   const project = await getProject(slug);
 
-  if (!project) {
+  if (!project || !isIndexableContent(project, ["slug", "title", "description"])) {
     notFound();
   }
 
@@ -51,29 +60,26 @@ export default async function CaseStudyPage({
   const idx = projects.findIndex((p) => p.slug === slug);
   const prev = projects[(idx - 1 + projects.length) % projects.length];
   const next = projects[(idx + 1) % projects.length];
+  const canonical = getCanonicalUrl(
+    localizedPath(`/projects/${encodeSlug(project.slug)}`, locale)
+  );
 
   return (
     <>
       <Header active="projects" />
-      <main className="flex-1">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "CreativeWork",
-              headline: project.title,
-              description: project.description,
-              dateCreated: project.timeline,
-              genre: project.category,
-              about: project.client,
-              url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://haloafan.com"}/projects/${project.slug}`,
-              image: project.featuredImage || undefined,
-              author: {
-                "@type": "Person",
-                name: "Ahmad Afan Affaidin",
-              },
-            }),
+      <main id="main-content" tabIndex={-1} className="flex-1">
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            "@id": `${canonical}#work`,
+            name: project.title,
+            description: project.description,
+            genre: project.category || undefined,
+            about: project.client || undefined,
+            url: canonical,
+            inLanguage: locale === "id" ? "id-ID" : "en-US",
+            author: { "@id": `${SITE_URL}/#person` },
           }}
         />
         {/* Case Header */}
@@ -128,6 +134,8 @@ export default async function CaseStudyPage({
             title={project.title}
             height={520}
             image={project.featuredImage}
+            loading="eager"
+            sizes="(max-width: 767px) calc(100vw - 3rem), calc(100vw - 6rem)"
           />
         </div>
 
@@ -266,6 +274,7 @@ export default async function CaseStudyPage({
                 title={project.title}
                 height={220}
                 image={src}
+                sizes="(max-width: 767px) calc(100vw - 3rem), calc((100vw - 9rem) / 3)"
               />
             ))}
           </div>
@@ -279,7 +288,7 @@ export default async function CaseStudyPage({
         </FinalCTA>
 
         {/* Next / Prev */}
-        <nav className="flex flex-col gap-8 border-y border-line px-6 py-10 md:flex-row md:px-12 md:py-[72px]">
+        <nav aria-label={t("navigation")} className="flex flex-col gap-8 border-y border-line px-6 py-10 md:flex-row md:px-12 md:py-[72px]">
           <Link href={`/projects/${prev.slug}`} className="flex flex-1 flex-col gap-2">
             <span className="font-mono text-[11px] tracking-wider text-muted">
               ← {t("prevProject")}

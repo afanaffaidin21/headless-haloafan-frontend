@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { Header } from "@/components/layout/header";
@@ -8,8 +9,25 @@ import { FinalCTA } from "@/components/ui/final-cta";
 import { ArticleCard } from "@/components/cards/article-card";
 import { Link } from "@/i18n/navigation";
 import { getPosts } from "@/lib/api";
+import { SafeImage } from "@/components/ui/safe-image";
+import { createPageMetadata } from "@/lib/seo";
 
 const CHIPS = ["All", "Learn Journey", "Tutorials", "Tips & Fixes"];
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "blog" });
+  return createPageMetadata({
+    locale,
+    path: "/blog",
+    title: t("heading"),
+    description: t("sub"),
+  });
+}
 
 export default async function BlogPage({
   params,
@@ -25,7 +43,7 @@ export default async function BlogPage({
   return (
     <>
       <Header active="blog" />
-      <main className="flex-1">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         <PageHeader eyebrow="01" title={t("heading")} sub={t("sub")} />
 
         {/* Chips */}
@@ -49,12 +67,13 @@ export default async function BlogPage({
           <div className="px-6 pb-10 md:px-12 md:pb-14">
             <article className="flex flex-col overflow-hidden border border-line bg-panel shadow-hard-sm lg:flex-row">
               {featured.featuredImage && (
-                <div className="lg:w-[560px] lg:shrink-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                <div className="relative h-[220px] md:h-[300px] lg:h-auto lg:w-[560px] lg:shrink-0">
+                  <SafeImage
                     src={featured.featuredImage}
                     alt={featured.title}
-                    className="h-[220px] w-full object-cover md:h-[300px] lg:h-full"
+                    sizes="(max-width: 1023px) calc(100vw - 3rem), 560px"
+                    loading="eager"
+                    className="h-full w-full object-cover md:h-[300px] lg:h-full"
                   />
                 </div>
               )}

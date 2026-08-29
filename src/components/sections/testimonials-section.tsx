@@ -26,7 +26,7 @@ export function TestimonialsSection() {
             className="flex flex-col justify-between gap-6 border border-line bg-panel p-6"
           >
             <div className="flex flex-col gap-4">
-              <Quote className="h-6 w-6 text-accent" />
+              <Quote aria-hidden="true" className="h-6 w-6 text-accent" />
               <blockquote className="text-[16px] leading-relaxed text-ink">
                 &ldquo;{testimonial.quote}&rdquo;
               </blockquote>
