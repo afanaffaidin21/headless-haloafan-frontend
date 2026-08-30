@@ -19,7 +19,7 @@ export function ThemeToggle() {
         onClick={() => setTheme("dark")}
         aria-label={t("theme.dark")}
         aria-pressed={theme === "dark"}
-        className={`flex h-6 w-6 items-center justify-center rounded-full transition-colors ${
+        className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:h-6 lg:w-6 ${
           theme === "dark" ? "bg-accent-dim text-accent" : "text-muted"
         }`}
       >
@@ -30,7 +30,7 @@ export function ThemeToggle() {
         onClick={() => setTheme("light")}
         aria-label={t("theme.light")}
         aria-pressed={theme === "light"}
-        className={`flex h-6 w-6 items-center justify-center rounded-full transition-colors ${
+        className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:h-6 lg:w-6 ${
           theme === "light" ? "bg-accent-dim text-accent" : "text-muted"
         }`}
       >

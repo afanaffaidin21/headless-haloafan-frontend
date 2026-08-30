@@ -13,6 +13,10 @@ import { SafeImage } from "@/components/ui/safe-image";
 import { createPageMetadata } from "@/lib/seo";
 import { CmsCollectionState } from "@/components/ui/cms-collection-state";
 
+// Keep an outage-shaped page response short-lived while the shared CMS data
+// cache retains successful snapshots for its normal five-minute TTL.
+export const revalidate = 30;
+
 const CHIPS = ["All", "Learn Journey", "Tutorials", "Tips & Fixes"];
 
 export async function generateMetadata({
@@ -74,6 +78,8 @@ export default async function BlogPage({
               description={
                 status === "unavailable" ? t("unavailableSub") : t("emptySub")
               }
+              retryLabel={status === "unavailable" ? t("retry") : undefined}
+              retryingLabel={status === "unavailable" ? t("retrying") : undefined}
             />
           </div>
         ) : (

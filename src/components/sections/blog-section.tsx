@@ -50,6 +50,8 @@ export async function BlogSection() {
             description={
               status === "unavailable" ? t("unavailableSub") : t("emptySub")
             }
+            retryLabel={status === "unavailable" ? t("retry") : undefined}
+            retryingLabel={status === "unavailable" ? t("retrying") : undefined}
           />
         )}
       </div>

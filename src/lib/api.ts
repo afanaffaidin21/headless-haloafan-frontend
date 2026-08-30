@@ -11,6 +11,7 @@ import {
 } from "./graphql";
 import { getExperimentCachePolicy } from "./experiment-cache-policy";
 import {
+  CMS_COLLECTION_CACHE_KEYS,
   resolveCmsCollection,
   type CmsCollectionResult,
 } from "./cms-collection";
@@ -145,32 +146,30 @@ const getCachedPublishedProjects = unstable_cache(
       .map(mapProject)
       .filter(isValidProject);
   },
-  ["published-projects-data-v1"],
+  [CMS_COLLECTION_CACHE_KEYS.projects],
   { revalidate: dataRevalidationSeconds }
-);
-
-const getCachedProjectsResult = unstable_cache(
-  async (): Promise<ProjectsResult> => {
-    try {
-      const projects = await getCachedPublishedProjects();
-      return {
-        items: projects,
-        status: projects.length > 0 ? "available" : "empty",
-      };
-    } catch {
-      return { items: [], status: "unavailable" };
-    }
-  },
-  ["published-projects-availability-v1"],
-  { revalidate: unavailableRevalidationSeconds }
 );
 
 let lastKnownProjects: Project[] | undefined;
 
 export async function getProjectsResult(): Promise<ProjectsResult> {
-  const result = resolveCmsCollection(await getCachedProjectsResult(), lastKnownProjects);
-  if (result.status !== "unavailable") lastKnownProjects = result.items;
-  return result;
+  try {
+    const projects = await getCachedPublishedProjects();
+    const result = {
+      items: projects,
+      status: projects.length > 0 ? ("available" as const) : ("empty" as const),
+    };
+    lastKnownProjects = projects;
+    return result;
+  } catch {
+    // Next's Data Cache serves the previous successful value when stale
+    // revalidation throws. This local value is only a same-process safeguard
+    // for cold-start failures and is never the production source of content.
+    return resolveCmsCollection(
+      { items: [], status: "unavailable" },
+      lastKnownProjects
+    );
+  }
 }
 
 export async function getProjects(): Promise<Project[]> {
@@ -201,32 +200,30 @@ const getCachedPublishedPosts = unstable_cache(
       (data?.posts?.nodes ?? []).map(mapPost).filter(isValidPost)
     );
   },
-  ["published-blog-posts-data-v1"],
+  [CMS_COLLECTION_CACHE_KEYS.blog],
   { revalidate: dataRevalidationSeconds }
-);
-
-const getCachedPostsResult = unstable_cache(
-  async (): Promise<PostsResult> => {
-    try {
-      const posts = await getCachedPublishedPosts();
-      return {
-        items: posts,
-        status: posts.length > 0 ? "available" : "empty",
-      };
-    } catch {
-      return { items: [], status: "unavailable" };
-    }
-  },
-  ["published-blog-posts-availability-v1"],
-  { revalidate: unavailableRevalidationSeconds }
 );
 
 let lastKnownPosts: BlogPost[] | undefined;
 
 export async function getPostsResult(): Promise<PostsResult> {
-  const result = resolveCmsCollection(await getCachedPostsResult(), lastKnownPosts);
-  if (result.status !== "unavailable") lastKnownPosts = result.items;
-  return result;
+  try {
+    const posts = await getCachedPublishedPosts();
+    const result = {
+      items: posts,
+      status: posts.length > 0 ? ("available" as const) : ("empty" as const),
+    };
+    lastKnownPosts = posts;
+    return result;
+  } catch {
+    // Keep a previous snapshot during a cold-start failure in this process;
+    // normal cross-instance stale-on-error behavior is provided by the shared
+    // Next Data Cache entry above.
+    return resolveCmsCollection(
+      { items: [], status: "unavailable" },
+      lastKnownPosts
+    );
+  }
 }
 
 export async function getPosts(): Promise<BlogPost[]> {

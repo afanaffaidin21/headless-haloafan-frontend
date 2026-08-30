@@ -46,11 +46,35 @@ test("homepage and reusable disclosures use a single semantic heading and native
 
 test("mobile navigation and CV dialog define modal keyboard contracts", async () => {
   const mobileNav = await source("src/components/layout/mobile-nav.tsx");
+  const header = await source("src/components/layout/header.tsx");
   assert.match(mobileNav, /aria-expanded=\{open\}/);
   assert.match(mobileNav, /aria-controls=\{menuId\}/);
   assert.match(mobileNav, /role="dialog"/);
   assert.match(mobileNav, /event\.key === "Escape"/);
   assert.match(mobileNav, /event\.key !== "Tab"/);
+  assert.match(mobileNav, /createPortal\(menu, document\.body\)/);
+  assert.match(mobileNav, /z-\[70\]/);
+  assert.match(mobileNav, /overflow-y-auto/);
+  assert.match(mobileNav, /document\.body\.style\.overflow = "hidden"/);
+  assert.match(mobileNav, /h-11 w-11/);
+  assert.match(mobileNav, /import \{ ThemeToggle \} from "@\/components\/ui\/theme-toggle"/);
+  const menuStart = mobileNav.indexOf("const menu = (");
+  const menuSource = mobileNav.slice(menuStart, mobileNav.indexOf("\n  return (", menuStart));
+  assert.match(menuSource, /role="dialog"[\s\S]*<ThemeToggle \/>/);
+  assert.match(menuSource, /<ThemeToggle \/>[\s\S]*<LanguageSwitcher \/>/);
+  assert.match(mobileNav, /dialog\.querySelectorAll<HTMLElement>\(focusableSelector\)/);
+  assert.match(header, /<div className="flex items-center gap-3 lg:hidden">\s*<ThemeToggle \/>/);
+
+  const themeToggle = await source("src/components/ui/theme-toggle.tsx");
+  const languageSwitcher = await source("src/components/ui/language-switcher.tsx");
+  assert.match(themeToggle, /role="group"/);
+  assert.match(themeToggle, /aria-label=\{t\("theme\.label"\)\}/);
+  assert.match(themeToggle, /aria-label=\{t\("theme\.dark"\)\}/);
+  assert.match(themeToggle, /aria-label=\{t\("theme\.light"\)\}/);
+  assert.match(themeToggle, /aria-pressed=\{theme === "dark"\}/);
+  assert.match(themeToggle, /aria-pressed=\{theme === "light"\}/);
+  assert.match(themeToggle, /h-11 w-11/);
+  assert.match(languageSwitcher, /min-h-11 min-w-11/);
 
   const cvModal = await source("src/components/ui/cv-modal.tsx");
   assert.match(cvModal, /role="dialog"/);
@@ -60,6 +84,21 @@ test("mobile navigation and CV dialog define modal keyboard contracts", async ()
   const provider = await source("src/components/providers/cv-provider.tsx");
   assert.match(provider, /openerRef/);
   assert.match(provider, /\.focus\(\)/);
+});
+
+test("CMS unavailable state exposes a bounded, accessible refresh action", async () => {
+  const state = await source("src/components/ui/cms-collection-state.tsx");
+  assert.match(state, /"use client"/);
+  assert.match(state, /router\.refresh\(\)/);
+  assert.match(state, /useTransition/);
+  assert.match(state, /disabled=\{isPending\}/);
+  assert.match(state, /aria-busy=\{isPending\}/);
+  assert.match(state, /aria-live="polite"/);
+
+  const en = await source("src/i18n/messages/en.json");
+  const id = await source("src/i18n/messages/id.json");
+  assert.match(en, /"retry": "Try again"/);
+  assert.match(id, /"retry": "Coba lagi"/);
 });
 
 test("reusable images and motion preferences retain accessible fallbacks", async () => {
