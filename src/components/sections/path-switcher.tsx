@@ -1,7 +1,8 @@
 "use client";
 
+import { useRef } from "react";
 import { useTranslations } from "next-intl";
-import { Briefcase, UserCheck, ArrowRight, Check } from "lucide-react";
+import { ArrowLeft, Briefcase, Check, UserCheck } from "lucide-react";
 import {
   useAudience,
   type AudiencePath,
@@ -10,6 +11,7 @@ import {
 export function PathSwitcher() {
   const t = useTranslations();
   const { path, setPath } = useAudience();
+  const firstOptionRef = useRef<HTMLButtonElement>(null);
 
   const paths: {
     key: "freelance" | "fulltime";
@@ -20,90 +22,101 @@ export function PathSwitcher() {
   ];
 
   return (
-    <section className="border-b border-line px-6 py-8 md:px-12 md:py-10">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <span className="h-2.5 w-2.5 bg-accent" aria-hidden />
-          <span className="font-mono text-xs tracking-[0.2em] text-ink">
-            {t("pathSwitcher.title").toUpperCase()}
-          </span>
-        </div>
-        <p className="hidden font-mono text-xs text-muted md:block">
+    <fieldset
+      aria-describedby="path-switcher-hint"
+      className="w-full min-w-0 border-0 p-0 xl:max-w-[720px] xl:border xl:border-line xl:bg-panel xl:p-5 xl:shadow-hard-sm"
+    >
+      <legend className="font-mono text-[11px] tracking-[0.2em] text-muted">
+        <span className="mr-2 inline-block h-2 w-2 align-middle bg-accent" aria-hidden />
+        {t("pathSwitcher.title").toUpperCase()}
+      </legend>
+
+      <div className="mt-2 flex min-w-0 items-start justify-between gap-3">
+        <p
+          id="path-switcher-hint"
+          className="min-w-0 max-w-[620px] text-[13px] leading-relaxed text-muted md:text-sm"
+        >
           {t("pathSwitcher.hint")}
         </p>
+
+        {path !== "neutral" && (
+          <button
+            type="button"
+            onClick={() => {
+              setPath("neutral");
+              requestAnimationFrame(() => firstOptionRef.current?.focus());
+            }}
+            aria-label={t("pathSwitcher.reset")}
+            className="inline-flex h-11 min-h-11 min-w-11 w-11 shrink-0 items-center justify-center border border-line text-muted hover:border-accent hover:text-ink"
+          >
+            <ArrowLeft aria-hidden="true" className="h-3.5 w-3.5" />
+          </button>
+        )}
       </div>
 
-      <div className="mt-6 grid min-w-0 gap-5 md:grid-cols-2">
+      <div className="mt-3 grid min-w-0 gap-2 min-[480px]:grid-cols-2 xl:grid-cols-1 xl:gap-3">
         {paths.map(({ key, icon: Icon }) => {
           const active = path === key;
           const data = t.raw(`pathSwitcher.${key}`) as Record<string, string>;
+          const descriptionId = `path-${key}-description`;
+
           return (
-            <button
-              key={key}
-              type="button"
-              onClick={() => setPath(key)}
-              aria-pressed={active}
-              className={`group flex w-full min-w-0 max-w-full flex-col gap-3.5 border p-6 text-left transition-all ${
-                active
-                  ? "border-accent bg-paper shadow-hard-accent"
-                  : "border-line bg-panel"
-              }`}
-            >
-              <div className="flex min-w-0 items-start justify-between">
-                <div className="flex min-w-0 items-center gap-4">
+            <div key={key} className="min-w-0">
+              <button
+                type="button"
+                ref={key === "freelance" ? firstOptionRef : undefined}
+                onClick={() => setPath(key)}
+                aria-pressed={active}
+                aria-describedby={descriptionId}
+                className={`path-switcher-option group flex min-h-11 w-full min-w-0 items-center justify-between gap-3 border px-3 py-2 text-left transition-[background-color,border-color,box-shadow,transform] duration-150 ease-out hover:-translate-y-0.5 focus-visible:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none ${
+                  active
+                    ? "border-accent bg-accent-dim shadow-hard-accent"
+                    : "border-line bg-panel hover:border-accent"
+                }`}
+              >
+                <span className="flex min-w-0 flex-1 items-center gap-3">
                   <span
-                    className={`flex h-11 w-11 items-center justify-center border border-line ${
-                      active ? "bg-accent-dim" : "bg-panel"
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center border border-line ${
+                      active ? "bg-paper" : "bg-panel"
                     }`}
                   >
-                    <Icon aria-hidden="true" className="h-5 w-5 text-accent" />
+                    <Icon
+                      aria-hidden="true"
+                      className="h-4 w-4 text-accent"
+                    />
                   </span>
-                  <span className="flex min-w-0 flex-col gap-1">
-                    <span className="font-mono text-[11px] tracking-wider text-accent">
-                      {data.kicker.toUpperCase()}
+                  <span className="min-w-0 flex-1">
+                    <span className="block break-words font-display text-[18px] leading-tight text-ink">
+                      {data.label}
                     </span>
-                    <span className="break-words font-display text-[22px] text-ink">
-                      {data.heading}
+                    <span className="mt-1 block break-words font-mono text-[9px] leading-snug tracking-wider text-muted">
+                      {data.focus}
                     </span>
                   </span>
-                </div>
+                </span>
                 {active && (
-                  <span className="hidden h-6 w-6 items-center justify-center bg-accent md:flex">
-                    <Check aria-hidden="true" className="h-4 w-4 text-[#0a0a0c]" />
+                  <span
+                    aria-hidden="true"
+                    className="flex shrink-0 items-center gap-1.5 border border-accent bg-accent px-1.5 py-1 font-mono text-[10px] tracking-wider text-[#0a0a0c]"
+                  >
+                    <Check className="h-3.5 w-3.5" />
+                    <span className="hidden min-[480px]:inline">
+                      {t("pathSwitcher.selected").toUpperCase()}
+                    </span>
                   </span>
                 )}
-              </div>
-
-              <p className="min-w-0 break-words text-sm leading-relaxed text-muted">{data.desc}</p>
-
-              <div className="flex flex-col items-start gap-2 border-t border-line pt-4 md:flex-row md:items-center md:justify-between">
-                <span className="font-mono text-[11px] tracking-wider text-muted">
-                  FOCUS: {data.focus}
-                </span>
-                <span
-                  className={`flex items-center gap-1 font-mono text-[11px] tracking-wider ${
-                    active ? "text-accent" : "text-ink"
-                  }`}
-                >
-                  {data.cta.toUpperCase()}{" "}
-                  <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
-                </span>
-              </div>
-            </button>
+              </button>
+              <span
+                id={descriptionId}
+                className="sr-only xl:not-sr-only xl:mt-3 xl:block xl:min-h-14 font-mono text-[11px] leading-relaxed text-muted"
+              >
+                {data.desc}
+              </span>
+            </div>
           );
         })}
       </div>
-
-      {path !== "neutral" && (
-        <button
-          type="button"
-          onClick={() => setPath("neutral")}
-          className="mt-4 font-mono text-[11px] text-muted underline decoration-dotted underline-offset-4"
-        >
-          ← {t("pathSwitcher.reset").toUpperCase()}
-        </button>
-      )}
-    </section>
+    </fieldset>
   );
 }
 

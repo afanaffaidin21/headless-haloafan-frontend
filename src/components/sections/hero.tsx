@@ -6,12 +6,14 @@ import { Marquee } from "@/components/ui/marquee";
 import { AvailabilityBadge } from "@/components/ui/availability-badge";
 import { useAudience } from "@/components/providers/audience-provider";
 import { useCv } from "@/components/providers/cv-provider";
+import { PathSwitcher } from "@/components/sections/path-switcher";
 import { SITE_CONFIG } from "@/lib/seed";
 
 interface PathContent {
   badge: string;
   ctaPrimary: string;
   ctaSecondary: string;
+  factStatus: string;
   stats: { num: string; label: string }[];
 }
 
@@ -33,69 +35,75 @@ export function Hero() {
 
   return (
     <section className="border-b border-line">
-      <div className="flex flex-col gap-8 px-6 pt-16 md:px-12 md:pt-28">
-        <div className="flex flex-col gap-5">
-          <AvailabilityBadge label={content.badge} />
+      <div className="flex min-w-0 flex-col gap-10 px-6 pb-10 pt-12 md:gap-14 md:px-12 md:pb-14 md:pt-24">
+        <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.65fr)_minmax(18rem,1fr)] xl:items-start xl:gap-x-12 xl:gap-y-7">
+          <div className="flex min-w-0 flex-col gap-5">
+            <AvailabilityBadge label={content.badge} />
 
-          <div className="flex items-center gap-3">
-            <span className="eyebrow-marker" aria-hidden />
-            <span className="font-mono text-[11px] tracking-wider text-muted md:text-[13px]">
-              {t("hero.eyebrow")}
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="eyebrow-marker" aria-hidden />
+              <span className="font-mono text-[11px] tracking-wider text-muted md:text-[13px]">
+                {t("hero.eyebrow")}
+              </span>
+            </div>
+
+            <h1 className="w-full min-w-0 max-w-[1000px] font-display text-[40px] leading-[1.08] text-ink md:text-[78px] md:leading-[1.02] xl:text-[72px] 2xl:text-[78px]">
+              <span className="block">{t("hero.line1")}</span>
+              <span className="block italic text-accent">{t("hero.line2")}</span>
+            </h1>
+
+            <p className="w-full min-w-0 max-w-[620px] text-[16px] leading-relaxed text-muted md:text-[19px]">
+              {t("hero.sub")}
+            </p>
           </div>
 
-          <h1 className="font-display text-[40px] leading-[1.08] text-ink md:text-[78px] md:leading-[1.02]">
-            <span className="block">{t("hero.line1")}</span>
-            <span className="block italic text-accent">{t("hero.line2")}</span>
-          </h1>
+          <div className="min-w-0 xl:col-start-2 xl:row-start-1 xl:row-span-2 xl:flex xl:justify-center xl:px-4">
+            <PathSwitcher />
+          </div>
 
-          <p className="max-w-[620px] text-[16px] leading-relaxed text-muted md:text-[19px]">
-            {t("hero.sub")}
-          </p>
-
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-            {path === "fulltime" ? (
-              <Button variant="primary" onClick={openCv} className="justify-center sm:justify-start">
-                {content.ctaPrimary}
+          <div className="min-w-0 xl:col-start-1 xl:row-start-2 xl:pt-1">
+            <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+              {path === "fulltime" ? (
+                <Button variant="primary" onClick={openCv} className="justify-center sm:justify-start">
+                  {content.ctaPrimary}
+                </Button>
+              ) : (
+                <Button variant="primary" href={primaryHref} className="justify-center sm:justify-start">
+                  {content.ctaPrimary}
+                </Button>
+              )}
+              <Button href="/projects" className="justify-center sm:justify-start">
+                {content.ctaSecondary}
               </Button>
-            ) : (
-              <Button variant="primary" href={primaryHref} className="justify-center sm:justify-start">
-                {content.ctaPrimary}
-              </Button>
-            )}
-            <Button href="/projects" className="justify-center sm:justify-start">
-              {content.ctaSecondary}
-            </Button>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col border-t border-line md:flex-row md:py-7">
+        <div className="grid w-full min-w-0 grid-cols-3 border-t border-line md:flex md:py-7">
           {content.stats.map((s, i) => (
             <div
               key={s.label}
-              className={`flex items-center justify-between gap-3.5 py-4 md:flex-1 md:items-center md:justify-start md:pr-9 ${
-                i > 0 ? "border-t border-line md:border-t-0" : ""
+              className={`min-w-0 py-4 md:flex md:flex-1 md:items-center md:gap-3.5 md:py-0 md:pr-9 ${
+                i > 0 ? "border-l border-line pl-3 md:border-l-0 md:pl-0" : ""
               }`}
             >
-              {i > 0 && (
-                <span
-                  className="hidden w-px self-stretch bg-line md:block"
-                  aria-hidden
-                />
-              )}
-              <span className="font-display text-[34px] text-ink md:text-[42px]">
+              <span className="block font-display text-[32px] leading-none text-ink md:text-[42px]">
                 {s.num}
               </span>
-              <span className="font-mono text-xs tracking-wider text-muted md:mr-auto">
+              <span className="mt-2 block break-words font-mono text-[10px] leading-snug tracking-wider text-muted md:mt-0 md:mr-auto md:text-xs">
                 {s.label}
               </span>
             </div>
           ))}
         </div>
 
-        <div className="border-y border-line">
+        <div className="min-w-0 max-w-full overflow-hidden border-y border-line">
           <Marquee items={marquee} className="border-0" />
         </div>
+
+        <span className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+          {content.factStatus}
+        </span>
       </div>
     </section>
   );

@@ -13,7 +13,8 @@ export async function FAQSection() {
 
   return (
     <section className="px-6 py-16 md:px-12 md:py-24">
-      <div className="flex flex-col gap-6">
+      <div className="mx-auto grid w-full grid-cols-1 gap-y-12 xl:max-w-[1400px] xl:grid-cols-[minmax(0,800px)_minmax(20rem,420px)] xl:grid-rows-[auto_auto] xl:items-start xl:justify-center xl:gap-x-24 xl:gap-y-12">
+      <div className="col-start-1 flex flex-col gap-6 xl:col-start-1 xl:row-start-1">
         <div className="flex items-center gap-3">
           <span className="eyebrow-marker" aria-hidden />
           <span className="font-mono text-[13px] tracking-widest text-muted">
@@ -26,13 +27,12 @@ export async function FAQSection() {
         <p className="text-[16px] md:text-[17px] text-muted">{t("sub")}</p>
       </div>
 
-      <div className="mt-12 flex flex-col gap-14 lg:flex-row lg:items-start">
         <Accordion
           items={items}
-          className="w-full max-w-[760px]"
+          className="col-start-1 w-full max-w-[800px] xl:col-start-1 xl:row-start-2"
         />
 
-        <aside className="w-full max-w-[420px] self-stretch border border-line bg-accent-dim px-8 py-8 shadow-hard-sm">
+        <aside className="col-start-1 w-full max-w-[420px] self-start justify-self-start border border-line bg-accent-dim px-8 py-8 shadow-hard-sm xl:col-start-2 xl:row-start-2 xl:justify-self-start">
           <span className="font-mono text-xs tracking-[0.2em] text-accent">
             {t("asideLabel")}
           </span>

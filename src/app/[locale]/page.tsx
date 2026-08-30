@@ -3,7 +3,6 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { FinalCTA } from "@/components/ui/final-cta";
 import { AudienceProvider } from "@/components/providers/audience-provider";
-import { PathSwitcher } from "@/components/sections/path-switcher";
 import { Hero } from "@/components/sections/hero";
 import { HomeCta } from "@/components/sections/home-cta";
 import { ProjectsSection } from "@/components/sections/projects-section";
@@ -27,7 +26,6 @@ export default async function HomePage({
       <Header />
       <AudienceProvider>
         <main id="main-content" tabIndex={-1} className="flex-1">
-          <PathSwitcher />
           <Hero />
           <ProjectsSection />
           <ExperimentsSection />

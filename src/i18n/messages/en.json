@@ -19,9 +19,11 @@
     "light": "Light mode"
   },
   "pathSwitcher": {
-    "title": "Select Your Intent Path",
-    "hint": "Choose a path for hiring me as a freelancer or exploring a full-time role.",
+    "title": "What brings you here?",
+    "hint": "Choose a focus when you’re ready — the page stays useful either way.",
+    "selected": "Selected",
     "freelance": {
+      "label": "Freelance project",
       "kicker": "Freelance Client Path",
       "heading": "I want to hire a freelancer",
       "desc": "Focus on direct client services: bug fixing, custom WordPress development, speed optimization, and turn-key site builds.",
@@ -29,6 +31,7 @@
       "cta": "View freelance services"
     },
     "fulltime": {
+      "label": "Full-time role",
       "kicker": "Recruiter / Hiring Path",
       "heading": "I want to explore full-time hiring",
       "desc": "Review my WordPress engineering experience, CV, and work before discussing a full-time role.",

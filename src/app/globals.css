@@ -231,6 +231,10 @@ body {
   .animate-pulse {
     animation: none !important;
   }
+  .path-switcher-option {
+    transform: none !important;
+    transition: none !important;
+  }
   .skip-link {
     transition: none;
   }

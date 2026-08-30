@@ -19,9 +19,11 @@
     "light": "Mode terang"
   },
   "pathSwitcher": {
-    "title": "Pilih Jalur Anda",
-    "hint": "Pilih jalur untuk menyewa jasa saya atau membahas peluang full-time.",
+    "title": "Apa yang Anda cari?",
+    "hint": "Pilih fokus saat Anda siap — halaman ini tetap berguna tanpa pilihan.",
+    "selected": "Dipilih",
     "freelance": {
+      "label": "Proyek freelance",
       "kicker": "Jalur Klien Freelance",
       "heading": "Saya ingin menyewa freelancer",
       "desc": "Fokus pada layanan langsung: perbaikan bug, pengembangan WordPress, optimasi kecepatan, dan pembuatan website turn-key.",
@@ -29,6 +31,7 @@
       "cta": "Lihat layanan freelance"
     },
     "fulltime": {
+      "label": "Peluang full-time",
       "kicker": "Jalur Rekruter / Kerja",
       "heading": "Saya ingin merekrut full-time",
       "desc": "Lihat pengalaman rekayasa WordPress dan CV saya sebelum membahas posisi full-time.",
