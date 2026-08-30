@@ -52,9 +52,28 @@ test("Next.js owns one document root and the locale layout remains non-document"
   assert.equal((rootLayout.match(/<body\b/g) ?? []).length, 1);
   assert.match(rootLayout, /getLocale/);
   assert.match(rootLayout, /lang=\{locale\}/);
+  assert.doesNotMatch(rootLayout, /getMessages|NextIntlClientProvider|<JsonLd/);
   assert.doesNotMatch(localeLayout, /<html\b|<body\b/);
-  assert.match(localeLayout, /setRequestLocale\(locale\)/);
+  assert.match(localeLayout, /setRequestLocale\(supportedLocale\)/);
+  assert.match(localeLayout, /getMessages\(\{ locale: supportedLocale \}\)/);
+  assert.match(localeLayout, /<NextIntlClientProvider locale=\{supportedLocale\} messages=\{messages\}>/);
+  assert.match(localeLayout, /<JsonLd/);
+  assert.match(localeLayout, /<LocaleDocumentSync \/>/);
   assert.match(localeLayout, /notFound\(\)/);
+});
+
+test("locale document synchronization and navigation preserve the active route", async () => {
+  const sync = await source("src/components/providers/locale-document-sync.tsx");
+  const switcher = await source("src/components/ui/language-switcher.tsx");
+
+  assert.match(sync, /useLocale/);
+  assert.match(sync, /document\.documentElement\.lang = locale/);
+  assert.match(sync, /useLayoutEffect/);
+  assert.match(switcher, /getPathname\(\{[\s\S]*forcePrefix: true/);
+  assert.match(switcher, /window\.location\.replace\(/);
+  assert.match(switcher, /window\.location\.search/);
+  assert.match(switcher, /window\.location\.hash/);
+  assert.doesNotMatch(switcher, /router\.replace|router\.push/);
 });
 
 test("Next 16 locale proxy preserves unprefixed English and prefixed Indonesian routes", async () => {

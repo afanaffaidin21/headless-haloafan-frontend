@@ -2,18 +2,27 @@
 
 import { usePathname } from "@/i18n/navigation";
 import { useLocale } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 
 export function LanguageSwitcher() {
   const pathname = usePathname();
-  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations();
 
-  function switchLocale(next: string) {
-    router.replace(pathname, { locale: next });
+  function switchLocale(nextLocale: (typeof routing.locales)[number]) {
+    if (nextLocale === locale) return;
+
+    const localizedPath = getPathname({
+      href: pathname,
+      locale: nextLocale,
+      forcePrefix: true,
+    });
+
+    window.location.replace(
+      `${localizedPath}${window.location.search}${window.location.hash}`,
+    );
   }
 
   return (
