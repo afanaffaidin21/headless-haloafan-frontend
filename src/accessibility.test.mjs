@@ -44,6 +44,37 @@ test("homepage and reusable disclosures use a single semantic heading and native
   assert.match(accordion, /useId/);
 });
 
+test("Next.js owns one document root and the locale layout remains non-document", async () => {
+  const rootLayout = await source("src/app/layout.tsx");
+  const localeLayout = await source("src/app/[locale]/layout.tsx");
+
+  assert.equal((rootLayout.match(/<html\b/g) ?? []).length, 1);
+  assert.equal((rootLayout.match(/<body\b/g) ?? []).length, 1);
+  assert.match(rootLayout, /getLocale/);
+  assert.match(rootLayout, /lang=\{locale\}/);
+  assert.doesNotMatch(localeLayout, /<html\b|<body\b/);
+  assert.match(localeLayout, /setRequestLocale\(locale\)/);
+  assert.match(localeLayout, /notFound\(\)/);
+});
+
+test("Next 16 locale proxy preserves unprefixed English and prefixed Indonesian routes", async () => {
+  const routing = await source("src/i18n/routing.ts");
+  const proxy = await source("src/proxy.ts");
+
+  assert.match(routing, /defaultLocale:\s*["']en["']/);
+  assert.match(routing, /localePrefix:\s*["']as-needed["']/);
+  assert.match(proxy, /export default function proxy\(request: NextRequest\)/);
+  assert.match(proxy, /createMiddleware\(routing\)/);
+  assert.match(proxy, /x-haloafan-locale-rewrite/);
+  assert.match(proxy, /x-next-intl-locale/);
+  assert.match(proxy, /NextResponse\.next\(\{ request: \{ headers \} \}\)/);
+  assert.doesNotMatch(proxy, /redirect\(/);
+  await assert.rejects(
+    readFile(resolve(root, "middleware.ts")),
+    (error) => error?.code === "ENOENT",
+  );
+});
+
 test("homepage embeds the audience selector in the Hero reading order", async () => {
   const page = await source("src/app/[locale]/page.tsx");
   const heroIndex = page.indexOf("<Hero />");
