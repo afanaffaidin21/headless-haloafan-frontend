@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export function MobileNav({
   active,
@@ -119,11 +120,14 @@ export function MobileNav({
         </ul>
 
         <div className="mt-auto flex flex-col gap-6 border-t border-line bg-bg pt-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-4">
             <span className="font-mono text-[11px] tracking-wider text-muted">
               {t("nav.available").toUpperCase()}
             </span>
-            <LanguageSwitcher />
+            <div className="flex flex-wrap items-center gap-3">
+              <ThemeToggle />
+              <LanguageSwitcher />
+            </div>
           </div>
           <Link
             href="/contact"
