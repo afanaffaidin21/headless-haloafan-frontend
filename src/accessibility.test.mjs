@@ -44,6 +44,84 @@ test("homepage and reusable disclosures use a single semantic heading and native
   assert.match(accordion, /useId/);
 });
 
+test("homepage embeds the audience selector in the Hero reading order", async () => {
+  const page = await source("src/app/[locale]/page.tsx");
+  const heroIndex = page.indexOf("<Hero />");
+  const projectsIndex = page.indexOf("<ProjectsSection />");
+
+  assert.ok(heroIndex >= 0);
+  assert.ok(projectsIndex > heroIndex);
+  assert.equal((page.match(/PathSwitcher/g) ?? []).length, 0);
+
+  const hero = await source("src/components/sections/hero.tsx");
+  const headingIndex = hero.indexOf("<h1");
+  const descriptionIndex = hero.indexOf('t("hero.sub")');
+  const selectorIndex = hero.indexOf("<PathSwitcher />");
+  const ctaIndex = hero.indexOf(
+    'className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"'
+  );
+  const statsIndex = hero.indexOf("content.stats.map");
+
+  assert.ok(headingIndex >= 0);
+  assert.ok(descriptionIndex > headingIndex);
+  assert.ok(selectorIndex > descriptionIndex);
+  assert.ok(ctaIndex > selectorIndex);
+  assert.ok(statsIndex > ctaIndex);
+  assert.equal((hero.match(/<PathSwitcher \/>/g) ?? []).length, 1);
+  assert.equal((hero.match(/<h1\b/g) ?? []).length, 1);
+  assert.match(hero, /role="status"/);
+  assert.match(hero, /aria-live="polite"/);
+  assert.match(hero, /factStatus/);
+});
+
+test("audience selector preserves state, labels, selected cue, and touch sizing", async () => {
+  const provider = await source("src/components/providers/audience-provider.tsx");
+  const switcher = await source("src/components/sections/path-switcher.tsx");
+  const hero = await source("src/components/sections/hero.tsx");
+
+  assert.match(provider, /useState<AudiencePath>\("neutral"\)/);
+  assert.match(switcher, /const active = path === key/);
+  assert.match(switcher, /setPath\(key\)/);
+  assert.match(switcher, /setPath\("neutral"\)/);
+  assert.match(switcher, /aria-pressed=\{active\}/);
+  assert.match(switcher, /aria-describedby=\{descriptionId\}/);
+  assert.match(switcher, /id=\{descriptionId\} className="sr-only"/);
+  assert.match(switcher, /pathSwitcher\.selected/);
+  assert.match(switcher, /<Check className=/);
+  assert.match(switcher, /min-h-11 w-full/);
+  assert.match(switcher, /min-h-11 min-w-11/);
+  assert.match(switcher, /data\.label/);
+  assert.match(switcher, /data\.focus/);
+  assert.match(hero, /path === "freelance"/);
+  assert.match(hero, /path === "fulltime"/);
+});
+
+test("EN and ID message trees remain key-complete for the homepage selector", async () => {
+  const en = JSON.parse(await source("src/i18n/messages/en.json"));
+  const id = JSON.parse(await source("src/i18n/messages/id.json"));
+
+  function assertMatchingKeys(enValue, idValue, path = "messages") {
+    assert.deepEqual(
+      Object.keys(idValue).sort(),
+      Object.keys(enValue).sort(),
+      path
+    );
+
+    for (const key of Object.keys(enValue)) {
+      const nextPath = `${path}.${key}`;
+      if (enValue[key] && typeof enValue[key] === "object" && !Array.isArray(enValue[key])) {
+        assertMatchingKeys(enValue[key], idValue[key], nextPath);
+      }
+    }
+  }
+
+  assertMatchingKeys(en, id);
+  assert.equal(typeof en.pathSwitcher.selected, "string");
+  assert.equal(typeof id.pathSwitcher.selected, "string");
+  assert.equal(typeof en.pathSwitcher.freelance.label, "string");
+  assert.equal(typeof id.pathSwitcher.fulltime.label, "string");
+});
+
 test("mobile navigation and CV dialog define modal keyboard contracts", async () => {
   const mobileNav = await source("src/components/layout/mobile-nav.tsx");
   const header = await source("src/components/layout/header.tsx");
