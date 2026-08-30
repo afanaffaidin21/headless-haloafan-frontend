@@ -69,7 +69,9 @@
       "emptyHeading": "Belum ada proyek yang dipublikasikan.",
       "emptySub": "Proyek yang dipublikasikan akan muncul di sini saat tersedia.",
       "unavailableHeading": "Proyek sementara tidak tersedia.",
-      "unavailableSub": "Sumber konten tidak merespons. Silakan coba lagi beberapa saat lagi."
+      "unavailableSub": "Sumber konten tidak merespons. Silakan coba lagi beberapa saat lagi.",
+      "retry": "Coba lagi",
+      "retrying": "Mencoba lagi…"
   },
   "caseStudy": {
     "eyebrow": "Studi Kasus",
@@ -129,7 +131,9 @@
       "emptyHeading": "Belum ada artikel yang dipublikasikan.",
       "emptySub": "Artikel baru akan muncul di sini setelah dipublikasikan.",
       "unavailableHeading": "Artikel sementara tidak tersedia.",
-      "unavailableSub": "Sumber konten tidak merespons. Silakan coba lagi beberapa saat lagi."
+      "unavailableSub": "Sumber konten tidak merespons. Silakan coba lagi beberapa saat lagi.",
+      "retry": "Coba lagi",
+      "retrying": "Mencoba lagi…"
   },
   "about": {
     "eyebrow": "Tentang",

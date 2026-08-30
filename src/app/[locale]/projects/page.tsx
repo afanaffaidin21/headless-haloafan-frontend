@@ -8,6 +8,10 @@ import { CmsCollectionState } from "@/components/ui/cms-collection-state";
 import { getProjectsResult } from "@/lib/api";
 import { createPageMetadata } from "@/lib/seo";
 
+// Keep an outage-shaped page response short-lived while the shared CMS data
+// cache retains successful snapshots for its normal five-minute TTL.
+export const revalidate = 30;
+
 export async function generateMetadata({
   params,
 }: {
@@ -53,6 +57,8 @@ export default async function ProjectsPage({
               description={
                 status === "unavailable" ? t("unavailableSub") : t("emptySub")
               }
+              retryLabel={status === "unavailable" ? t("retry") : undefined}
+              retryingLabel={status === "unavailable" ? t("retrying") : undefined}
             />
           )}
         </div>

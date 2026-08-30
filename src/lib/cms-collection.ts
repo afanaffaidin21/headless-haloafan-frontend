@@ -1,5 +1,15 @@
 export type CmsCollectionStatus = "available" | "empty" | "unavailable";
 
+/**
+ * Editorial collections deliberately have one cache identity each.  Locale,
+ * route, and slug are presentation concerns and must not create a second CMS
+ * snapshot.
+ */
+export const CMS_COLLECTION_CACHE_KEYS = {
+  projects: "published-projects-collection-v2",
+  blog: "published-blog-collection-v2",
+} as const;
+
 export interface CmsCollectionResult<T> {
   items: T[];
   status: CmsCollectionStatus;

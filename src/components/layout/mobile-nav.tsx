@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { Link } from "@/i18n/navigation";
@@ -75,6 +76,68 @@ export function MobileNav({
     };
   }, [closeMenu, menuId, open]);
 
+  const menu = (
+    <div
+      id={menuId}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={titleId}
+      className="fixed inset-0 z-[70] isolate flex flex-col overflow-hidden bg-bg lg:hidden"
+    >
+      <div className="flex h-[64px] shrink-0 items-center justify-between border-b border-line bg-bg px-6">
+        <h2 id={titleId} className="font-display text-[21px] text-ink">
+          haloafan.
+        </h2>
+        <button
+          ref={closeButtonRef}
+          type="button"
+          onClick={closeMenu}
+          aria-label={t("nav.closeMenu")}
+          className="flex h-11 w-11 items-center justify-center border border-line text-ink"
+        >
+          <X aria-hidden="true" className="h-[18px] w-[18px]" />
+        </button>
+      </div>
+
+      <nav
+        aria-label={t("nav.label")}
+        className="min-h-0 flex-1 overflow-y-auto bg-bg px-6 py-8"
+      >
+        <ul className="flex flex-col">
+          {links.map((link) => (
+            <li key={link.key} className="border-t border-line">
+              <Link
+                href={link.href}
+                onClick={closeMenu}
+                aria-current={active === link.key ? "page" : undefined}
+                className="block py-5 font-display text-[26px] text-ink"
+              >
+                {t(`nav.${link.key}`)}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-auto flex flex-col gap-6 border-t border-line bg-bg pt-6">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-[11px] tracking-wider text-muted">
+              {t("nav.available").toUpperCase()}
+            </span>
+            <LanguageSwitcher />
+          </div>
+          <Link
+            href="/contact"
+            onClick={closeMenu}
+            aria-current={active === "contact" ? "page" : undefined}
+            className="flex min-h-11 items-center justify-center border border-ink bg-accent px-6 py-3 text-[15px] font-medium text-[#0a0a0c]"
+          >
+            {t("nav.contact")}
+          </Link>
+        </div>
+      </nav>
+    </div>
+  );
+
   return (
     <>
       <button
@@ -84,69 +147,14 @@ export function MobileNav({
         aria-label={t("nav.openMenu")}
         aria-expanded={open}
         aria-controls={menuId}
-        className="flex h-[34px] w-[38px] items-center justify-center border border-line text-ink lg:hidden"
+        className="flex h-11 w-11 items-center justify-center border border-line text-ink lg:hidden"
       >
         <Menu aria-hidden="true" className="h-[18px] w-[18px]" />
       </button>
 
-      {open && (
-        <div
-          id={menuId}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={titleId}
-          className="fixed inset-0 z-50 flex flex-col bg-bg lg:hidden"
-        >
-          <div className="flex h-[64px] items-center justify-between border-b border-line px-6">
-            <h2 id={titleId} className="font-display text-[21px] text-ink">
-              haloafan.
-            </h2>
-            <button
-              ref={closeButtonRef}
-              type="button"
-              onClick={closeMenu}
-              aria-label={t("nav.closeMenu")}
-              className="flex h-[34px] w-[38px] items-center justify-center border border-line text-ink"
-            >
-              <X aria-hidden="true" className="h-[18px] w-[18px]" />
-            </button>
-          </div>
-
-          <nav aria-label={t("nav.label")} className="flex flex-1 flex-col px-6 py-8">
-            <ul className="flex flex-col">
-              {links.map((link) => (
-                <li key={link.key} className="border-t border-line">
-                  <Link
-                    href={link.href}
-                    onClick={closeMenu}
-                    aria-current={active === link.key ? "page" : undefined}
-                    className="block py-5 font-display text-[26px] text-ink"
-                  >
-                    {t(`nav.${link.key}`)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-auto flex flex-col gap-6 border-t border-line pt-6">
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[11px] tracking-wider text-muted">
-                  {t("nav.available").toUpperCase()}
-                </span>
-                <LanguageSwitcher />
-              </div>
-              <Link
-                href="/contact"
-                onClick={closeMenu}
-                aria-current={active === "contact" ? "page" : undefined}
-                className="flex items-center justify-center border border-ink bg-accent px-6 py-4 text-[15px] font-medium text-[#0a0a0c]"
-              >
-                {t("nav.contact")}
-              </Link>
-            </div>
-          </nav>
-        </div>
-      )}
+      {open && typeof document !== "undefined"
+        ? createPortal(menu, document.body)
+        : null}
     </>
   );
 }

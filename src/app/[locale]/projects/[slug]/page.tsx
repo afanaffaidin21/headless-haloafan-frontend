@@ -16,6 +16,9 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { createPageMetadata, isIndexableContent, noIndexMetadata } from "@/lib/seo";
 import { encodeSlug, getCanonicalUrl, localizedPath, SITE_URL } from "@/lib/site-url";
 
+// A transient unavailable detail response must not be retained for the full
+// content TTL. The collection snapshot itself remains shared and long-lived.
+export const revalidate = 30;
 
 export async function generateStaticParams() {
   const projects = await getProjects();
@@ -67,6 +70,10 @@ export default async function CaseStudyPage({
           <CmsCollectionState
             heading={projectsT("unavailableHeading")}
             description={projectsT("unavailableSub")}
+            retryLabel={projectsT("retry")}
+            retryingLabel={projectsT("retrying")}
+            secondaryHref={localizedPath("/projects", locale)}
+            secondaryLabel={projectsT("viewAll")}
           />
         </main>
         <Footer />

@@ -15,6 +15,10 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { createPageMetadata, isIndexableContent, noIndexMetadata } from "@/lib/seo";
 import { encodeSlug, getCanonicalUrl, localizedPath, SITE_URL } from "@/lib/site-url";
 
+// A transient unavailable detail response must not be retained for the full
+// content TTL. The collection snapshot itself remains shared and long-lived.
+export const revalidate = 30;
+
 const PORTRAIT =
   "https://cms.haloafan.com/wp-content/uploads/2026/05/photo-portfolio-with-caption-820x1024.png";
 
@@ -68,6 +72,10 @@ export default async function BlogDetailPage({
           <CmsCollectionState
             heading={t("unavailableHeading")}
             description={t("unavailableSub")}
+            retryLabel={t("retry")}
+            retryingLabel={t("retrying")}
+            secondaryHref={localizedPath("/blog", locale)}
+            secondaryLabel={t("viewAll")}
           />
         </main>
         <Footer />

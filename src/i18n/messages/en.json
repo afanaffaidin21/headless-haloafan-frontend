@@ -69,7 +69,9 @@
       "emptyHeading": "No published projects yet.",
       "emptySub": "Published projects will appear here once they are available.",
       "unavailableHeading": "Projects are temporarily unavailable.",
-      "unavailableSub": "The content source did not respond. Please try this page again shortly."
+      "unavailableSub": "The content source did not respond. Please try this page again shortly.",
+      "retry": "Try again",
+      "retrying": "Trying again…"
   },
   "caseStudy": {
     "eyebrow": "Case Study",
@@ -129,7 +131,9 @@
       "emptyHeading": "No published articles yet.",
       "emptySub": "New articles will appear here once they are published.",
       "unavailableHeading": "Articles are temporarily unavailable.",
-      "unavailableSub": "The content source did not respond. Please try this page again shortly."
+      "unavailableSub": "The content source did not respond. Please try this page again shortly.",
+      "retry": "Try again",
+      "retrying": "Trying again…"
   },
   "about": {
     "eyebrow": "About",
