@@ -62,8 +62,7 @@ export function Header({
           </nav>
 
           {/* Mobile nav */}
-          <div className="flex items-center gap-3 lg:hidden">
-            <ThemeToggle />
+          <div className="flex items-center lg:hidden">
             <MobileNav active={active} />
           </div>
         </div>

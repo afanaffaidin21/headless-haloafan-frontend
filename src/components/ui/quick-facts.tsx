@@ -19,7 +19,7 @@ export function QuickFacts({ facts }: { facts: Fact[] }) {
   ];
 
   return (
-    <div className="w-full max-w-[340px] self-stretch border border-line bg-panel">
+    <div className="w-full max-w-[340px] self-start border border-line bg-panel">
       <div className="border-b border-line px-5 py-4">
         <span className="font-mono text-[11px] tracking-[0.2em] text-accent">
           QUICK FACTS

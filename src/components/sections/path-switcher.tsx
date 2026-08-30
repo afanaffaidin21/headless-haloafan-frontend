@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { useTranslations } from "next-intl";
 import { ArrowLeft, Briefcase, Check, UserCheck } from "lucide-react";
 import {
@@ -10,6 +11,7 @@ import {
 export function PathSwitcher() {
   const t = useTranslations();
   const { path, setPath } = useAudience();
+  const firstOptionRef = useRef<HTMLButtonElement>(null);
 
   const paths: {
     key: "freelance" | "fulltime";
@@ -22,7 +24,7 @@ export function PathSwitcher() {
   return (
     <fieldset
       aria-describedby="path-switcher-hint"
-      className="min-w-0 border-0 p-0"
+      className="w-full min-w-0 border-0 p-0 xl:max-w-[720px] xl:border xl:border-line xl:bg-panel xl:p-5 xl:shadow-hard-sm"
     >
       <legend className="font-mono text-[11px] tracking-[0.2em] text-muted">
         <span className="mr-2 inline-block h-2 w-2 align-middle bg-accent" aria-hidden />
@@ -40,7 +42,10 @@ export function PathSwitcher() {
         {path !== "neutral" && (
           <button
             type="button"
-            onClick={() => setPath("neutral")}
+            onClick={() => {
+              setPath("neutral");
+              requestAnimationFrame(() => firstOptionRef.current?.focus());
+            }}
             aria-label={t("pathSwitcher.reset")}
             className="inline-flex h-11 min-h-11 min-w-11 w-11 shrink-0 items-center justify-center border border-line text-muted hover:border-accent hover:text-ink"
           >
@@ -49,7 +54,7 @@ export function PathSwitcher() {
         )}
       </div>
 
-      <div className="mt-3 grid min-w-0 gap-2 min-[480px]:grid-cols-2">
+      <div className="mt-3 grid min-w-0 gap-2 min-[480px]:grid-cols-2 xl:grid-cols-1 xl:gap-3">
         {paths.map(({ key, icon: Icon }) => {
           const active = path === key;
           const data = t.raw(`pathSwitcher.${key}`) as Record<string, string>;
@@ -59,10 +64,11 @@ export function PathSwitcher() {
             <div key={key} className="min-w-0">
               <button
                 type="button"
+                ref={key === "freelance" ? firstOptionRef : undefined}
                 onClick={() => setPath(key)}
                 aria-pressed={active}
                 aria-describedby={descriptionId}
-                className={`group flex min-h-11 w-full min-w-0 items-center justify-between gap-3 border px-3 py-2 text-left transition-colors ${
+                className={`path-switcher-option group flex min-h-11 w-full min-w-0 items-center justify-between gap-3 border px-3 py-2 text-left transition-[background-color,border-color,box-shadow,transform] duration-150 ease-out hover:-translate-y-0.5 focus-visible:-translate-y-0.5 motion-reduce:transform-none motion-reduce:transition-none ${
                   active
                     ? "border-accent bg-accent-dim shadow-hard-accent"
                     : "border-line bg-panel hover:border-accent"
@@ -100,7 +106,10 @@ export function PathSwitcher() {
                   </span>
                 )}
               </button>
-              <span id={descriptionId} className="sr-only">
+              <span
+                id={descriptionId}
+                className="sr-only xl:not-sr-only xl:mt-3 xl:block xl:min-h-14 font-mono text-[11px] leading-relaxed text-muted"
+              >
                 {data.desc}
               </span>
             </div>

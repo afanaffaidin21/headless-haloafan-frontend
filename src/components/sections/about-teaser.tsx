@@ -17,7 +17,8 @@ export async function AboutTeaser() {
   ];
 
   return (
-    <section className="flex flex-col gap-14 px-6 py-16 md:px-12 md:py-24 lg:flex-row lg:items-start">
+    <section className="px-6 py-16 md:px-12 md:py-24">
+      <div className="mx-auto flex w-full flex-col gap-14 xl:grid xl:max-w-[1600px] xl:grid-cols-[minmax(0,320px)_minmax(0,1fr)_minmax(17.5rem,340px)] xl:items-start xl:gap-x-14">
       {/* Portrait */}
       <div className="flex w-full max-w-[320px] flex-col gap-3.5">
         <div className="relative h-[420px] overflow-hidden border border-line md:h-[400px]">
@@ -35,7 +36,7 @@ export async function AboutTeaser() {
       </div>
 
       {/* Copy */}
-      <div className="flex max-w-[540px] flex-1 flex-col gap-6">
+      <div className="flex max-w-[640px] flex-1 flex-col gap-6">
         <div className="flex flex-col gap-5">
           <div className="flex items-center gap-3">
             <span className="eyebrow-marker" aria-hidden />
@@ -62,7 +63,8 @@ export async function AboutTeaser() {
       </div>
 
       {/* Quick Facts (STATUS adaptif per path) */}
-      <QuickFacts facts={quickFacts} />
+        <QuickFacts facts={quickFacts} />
+      </div>
     </section>
   );
 }

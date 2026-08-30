@@ -36,40 +36,46 @@ export function Hero() {
   return (
     <section className="border-b border-line">
       <div className="flex min-w-0 flex-col gap-10 px-6 pb-10 pt-12 md:gap-14 md:px-12 md:pb-14 md:pt-24">
-        <div className="flex min-w-0 flex-col gap-5">
-          <AvailabilityBadge label={content.badge} />
+        <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.65fr)_minmax(18rem,1fr)] xl:items-start xl:gap-x-12 xl:gap-y-7">
+          <div className="flex min-w-0 flex-col gap-5">
+            <AvailabilityBadge label={content.badge} />
 
-          <div className="flex items-center gap-3">
-            <span className="eyebrow-marker" aria-hidden />
-            <span className="font-mono text-[11px] tracking-wider text-muted md:text-[13px]">
-              {t("hero.eyebrow")}
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="eyebrow-marker" aria-hidden />
+              <span className="font-mono text-[11px] tracking-wider text-muted md:text-[13px]">
+                {t("hero.eyebrow")}
+              </span>
+            </div>
+
+            <h1 className="w-full min-w-0 max-w-[1000px] font-display text-[40px] leading-[1.08] text-ink md:text-[78px] md:leading-[1.02] xl:text-[72px] 2xl:text-[78px]">
+              <span className="block">{t("hero.line1")}</span>
+              <span className="block italic text-accent">{t("hero.line2")}</span>
+            </h1>
+
+            <p className="w-full min-w-0 max-w-[620px] text-[16px] leading-relaxed text-muted md:text-[19px]">
+              {t("hero.sub")}
+            </p>
           </div>
 
-          <h1 className="w-full min-w-0 max-w-[1000px] font-display text-[40px] leading-[1.08] text-ink md:text-[78px] md:leading-[1.02]">
-            <span className="block">{t("hero.line1")}</span>
-            <span className="block italic text-accent">{t("hero.line2")}</span>
-          </h1>
+          <div className="min-w-0 xl:col-start-2 xl:row-start-1 xl:row-span-2 xl:flex xl:justify-center xl:px-4">
+            <PathSwitcher />
+          </div>
 
-          <p className="w-full min-w-0 max-w-[620px] text-[16px] leading-relaxed text-muted md:text-[19px]">
-            {t("hero.sub")}
-          </p>
-
-          <PathSwitcher />
-
-          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-            {path === "fulltime" ? (
-              <Button variant="primary" onClick={openCv} className="justify-center sm:justify-start">
-                {content.ctaPrimary}
+          <div className="min-w-0 xl:col-start-1 xl:row-start-2 xl:pt-1">
+            <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+              {path === "fulltime" ? (
+                <Button variant="primary" onClick={openCv} className="justify-center sm:justify-start">
+                  {content.ctaPrimary}
+                </Button>
+              ) : (
+                <Button variant="primary" href={primaryHref} className="justify-center sm:justify-start">
+                  {content.ctaPrimary}
+                </Button>
+              )}
+              <Button href="/projects" className="justify-center sm:justify-start">
+                {content.ctaSecondary}
               </Button>
-            ) : (
-              <Button variant="primary" href={primaryHref} className="justify-center sm:justify-start">
-                {content.ctaPrimary}
-              </Button>
-            )}
-            <Button href="/projects" className="justify-center sm:justify-start">
-              {content.ctaSecondary}
-            </Button>
+            </div>
           </div>
         </div>
 

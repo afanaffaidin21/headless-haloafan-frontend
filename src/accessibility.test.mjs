@@ -116,7 +116,8 @@ test("audience selector preserves state, labels, selected cue, and touch sizing"
   assert.match(switcher, /setPath\("neutral"\)/);
   assert.match(switcher, /aria-pressed=\{active\}/);
   assert.match(switcher, /aria-describedby=\{descriptionId\}/);
-  assert.match(switcher, /id=\{descriptionId\} className="sr-only"/);
+  assert.match(switcher, /id=\{descriptionId\}/);
+  assert.match(switcher, /className="sr-only xl:not-sr-only/);
   assert.match(switcher, /pathSwitcher\.selected/);
   assert.match(switcher, /<Check className=/);
   assert.match(switcher, /min-h-11 w-full/);
@@ -172,7 +173,14 @@ test("mobile navigation and CV dialog define modal keyboard contracts", async ()
   assert.match(menuSource, /role="dialog"[\s\S]*<ThemeToggle \/>/);
   assert.match(menuSource, /<ThemeToggle \/>[\s\S]*<LanguageSwitcher \/>/);
   assert.match(mobileNav, /dialog\.querySelectorAll<HTMLElement>\(focusableSelector\)/);
-  assert.match(header, /<div className="flex items-center gap-3 lg:hidden">\s*<ThemeToggle \/>/);
+  assert.equal((header.match(/<ThemeToggle \/>/g) ?? []).length, 1);
+  const desktopNavIndex = header.indexOf('<nav aria-label={t("nav.label")}');
+  const themeToggleIndex = header.indexOf("<ThemeToggle />");
+  const mobileNavIndex = header.indexOf("<MobileNav");
+  assert.ok(themeToggleIndex > desktopNavIndex);
+  assert.ok(themeToggleIndex < mobileNavIndex);
+  assert.match(header, /<div className="flex items-center lg:hidden">\s*<MobileNav/);
+  assert.doesNotMatch(header.slice(header.indexOf("{/* Mobile nav */")), /<ThemeToggle \/>/);
 
   const themeToggle = await source("src/components/ui/theme-toggle.tsx");
   const languageSwitcher = await source("src/components/ui/language-switcher.tsx");
@@ -217,6 +225,49 @@ test("reusable images and motion preferences retain accessible fallbacks", async
 
   const css = await source("src/app/globals.css");
   assert.match(css, /\.animate-pulse\s*\{\s*animation: none !important;/s);
+  assert.match(css, /\.path-switcher-option\s*\{\s*transform: none !important;\s*transition: none !important;/s);
   assert.match(css, /\.skip-link:focus/);
   assert.match(css, /forced-colors: active/);
+});
+
+test("responsive Hero keeps linear tablet flow and reserves the desktop decision column", async () => {
+  const hero = await source("src/components/sections/hero.tsx");
+  const switcher = await source("src/components/sections/path-switcher.tsx");
+
+  assert.match(hero, /xl:grid-cols-\[minmax\(0,1\.65fr\)_minmax\(18rem,1fr\)\]/);
+  assert.match(hero, /xl:col-start-2 xl:row-start-1 xl:row-span-2/);
+  assert.match(hero, /xl:flex xl:justify-center xl:px-4/);
+  assert.match(hero, /xl:col-start-1 xl:row-start-2/);
+  assert.doesNotMatch(hero, /lg:grid-cols/);
+  assert.match(switcher, /w-full min-w-0 border-0 p-0 xl:max-w-\[720px\] xl:border xl:border-line xl:bg-panel xl:p-5/);
+  assert.match(switcher, /min-\[480px\]:grid-cols-2 xl:grid-cols-1/);
+  assert.match(switcher, /xl:not-sr-only xl:mt-3 xl:block xl:min-h-14/);
+  assert.match(switcher, /transition-\[background-color,border-color,box-shadow,transform\]/);
+  assert.match(switcher, /duration-150 ease-out/);
+  assert.match(switcher, /motion-reduce:transform-none motion-reduce:transition-none/);
+  assert.match(switcher, /firstOptionRef = useRef<HTMLButtonElement>\(null\)/);
+  assert.match(switcher, /requestAnimationFrame\(\(\) => firstOptionRef\.current\?\.focus\(\)\)/);
+  assert.match(switcher, /ref={key === "freelance" \? firstOptionRef : undefined}/);
+});
+
+test("About and FAQ preserve narrow order while distributing desktop content", async () => {
+  const about = await source("src/components/sections/about-teaser.tsx");
+  const faq = await source("src/components/sections/faq-section.tsx");
+  const facts = await source("src/components/ui/quick-facts.tsx");
+
+  assert.match(about, /mx-auto flex w-full flex-col gap-14 xl:grid xl:max-w-\[1600px\]/);
+  assert.match(about, /xl:grid-cols-\[minmax\(0,320px\)_minmax\(0,1fr\)_minmax\(17\.5rem,340px\)\]/);
+  assert.doesNotMatch(about, /lg:flex-row/);
+  assert.match(about, /max-w-\[640px\]/);
+  assert.match(facts, /max-w-\[340px\] self-start/);
+
+  assert.match(faq, /mx-auto grid w-full grid-cols-1 gap-y-12 xl:max-w-\[1400px\]/);
+  assert.match(faq, /xl:grid-cols-\[minmax\(0,800px\)_minmax\(20rem,420px\)\]/);
+  assert.match(faq, /xl:justify-center xl:gap-x-24/);
+  assert.match(faq, /xl:col-start-1 xl:row-start-1/);
+  assert.match(faq, /max-w-\[800px\] xl:col-start-1 xl:row-start-2/);
+  assert.match(faq, /xl:col-start-2 xl:row-start-2/);
+  assert.doesNotMatch(faq, /lg:flex-row/);
+  assert.match(faq, /max-w-\[420px\] self-start justify-self-start/);
+  assert.match(faq, /xl:justify-self-start/);
 });
