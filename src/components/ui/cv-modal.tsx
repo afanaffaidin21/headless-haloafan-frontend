@@ -71,7 +71,7 @@ export function CvModal() {
         className="print-area flex max-h-[90vh] w-full max-w-[560px] flex-col overflow-hidden border border-line bg-panel shadow-[0_0_0_1px_#0a0a0c,8px_8px_0_0_#000]"
       >
         {/* Header */}
-        <div className="flex items-center justify-between gap-4 border-b border-line px-7 py-6">
+        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-line px-5 py-5 sm:px-7 sm:py-6">
           <div className="flex flex-col gap-1">
             <h2 id={titleId} className="font-display text-[26px] text-ink">
               {SITE_CONFIG.name}
@@ -85,14 +85,14 @@ export function CvModal() {
             type="button"
             onClick={closeCv}
             aria-label={t("close")}
-            className="flex h-9 w-9 items-center justify-center border border-line text-muted transition-colors hover:border-accent hover:text-accent"
+            className="flex h-11 w-11 shrink-0 items-center justify-center border border-line text-muted transition-colors hover:border-accent hover:text-accent"
           >
             <X aria-hidden="true" className="h-4 w-4" />
           </button>
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto px-7 py-6">
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-7">
           {/* Experience */}
           <div className="flex flex-col gap-2.5">
             <span className="font-mono text-[11px] tracking-[0.2em] text-accent">
@@ -101,7 +101,7 @@ export function CvModal() {
             {SEED_EXPERIENCE.slice(0, 4).map((e) => (
               <div
                 key={e.company}
-                className="flex items-center justify-between gap-4 border-t border-line py-3"
+                className="flex flex-col items-start gap-2 border-t border-line py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
               >
                 <div className="flex flex-col gap-0.5">
                   <span className="text-[15px] font-medium text-ink">
@@ -145,7 +145,7 @@ export function CvModal() {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between gap-4 border-t border-line px-7 py-5">
+        <div className="flex shrink-0 flex-wrap items-center justify-between gap-4 border-t border-line px-5 py-5 sm:px-7">
           <span className="font-mono text-[11px] text-muted">
             haloafan.com · {SITE_CONFIG.location}
           </span>

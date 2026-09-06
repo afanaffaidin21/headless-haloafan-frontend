@@ -11,7 +11,7 @@ export async function CaseStudyRow({ project }: { project: Project }) {
     <article className="flex flex-col overflow-hidden border border-line bg-panel shadow-hard-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none lg:flex-row">
       <Link
         href={`/projects/${project.slug}`}
-        className="block shrink-0 lg:w-[540px]"
+        className="block min-w-0 shrink-0 lg:w-1/2 xl:w-[540px]"
         aria-label={`${project.title} — ${t("viewCase")}`}
       >
         <BrowserFrame
@@ -25,7 +25,7 @@ export async function CaseStudyRow({ project }: { project: Project }) {
         />
       </Link>
 
-      <div className="flex flex-col justify-between gap-6 p-9 lg:pl-10">
+      <div className="flex min-w-0 flex-1 flex-col justify-between gap-6 p-6 sm:p-9 lg:p-7 xl:pl-10">
         <div className="flex flex-col gap-4">
           <span className="font-mono text-xs tracking-wider text-accent">
             {project.client.toUpperCase()} — {project.year}

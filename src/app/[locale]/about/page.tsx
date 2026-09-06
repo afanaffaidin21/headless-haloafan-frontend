@@ -8,6 +8,7 @@ import {
   Sparkles,
   Layers,
   CheckCircle2,
+  ArrowUpRight,
   type LucideIcon,
 } from "lucide-react";
 import { Header } from "@/components/layout/header";
@@ -84,13 +85,13 @@ export default async function AboutPage({
         <PageHeader eyebrow="01" title={t("heading")} sub={t("sub")} />
 
         {/* Intro */}
-        <section className="flex flex-col gap-16 px-6 pb-16 md:px-12 md:pb-24 lg:flex-row lg:items-start">
-          <div className="flex w-full max-w-[380px] flex-col gap-3.5">
+        <section className="grid items-start gap-8 px-6 pb-16 md:px-12 md:pb-24 lg:grid-cols-[280px_minmax(0,1fr)] xl:grid-cols-3">
+          <div className="flex w-full max-w-[380px] flex-col gap-3.5 xl:max-w-none">
             <div className="relative h-[420px] overflow-hidden border border-line md:h-[470px]">
               <SafeImage
                 src={PORTRAIT}
                 alt={SITE_CONFIG.name}
-                sizes="(max-width: 1023px) calc(100vw - 3rem), 380px"
+                sizes="(max-width: 427px) calc(100vw - 3rem), (max-width: 1023px) 380px, (max-width: 1279px) 280px, calc((100vw - 10rem) / 3)"
                 loading="eager"
                 className="h-full w-full object-cover"
               />
@@ -103,7 +104,7 @@ export default async function AboutPage({
             </div>
           </div>
 
-          <div className="flex max-w-[700px] flex-1 flex-col gap-5">
+          <div className="flex min-w-0 flex-col gap-5">
             <p className="text-[19px] leading-[1.7] text-ink">
               I&apos;m Afan — a WordPress developer based in Surabaya,
               Indonesia, holding a Bachelor of Computer Science from Universitas
@@ -119,16 +120,16 @@ export default async function AboutPage({
               streamline documentation — without compromising human code
               standards.
             </p>
-            <div className="grid grid-cols-2 gap-6 border-t border-line pt-6 md:flex">
+            <div className="grid grid-cols-2 gap-6 border-t border-line pt-6 sm:grid-cols-4 xl:grid-cols-2">
               {[
                 ["LOCATION", "Surabaya, ID"],
                 ["EXPERIENCE", "5+ Years"],
                 ["EDUCATION", "S.Kom UNAIR"],
                 ["STATUS", t("status")],
-              ].map(([k, v], i) => (
+              ].map(([k, v]) => (
                 <div
                   key={k}
-                  className={`flex flex-1 flex-col gap-1.5 ${i > 0 ? "pl-8" : ""}`}
+                  className="flex min-w-0 flex-col gap-1.5"
                 >
                   <span className="font-mono text-[11px] tracking-wider text-muted">
                     {k}
@@ -138,6 +139,30 @@ export default async function AboutPage({
               ))}
             </div>
           </div>
+            <section aria-labelledby="working-approach-heading" className="min-w-0 border-line max-xl:border-t max-xl:pt-6 lg:col-start-2 xl:col-start-3 xl:row-start-1 xl:border-l xl:pl-6">
+              <h2 id="working-approach-heading" className="font-display text-[26px] leading-tight text-ink">
+                {t("workingApproach.heading")}
+              </h2>
+              <dl className="mt-4">
+                {(["understand", "build", "support"] as const).map((step) => (
+                  <div key={step} className="grid gap-2 border-b border-line py-3 sm:grid-cols-[112px_minmax(0,1fr)] sm:gap-5 xl:grid-cols-1 xl:gap-2">
+                    <dt className="font-mono text-xs uppercase leading-relaxed tracking-wider text-accent">
+                      {t(`workingApproach.${step}.label`)}
+                    </dt>
+                    <dd className="text-[14px] leading-relaxed text-muted">
+                      {t(`workingApproach.${step}.description`)}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <div className="mt-6 flex flex-wrap gap-4">
+                <Button variant="primary" href="/contact">
+                  {t("ctaPrimary")}
+                  <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                </Button>
+                <CvDownloadButton label={t("ctaSecondary")} />
+              </div>
+            </section>
         </section>
 
         {/* Focus */}

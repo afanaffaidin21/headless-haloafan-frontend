@@ -163,6 +163,12 @@
       "retrying": "Trying again…"
   },
   "about": {
+    "workingApproach": {
+      "heading": "How I Work",
+      "understand": { "label": "Understand", "description": "Understand the requirements and get to the root of the problem." },
+      "build": { "label": "Build", "description": "Develop fast, reliable websites that are easy to maintain." },
+      "support": { "label": "Support", "description": "Resolve issues methodically and document the work clearly." }
+    },
     "eyebrow": "About",
     "heading": "About Me",
     "homeHeading": "Know Who I Am",
