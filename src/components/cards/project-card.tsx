@@ -17,7 +17,7 @@ export async function ProjectCard({
   return (
     <article
       className={cn(
-        "group relative isolate flex flex-col border border-line bg-panel shadow-hard-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none motion-reduce:transform-none motion-reduce:transition-none",
+        "group relative isolate flex min-w-0 flex-col border border-line bg-panel shadow-hard-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none motion-reduce:transform-none motion-reduce:transition-none",
         className
       )}
     >

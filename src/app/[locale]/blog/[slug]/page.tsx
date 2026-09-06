@@ -116,7 +116,7 @@ export default async function BlogDetailPage({
           }}
         />
         <div className="flex flex-col gap-5 px-6 pb-10 pt-16 md:px-12 md:pb-16 md:pt-[88px]">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <span className="font-mono text-xs tracking-wider text-accent">
               {post.category.toUpperCase()}
             </span>
@@ -132,7 +132,7 @@ export default async function BlogDetailPage({
 
         <div className="px-6 pb-10 md:px-12 md:pb-[72px]">
           {post.featuredImage && (
-            <div className="relative h-[420px] overflow-hidden border border-line shadow-hard">
+            <div className="relative h-[240px] overflow-hidden border border-line shadow-hard sm:h-[320px] md:h-[420px]">
               <SafeImage
                 src={post.featuredImage}
                 alt={post.title}
@@ -160,18 +160,18 @@ export default async function BlogDetailPage({
         </div>
 
         <div className="px-6 pb-10 md:px-12 md:pb-[72px]">
-          <div className="flex items-center gap-5 border border-line bg-panel p-6">
+          <div className="flex flex-col items-start gap-5 border border-line bg-panel p-5 sm:flex-row sm:items-center sm:p-6">
             <div className="relative h-16 w-16 shrink-0 overflow-hidden">
               <SafeImage src={PORTRAIT} alt={SITE_CONFIG.name} sizes="64px" className="h-full w-full object-cover" />
             </div>
-            <div className="flex flex-1 flex-col gap-1">
+            <div className="flex min-w-0 flex-1 flex-col gap-1">
               <span className="font-mono text-[11px] tracking-wider text-muted">WRITTEN BY</span>
               <span className="font-display text-[22px] text-ink">{SITE_CONFIG.name}</span>
               <span className="text-[14px] text-muted">
                 WordPress Developer &amp; Web Engineer — documenting my journey through code.
               </span>
             </div>
-            <Button href="/about">View Profile</Button>
+            <Button href="/about" className="shrink-0 justify-center">View Profile</Button>
           </div>
         </div>
 

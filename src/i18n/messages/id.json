@@ -163,6 +163,12 @@
       "retrying": "Mencoba lagi…"
   },
   "about": {
+    "workingApproach": {
+      "heading": "Cara Saya Bekerja",
+      "understand": { "label": "Memahami", "description": "Memahami kebutuhan dan menemukan akar masalahnya." },
+      "build": { "label": "Membangun", "description": "Mengembangkan website yang cepat, andal, dan mudah dirawat." },
+      "support": { "label": "Mendukung", "description": "Menyelesaikan kendala secara sistematis dan mendokumentasikan pekerjaan dengan jelas." }
+    },
     "eyebrow": "Tentang",
     "heading": "Tentang Saya",
     "homeHeading": "Kenali Saya",

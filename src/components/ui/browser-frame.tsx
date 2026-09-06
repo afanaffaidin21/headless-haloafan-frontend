@@ -53,22 +53,22 @@ export function BrowserFrame({
   return (
     <div
       className={cn(
-        "flex flex-col overflow-hidden border border-line bg-panel",
+        "flex min-w-0 flex-col overflow-hidden border border-line bg-panel",
         className
       )}
     >
       {/* Chrome bar */}
-      <div className="flex items-center justify-between border-b border-line bg-paper px-3 py-2.5">
-        <div className="flex items-center gap-1.5">
+      <div className="flex min-w-0 items-center justify-between gap-2 border-b border-line bg-paper px-3 py-2.5">
+        <div className="flex shrink-0 items-center gap-1.5">
           <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#ef4444]" />
           <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#eab308]" />
           <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#22c55e]" />
         </div>
-        <div className="flex items-center gap-1.5 border border-line bg-panel px-2.5 py-1">
-          <Globe aria-hidden="true" className="h-2.5 w-2.5 text-accent" />
-          <span className="font-mono text-[10px] text-muted">{url}</span>
+        <div className="flex min-w-0 items-center gap-1.5 border border-line bg-panel px-2.5 py-1">
+          <Globe aria-hidden="true" className="h-2.5 w-2.5 shrink-0 text-accent" />
+          <span className="truncate font-mono text-[10px] text-muted" title={url}>{url}</span>
         </div>
-        <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5 text-muted" />
+        <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-muted" />
       </div>
 
       {/* Canvas */}

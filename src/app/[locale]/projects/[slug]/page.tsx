@@ -137,7 +137,7 @@ export default async function CaseStudyPage({
               </div>
             ))}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
             {project.liveUrl && (
               <a
                 href={project.liveUrl}
@@ -240,12 +240,12 @@ export default async function CaseStudyPage({
               {project.process.map((step) => (
                 <div
                   key={step.number}
-                  className="flex items-start gap-7 border-t border-line py-6"
+                  className="flex items-start gap-4 border-t border-line py-6 sm:gap-7"
                 >
-                  <span className="w-16 shrink-0 font-mono text-[28px] text-accent">
+                  <span className="w-8 shrink-0 font-mono text-[28px] text-accent sm:w-16">
                     {step.number}
                   </span>
-                  <div className="flex flex-col gap-1.5">
+                  <div className="flex min-w-0 flex-col gap-1.5">
                     <h3 className="font-display text-2xl text-ink">{step.title}</h3>
                     {step.description && (
                       <p className="max-w-[720px] text-[15px] leading-relaxed text-muted">
