@@ -32,10 +32,33 @@ async function ExperimentsContent() {
 
   if (status === "available") {
     return (
-      <div className="grid gap-6 px-6 pb-16 pt-[72px] md:grid-cols-2 md:px-12 md:pb-24 xl:grid-cols-3">
-        {experiments.map((experiment) => (
-          <ExperimentCard key={experiment.id} experiment={experiment} />
-        ))}
+      <div className="px-6 pb-16 pt-12 md:px-12 md:pb-24 md:pt-[72px]">
+        {(["development", "design"] as const).map((category) => {
+          const items = experiments.filter((experiment) =>
+            experiment.categories?.some((term) => term.slug === category)
+          );
+          return (
+            <section key={category} aria-labelledby={`${category}-heading`} className="first:pb-12 last:border-t last:border-line last:pt-12 md:first:pb-20 md:last:pt-16">
+              <div className="mb-8 flex items-baseline justify-between gap-4">
+                <h2 id={`${category}-heading`} className="font-display text-[36px] leading-[1.08] text-ink md:text-[48px]">
+                  {t(`categories.${category}`)}
+                </h2>
+                <span className="shrink-0 font-mono text-xs text-muted">
+                  {t("workCount", { count: items.length })}
+                </span>
+              </div>
+              {items.length ? (
+                <div className={category === "development" ? "grid gap-6 md:grid-cols-2" : "grid gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-3"}>
+                  {items.map((experiment) => (
+                    <ExperimentCard key={experiment.id} experiment={experiment} variant={category} exploreLabel={t("explore")} categoryLabel={t(`categories.${category}`)} />
+                  ))}
+                </div>
+              ) : (
+                <p className="border-t border-line py-8 text-muted">{t("categoryEmpty")}</p>
+              )}
+            </section>
+          );
+        })}
       </div>
     );
   }

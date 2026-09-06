@@ -27,8 +27,8 @@ export async function ExperimentsSection() {
       </div>
 
       <div className="mt-12 flex flex-col">
-        {featured.map((experiment) => (
-          <ExperimentRow key={experiment.id} experiment={experiment} />
+        {featured.map((experiment, index) => (
+          <ExperimentRow key={experiment.id} experiment={experiment} position={index + 1} />
         ))}
       </div>
     </section>

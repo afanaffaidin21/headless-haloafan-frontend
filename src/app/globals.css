@@ -72,8 +72,11 @@ body {
 
 /* The compact accent token is intentionally retained for fills; use the
    stronger text token when it appears on a light surface. */
-.text-accent {
-  color: var(--color-accent-text);
+/* Keep this override in the utilities layer so interaction states can win. */
+@layer utilities {
+  .text-accent {
+    color: var(--color-accent-text);
+  }
 }
 
 .skip-link {

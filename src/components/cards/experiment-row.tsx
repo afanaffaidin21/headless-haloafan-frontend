@@ -5,9 +5,11 @@ import type { Experiment } from "@/types";
 
 export function ExperimentRow({
   experiment,
+  position,
   className,
 }: {
   experiment: Experiment;
+  position: number;
   className?: string;
 }) {
   return (
@@ -19,7 +21,7 @@ export function ExperimentRow({
       )}
     >
       <span className="w-14 shrink-0 font-mono text-[22px] text-muted">
-        {experiment.index}
+        {String(position).padStart(2, "0")}
       </span>
 
       <div className="flex flex-1 flex-col gap-1.5">

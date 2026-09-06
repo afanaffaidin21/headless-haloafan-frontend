@@ -90,11 +90,35 @@
     "prevProject": "Previous Project",
     "navigation": "Project navigation",
     "atAGlance": "At a Glance",
+    "facts": {
+      "deliverable": "Deliverable",
+      "timeline": "Timeline",
+      "role": "Role",
+      "tech": "Tech Stack"
+    },
+    "usgChallenges": {
+      "hierarchy": {
+        "title": "Information Hierarchy",
+        "description": "Organize admissions, study programs, university profiles, services, and news into a clearer structure so visitors can understand where to find each type of information."
+      },
+      "navigation": {
+        "title": "Navigation",
+        "description": "Make a large amount of academic and institutional content easy to discover, with intuitive navigation for the university’s different types of visitors."
+      },
+      "scalability": {
+        "title": "Content Scalability",
+        "description": "Create a modern, credible interface that stays consistent as the website grows, with enough flexibility to accommodate future content."
+      }
+    },
     "ctaHeading": "Have a similar project in mind?",
     "ctaSub": "Let's build something great together — just tell me about your project.",
     "ctaPrimary": "Let's Talk"
   },
   "experiments": {
+    "categories": { "development": "Development", "design": "Design" },
+    "workCount": "{count, plural, one {# work} other {# works}}",
+    "explore": "Explore Experiment",
+    "categoryEmpty": "No experiments in this category yet.",
     "eyebrow": "Experiments",
     "heading": "Vibe Coding Experiments",
     "sub": "Quick builds and side projects — small ideas pushed to production fast. Built with AI-assisted workflows, because shipping beats perfecting.",

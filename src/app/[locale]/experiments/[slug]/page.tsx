@@ -20,7 +20,7 @@ export async function generateMetadata({
 
   if (
     !experiment ||
-    !isIndexableContent(experiment, ["slug", "title", "description", "index"])
+    !isIndexableContent(experiment, ["slug", "title", "description"])
   ) {
     return noIndexMetadata("Experiments");
   }
@@ -47,7 +47,7 @@ export default async function ExperimentDetailPage({
 
   if (
     !experiment ||
-    !isIndexableContent(experiment, ["slug", "title", "description", "index"])
+    !isIndexableContent(experiment, ["slug", "title", "description"])
   ) {
     notFound();
   }
@@ -57,7 +57,7 @@ export default async function ExperimentDetailPage({
       <Header active="experiments" />
       <main id="main-content" tabIndex={-1} className="flex-1">
         <PageHeader
-          eyebrow={experiment.index}
+          eyebrow={experiment.categories?.map((category) => category.name).join(" / ") || t("eyebrow")}
           title={experiment.title}
           sub={experiment.description}
         />

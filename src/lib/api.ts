@@ -10,6 +10,7 @@ import {
   fetchGraphQL,
 } from "./graphql";
 import { getExperimentCachePolicy } from "./experiment-cache-policy";
+import { isIndexableContent } from "./seo-guards";
 import {
   CMS_COLLECTION_CACHE_KEYS,
   resolveCmsCollection,
@@ -30,8 +31,9 @@ interface ExperimentNode {
   id: string;
   slug: string;
   title: string;
+  featuredImage?: { node?: { sourceUrl?: string; altText?: string } | null } | null;
+  terms?: { nodes?: { name: string; slug: string; taxonomyName: string }[] } | null;
   experimentFields?: {
-    index?: string;
     description?: string;
     tags?: { tag?: string }[];
   };
@@ -43,20 +45,18 @@ function mapExperiment(n: ExperimentNode): Experiment {
     id: n.id,
     slug: n.slug,
     title: n.title,
-    index: f.index ?? "",
+    featuredImage: n.featuredImage?.node?.sourceUrl ?? "",
+    featuredImageAlt: n.featuredImage?.node?.altText ?? "",
+    categories: (n.terms?.nodes ?? [])
+      .filter((term) => term.taxonomyName === "kategori-experiment")
+      .map(({ name, slug }) => ({ name, slug })),
     description: f.description ?? "",
     tags: f.tags?.map((t) => t.tag ?? "").filter(Boolean) ?? [],
   };
 }
 
 function isPublishedExperiment(experiment: Experiment): boolean {
-  return Boolean(
-    experiment.id.trim() &&
-      experiment.slug.trim() &&
-      experiment.title.trim() &&
-      experiment.index.trim() &&
-      experiment.description.trim()
-  );
+  return isIndexableContent(experiment, ["id", "slug", "title", "description"]);
 }
 
 export interface ExperimentsResult {
@@ -80,7 +80,7 @@ const getCachedPublishedExperiments = unstable_cache(
     const nodes = data?.experiments?.nodes ?? [];
     return nodes.map(mapExperiment).filter(isPublishedExperiment);
   },
-  ["published-experiments-data-v2"],
+  ["published-experiments-data-v5"],
   { revalidate: dataRevalidationSeconds }
 );
 
@@ -98,7 +98,7 @@ const getCachedExperimentsResult = unstable_cache(
       return { experiments: [], status: "unavailable" };
     }
   },
-  ["published-experiments-availability-v2"],
+  ["published-experiments-availability-v5"],
   { revalidate: unavailableRevalidationSeconds }
 );
 

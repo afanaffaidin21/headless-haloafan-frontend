@@ -24,7 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     isIndexableContent(project, ["slug", "title", "description"])
   );
   const indexableExperiments = experiments.filter((experiment) =>
-    isIndexableContent(experiment, ["slug", "title", "description", "index"])
+    isIndexableContent(experiment, ["slug", "title", "description"])
   );
   const indexablePosts = posts.filter((post) =>
     isIndexableContent(post, ["slug", "title", "excerpt", "date", "content"])
