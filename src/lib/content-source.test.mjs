@@ -12,7 +12,14 @@ test("production content API has no project or blog seed fallback", () => {
 test("project and blog route params are CMS-derived", () => {
   const projectPage = read("../app/[locale]/projects/[slug]/page.tsx");
   const blogPage = read("../app/[locale]/blog/[slug]/page.tsx");
-  assert.doesNotMatch(projectPage, /universitas-sunan-gresik/);
+  // Project-specific presentation is allowed; route generation must remain CMS-derived.
+  const projectParams = projectPage.match(
+    /export async function generateStaticParams\(\) \{([\s\S]*?)\n\}/
+  )?.[1];
+  assert.ok(projectParams, "project static params are declared");
+  assert.match(projectParams, /await getProjects\(\)/);
+  assert.match(projectParams, /projects\.map\(\(project\) => \(\{ locale, slug: project\.slug \}\)\)/);
+  assert.doesNotMatch(projectParams, /universitas-sunan-gresik/);
   assert.doesNotMatch(blogPage, /Why I started exploring|CODE_THEME_JSON/);
 });
 

@@ -28,9 +28,11 @@ export interface Experiment {
   id: string;
   slug: string;
   title: string;
-  index: string;
   description: string;
   tags: string[];
+  featuredImage?: string;
+  featuredImageAlt?: string;
+  categories?: { name: string; slug: string }[];
 }
 
 export interface Testimonial {

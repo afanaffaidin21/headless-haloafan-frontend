@@ -84,8 +84,9 @@ export const EXPERIMENTS_QUERY = /* GraphQL */ `
         id
         slug
         title
+        featuredImage { node { sourceUrl altText } }
+        terms { nodes { name slug taxonomyName } }
         experimentFields {
-          index
           description
           tags { tag }
         }

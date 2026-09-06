@@ -90,11 +90,35 @@
     "prevProject": "Proyek Sebelumnya",
     "navigation": "Navigasi proyek",
     "atAGlance": "Sekilas",
+    "facts": {
+      "deliverable": "Jenis Proyek",
+      "timeline": "Waktu Pengerjaan",
+      "role": "Peran",
+      "tech": "Teknologi"
+    },
+    "usgChallenges": {
+      "hierarchy": {
+        "title": "Hierarki Informasi",
+        "description": "Menata informasi penerimaan mahasiswa, program studi, profil universitas, layanan, dan berita ke dalam struktur yang lebih jelas agar pengunjung memahami tempat mencari setiap informasi."
+      },
+      "navigation": {
+        "title": "Navigasi",
+        "description": "Memudahkan penemuan beragam konten akademik dan institusi melalui navigasi yang intuitif bagi berbagai jenis pengunjung website universitas."
+      },
+      "scalability": {
+        "title": "Pengembangan Konten",
+        "description": "Membentuk antarmuka modern dan kredibel yang tetap konsisten seiring perkembangan website, dengan fleksibilitas untuk menampung konten baru."
+      }
+    },
     "ctaHeading": "Ada proyek serupa?",
     "ctaSub": "Mari membangun sesuatu yang hebat bersama — ceritakan saja proyek Anda.",
     "ctaPrimary": "Mari Bicara"
   },
   "experiments": {
+    "categories": { "development": "Development", "design": "Design" },
+    "workCount": "{count} karya",
+    "explore": "Jelajahi Eksperimen",
+    "categoryEmpty": "Belum ada eksperimen dalam kategori ini.",
     "eyebrow": "Eksperimen",
     "heading": "Eksperimen Vibe Coding",
     "sub": "Proyek cepat dan sampingan — ide kecil yang dirilis cepat. Dibangun dengan alur kerja berbantuan AI, karena merilis lebih baik daripada menyempurnakan.",

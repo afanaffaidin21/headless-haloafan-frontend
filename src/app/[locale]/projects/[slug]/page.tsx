@@ -169,53 +169,66 @@ export default async function CaseStudyPage({
         </div>
 
         {/* Overview */}
-        <section className="flex flex-col gap-7 px-6 pb-16 md:px-12 md:pb-24">
-          <SectionHeader eyebrow="02" title={t("overview")} />
-          <div className="flex flex-col gap-16 lg:flex-row lg:items-start">
-            <div className="flex max-w-[640px] flex-col gap-5">
+        <section className="px-6 pb-12 md:px-12 md:pb-16">
+          <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
+            <div className="flex min-w-0 flex-col gap-6">
+              <SectionHeader eyebrow="02" title={t("overview")} />
               <p className="text-[17px] leading-[1.7] text-ink">
                 {project.description}
               </p>
-              {project.problem && (
-                <p className="text-[17px] leading-[1.7] text-muted">
-                  {project.problem}
-                </p>
-              )}
             </div>
-            <aside className="w-full max-w-[380px] self-start border border-line bg-panel">
+            <aside className="min-w-0 border border-line bg-panel">
               <div className="border-b border-line px-5 py-4">
                 <span className="font-mono text-[11px] tracking-[0.2em] text-accent">
                   {t("atAGlance").toUpperCase()}
                 </span>
               </div>
+              <dl className="grid sm:grid-cols-2">
               {[
-                ["DELIVERABLE", project.category.replace("-", " ").toUpperCase()],
-                ["TECH", project.stack.slice(0, 3).join(" · ")],
-                ["TIMELINE", project.timeline],
+                [t("facts.deliverable"), project.category.replace("-", " ").toUpperCase()],
+                [t("facts.timeline"), project.timeline],
+                [t("facts.role"), project.role],
+                [t("facts.tech"), project.stack.join(" · ")],
               ].filter(([, v]) => v).map(([k, v]) => (
                 <div
                   key={k}
-                  className="flex items-start justify-between gap-3 border-t border-line px-5 py-4"
+                  className="flex min-w-0 flex-col gap-2 border-line px-5 py-4 border-t first:border-t-0 sm:[&:nth-child(2)]:border-t-0 sm:odd:border-r"
                 >
-                  <span className="font-mono text-[11px] tracking-wider text-muted">
+                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">
                     {k}
-                  </span>
-                  <span className="max-w-[60%] text-right text-sm font-medium text-ink">
+                  </dt>
+                  <dd className="break-words text-sm font-medium leading-relaxed text-ink">
                     {v}
-                  </span>
+                  </dd>
                 </div>
               ))}
+              </dl>
             </aside>
           </div>
         </section>
 
         {/* Challenge */}
         {project.problem && (
-          <section className="flex flex-col gap-6 px-6 pb-16 md:px-12 md:pb-24">
+          <section className="flex flex-col gap-6 px-6 pb-12 md:px-12 md:pb-16">
             <SectionHeader eyebrow="03" title={t("challenge")} />
-            <p className="max-w-[720px] text-[17px] leading-[1.7] text-muted">
-              {project.problem}
-            </p>
+            {project.slug === "universitas-sunan-gresik" ? (
+              <div className="grid border-y border-line lg:grid-cols-3">
+                {(["hierarchy", "navigation", "scalability"] as const).map((point) => (
+                  <div key={point} className="flex min-w-0 flex-col gap-3 border-line py-6 max-lg:border-b max-lg:last:border-b-0 lg:px-7 lg:first:pl-0 lg:last:pr-0 lg:[&+div]:border-l">
+                    <h3 className="font-display text-2xl leading-snug text-ink">
+                      {t(`usgChallenges.${point}.title`)}
+                    </h3>
+                    <p className="text-[17px] leading-[1.7] text-muted">
+                      {t(`usgChallenges.${point}.description`)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="max-w-[720px] whitespace-pre-line text-[17px] leading-[1.7] text-muted">
+                {project.problem}
+              </p>
+            )}
           </section>
         )}
 
