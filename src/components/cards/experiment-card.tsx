@@ -46,6 +46,7 @@ export function ExperimentCard({
           <SafeImage
             src={experiment.featuredImage}
             alt={experiment.featuredImageAlt || experiment.title}
+            quality={85}
             sizes={development
               ? "(max-width: 767px) calc(100vw - 3rem), calc((100vw - 7.5rem) / 2)"
               : "(max-width: 767px) calc(100vw - 3rem), (max-width: 1279px) calc((100vw - 7.5rem) / 2), calc((100vw - 9rem) / 3)"}
