@@ -28,7 +28,8 @@ export async function ProjectCard({
         title={project.title}
         height={250}
         image={project.featuredImage}
-        sizes="(max-width: 767px) calc(100vw - 3rem), (max-width: 1279px) calc(50vw - 4.5rem), 380px"
+        quality={85}
+        sizes="(max-width: 767px) calc(100vw - 3rem), (max-width: 1279px) calc(50vw - 3.75rem), calc((100vw - 9rem) / 3)"
         overlayOnImage={false}
         live={false}
         objectPosition="bottom"
