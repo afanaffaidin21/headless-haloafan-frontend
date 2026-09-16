@@ -25,7 +25,7 @@ export async function fetchGraphQL<T>(
       : {
           next: {
             revalidate: Number(
-              process.env.NEXT_PUBLIC_REVALIDATE_SECONDS ?? 300
+              process.env.NEXT_PUBLIC_REVALIDATE_SECONDS ?? 30
             ),
           },
         }),

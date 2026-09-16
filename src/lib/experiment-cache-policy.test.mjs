@@ -5,7 +5,7 @@ import { getExperimentCachePolicy } from "./experiment-cache-policy.ts";
 
 test("uses normal data revalidation and a short unavailable TTL", () => {
   assert.deepEqual(getExperimentCachePolicy({}), {
-    dataRevalidationSeconds: 300,
+    dataRevalidationSeconds: 30,
     unavailableRevalidationSeconds: 30,
   });
 });
@@ -30,7 +30,7 @@ test("falls back for invalid values and clamps non-positive values", () => {
       EXPERIMENTS_UNAVAILABLE_REVALIDATE_SECONDS: "0",
     }),
     {
-      dataRevalidationSeconds: 300,
+      dataRevalidationSeconds: 30,
       unavailableRevalidationSeconds: 1,
     }
   );

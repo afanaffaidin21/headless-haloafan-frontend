@@ -7,8 +7,8 @@ import { CMS_COLLECTION_CACHE_KEYS } from "./cms-collection.ts";
 const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
 
 test("Projects and Blog each have one shared editorial cache identity", () => {
-  assert.equal(CMS_COLLECTION_CACHE_KEYS.projects, "published-projects-collection-v2");
-  assert.equal(CMS_COLLECTION_CACHE_KEYS.blog, "published-blog-collection-v2");
+  assert.equal(CMS_COLLECTION_CACHE_KEYS.projects, "published-projects-collection-v3");
+  assert.equal(CMS_COLLECTION_CACHE_KEYS.blog, "published-blog-collection-v3");
   assert.notEqual(CMS_COLLECTION_CACHE_KEYS.projects, CMS_COLLECTION_CACHE_KEYS.blog);
 
   const api = read("./api.ts");
@@ -40,7 +40,7 @@ test("all editorial routes consume collection snapshots instead of slug requests
 test("the unavailable policy is bounded while a shared success snapshot remains authoritative", () => {
   const policy = read("./experiment-cache-policy.ts");
   const api = read("./api.ts");
-  assert.match(policy, /DEFAULT_DATA_REVALIDATION_SECONDS = 300/);
+  assert.match(policy, /DEFAULT_DATA_REVALIDATION_SECONDS = 30/);
   assert.match(policy, /DEFAULT_UNAVAILABLE_REVALIDATION_SECONDS = 30/);
   assert.match(api, /Data Cache serves the previous successful value/);
   assert.match(api, /resolveCmsCollection\(/);

@@ -9,7 +9,7 @@ import { getProjectsResult } from "@/lib/api";
 import { createPageMetadata } from "@/lib/seo";
 
 // Keep an outage-shaped page response short-lived while the shared CMS data
-// cache retains successful snapshots for its normal five-minute TTL.
+// cache retains successful snapshots for its configured short TTL.
 export const revalidate = 30;
 
 export async function generateMetadata({

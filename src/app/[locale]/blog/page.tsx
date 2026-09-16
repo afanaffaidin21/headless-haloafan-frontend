@@ -14,7 +14,7 @@ import { createPageMetadata } from "@/lib/seo";
 import { CmsCollectionState } from "@/components/ui/cms-collection-state";
 
 // Keep an outage-shaped page response short-lived while the shared CMS data
-// cache retains successful snapshots for its normal five-minute TTL.
+// cache retains successful snapshots for its configured short TTL.
 export const revalidate = 30;
 
 const CHIPS = ["All", "Learn Journey", "Tutorials", "Tips & Fixes"];

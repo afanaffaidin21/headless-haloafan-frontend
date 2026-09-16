@@ -6,8 +6,15 @@ export type CmsCollectionStatus = "available" | "empty" | "unavailable";
  * snapshot.
  */
 export const CMS_COLLECTION_CACHE_KEYS = {
-  projects: "published-projects-collection-v2",
-  blog: "published-blog-collection-v2",
+  projects: "published-projects-collection-v3",
+  blog: "published-blog-collection-v3",
+} as const;
+
+/** Stable tags used to invalidate CMS snapshots from the revalidation webhook. */
+export const CMS_CACHE_TAGS = {
+  experiments: "cms-experiments",
+  projects: "cms-projects",
+  blog: "cms-blog",
 } as const;
 
 export interface CmsCollectionResult<T> {

@@ -13,6 +13,7 @@ import { getExperimentCachePolicy } from "./experiment-cache-policy";
 import { isIndexableContent } from "./seo-guards";
 import {
   CMS_COLLECTION_CACHE_KEYS,
+  CMS_CACHE_TAGS,
   resolveCmsCollection,
   type CmsCollectionResult,
 } from "./cms-collection";
@@ -80,8 +81,8 @@ const getCachedPublishedExperiments = unstable_cache(
     const nodes = data?.experiments?.nodes ?? [];
     return nodes.map(mapExperiment).filter(isPublishedExperiment);
   },
-  ["published-experiments-data-v5"],
-  { revalidate: dataRevalidationSeconds }
+  ["published-experiments-data-v6"],
+  { revalidate: dataRevalidationSeconds, tags: [CMS_CACHE_TAGS.experiments] }
 );
 
 // A cold-start outage is cached separately and briefly. This shared guard also
@@ -98,8 +99,11 @@ const getCachedExperimentsResult = unstable_cache(
       return { experiments: [], status: "unavailable" };
     }
   },
-  ["published-experiments-availability-v5"],
-  { revalidate: unavailableRevalidationSeconds }
+  ["published-experiments-availability-v6"],
+  {
+    revalidate: unavailableRevalidationSeconds,
+    tags: [CMS_CACHE_TAGS.experiments],
+  }
 );
 
 let lastKnownExperiments: Experiment[] | undefined;
@@ -147,7 +151,7 @@ const getCachedPublishedProjects = unstable_cache(
       .filter(isValidProject);
   },
   [CMS_COLLECTION_CACHE_KEYS.projects],
-  { revalidate: dataRevalidationSeconds }
+  { revalidate: dataRevalidationSeconds, tags: [CMS_CACHE_TAGS.projects] }
 );
 
 let lastKnownProjects: Project[] | undefined;
@@ -201,7 +205,7 @@ const getCachedPublishedPosts = unstable_cache(
     );
   },
   [CMS_COLLECTION_CACHE_KEYS.blog],
-  { revalidate: dataRevalidationSeconds }
+  { revalidate: dataRevalidationSeconds, tags: [CMS_CACHE_TAGS.blog] }
 );
 
 let lastKnownPosts: BlogPost[] | undefined;
