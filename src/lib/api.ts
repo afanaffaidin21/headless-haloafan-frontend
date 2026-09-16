@@ -89,21 +89,18 @@ const getCachedPublishedExperiments = unstable_cache(
   { revalidate: dataRevalidationSeconds, tags: [CMS_CACHE_TAGS.experiments] }
 );
 
-// A cold-start outage is cached separately and briefly. This shared guard also
-// prevents invalid detail slugs from causing one CMS request per route hit.
+// Cache the result separately so a genuinely empty collection can be shared,
+// but let request failures throw. Next's Data Cache can then keep serving the
+// previous successful snapshot while a stale entry is revalidated.
 const getCachedExperimentsResult = unstable_cache(
   async (): Promise<ExperimentsResult> => {
-    try {
-      const experiments = await getCachedPublishedExperiments();
-      return {
-        experiments,
-        status: experiments.length > 0 ? "available" : "empty",
-      };
-    } catch {
-      return { experiments: [], status: "unavailable" };
-    }
+    const experiments = await getCachedPublishedExperiments();
+    return {
+      experiments,
+      status: experiments.length > 0 ? "available" : "empty",
+    };
   },
-  ["published-experiments-availability-v7"],
+  ["published-experiments-availability-v8"],
   {
     revalidate: unavailableRevalidationSeconds,
     tags: [CMS_CACHE_TAGS.experiments],
@@ -113,21 +110,20 @@ const getCachedExperimentsResult = unstable_cache(
 let lastKnownExperiments: Experiment[] | undefined;
 
 export async function getExperimentsResult(): Promise<ExperimentsResult> {
-  const result = await getCachedExperimentsResult();
-
-  if (result.status !== "unavailable") {
+  try {
+    const result = await getCachedExperimentsResult();
     lastKnownExperiments = result.experiments;
     return result;
-  }
+  } catch {
+    if (lastKnownExperiments !== undefined) {
+      return {
+        experiments: lastKnownExperiments,
+        status: lastKnownExperiments.length > 0 ? "available" : "empty",
+      };
+    }
 
-  if (lastKnownExperiments !== undefined) {
-    return {
-      experiments: lastKnownExperiments,
-      status: lastKnownExperiments.length > 0 ? "available" : "empty",
-    };
+    return { experiments: [], status: "unavailable" };
   }
-
-  return result;
 }
 
 export async function getExperiments(): Promise<Experiment[]> {
