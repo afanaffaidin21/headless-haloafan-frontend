@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
@@ -81,9 +81,16 @@ export default async function ExperimentDetailPage({
             </div>
           )}
 
-          <Button href="/experiments" className="mt-10">
-            <ArrowLeft className="h-4 w-4" /> {t("back")}
-          </Button>
+          <div className="mt-10 flex flex-wrap items-center gap-3.5">
+            <Button href="/experiments">
+              <ArrowLeft className="h-4 w-4" /> {t("back")}
+            </Button>
+            {experiment.liveUrl && (
+              <Button variant="primary" href={experiment.liveUrl} external>
+                {t("visitLive")} <ArrowUpRight className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
         </section>
       </main>
       <Footer />

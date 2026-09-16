@@ -30,6 +30,7 @@ export interface Experiment {
   title: string;
   description: string;
   tags: string[];
+  liveUrl?: string;
   featuredImage?: string;
   featuredImageAlt?: string;
   categories?: { name: string; slug: string }[];

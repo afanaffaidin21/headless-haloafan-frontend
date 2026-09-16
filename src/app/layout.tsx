@@ -40,7 +40,7 @@ export default async function RootLayout({
       className={`dark ${instrumentSerif.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body>
+      <body className="flex min-h-dvh flex-col">
         <ThemeProvider defaultTheme="dark">
           <CvProvider>
             {children}

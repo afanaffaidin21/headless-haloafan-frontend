@@ -38,6 +38,9 @@ interface ExperimentNode {
     description?: string;
     tags?: { tag?: string }[];
   };
+  experimentInformation?: {
+    urlDevelopmentDesign?: string | null;
+  };
 }
 
 function mapExperiment(n: ExperimentNode): Experiment {
@@ -53,6 +56,7 @@ function mapExperiment(n: ExperimentNode): Experiment {
       .map(({ name, slug }) => ({ name, slug })),
     description: f.description ?? "",
     tags: f.tags?.map((t) => t.tag ?? "").filter(Boolean) ?? [],
+    liveUrl: n.experimentInformation?.urlDevelopmentDesign ?? "",
   };
 }
 

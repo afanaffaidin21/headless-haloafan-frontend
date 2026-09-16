@@ -22,6 +22,7 @@ interface ButtonProps {
   size?: Size;
   className?: string;
   href?: string;
+  external?: boolean;
   onClick?: () => void;
   type?: "button" | "submit";
 }
@@ -32,6 +33,7 @@ export function Button({
   size = "md",
   className,
   href,
+  external = false,
   onClick,
   type,
 }: ButtonProps) {
@@ -41,6 +43,14 @@ export function Button({
     sizeClasses[size],
     className
   );
+
+  if (href && external) {
+    return (
+      <a href={href} target="_blank" rel="noreferrer" className={classes}>
+        {children}
+      </a>
+    );
+  }
 
   if (href) {
     return (

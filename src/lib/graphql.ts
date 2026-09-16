@@ -90,6 +90,9 @@ export const EXPERIMENTS_QUERY = /* GraphQL */ `
           description
           tags { tag }
         }
+        experimentInformation {
+          urlDevelopmentDesign
+        }
       }
     }
   }
