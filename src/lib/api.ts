@@ -81,7 +81,7 @@ const getCachedPublishedExperiments = unstable_cache(
     const nodes = data?.experiments?.nodes ?? [];
     return nodes.map(mapExperiment).filter(isPublishedExperiment);
   },
-  ["published-experiments-data-v6"],
+  ["published-experiments-data-v7"],
   { revalidate: dataRevalidationSeconds, tags: [CMS_CACHE_TAGS.experiments] }
 );
 
@@ -99,7 +99,7 @@ const getCachedExperimentsResult = unstable_cache(
       return { experiments: [], status: "unavailable" };
     }
   },
-  ["published-experiments-availability-v6"],
+  ["published-experiments-availability-v7"],
   {
     revalidate: unavailableRevalidationSeconds,
     tags: [CMS_CACHE_TAGS.experiments],

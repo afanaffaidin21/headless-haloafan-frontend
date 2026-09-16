@@ -2,10 +2,10 @@ const API_URL =
   process.env.WORDPRESS_API_URL ?? "https://cms.haloafan.com/graphql";
 
 function getRequestTimeout() {
-  const configured = Number(process.env.WORDPRESS_API_TIMEOUT_MS ?? 5000);
+  const configured = Number(process.env.WORDPRESS_API_TIMEOUT_MS ?? 10000);
 
   if (!Number.isFinite(configured)) {
-    return 5000;
+    return 10000;
   }
 
   return Math.min(Math.max(configured, 1000), 15000);
