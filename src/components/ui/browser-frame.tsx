@@ -21,6 +21,7 @@ interface BrowserFrameProps {
   image?: string | null;
   loading?: "lazy" | "eager";
   sizes?: string;
+  quality?: number;
   /** Saat false + image: gambar tampil bersih, teks overlay (client/title/status) disembunyikan. */
   overlayOnImage?: boolean;
   /** Posisi object-fit gambar. Default "top". */
@@ -40,6 +41,7 @@ export function BrowserFrame({
   image,
   loading = "lazy",
   sizes = "(max-width: 767px) calc(100vw - 3rem), (max-width: 1279px) calc(50vw - 4.5rem), 540px",
+  quality,
   overlayOnImage = true,
   objectPosition = "top",
 }: BrowserFrameProps) {
@@ -84,6 +86,7 @@ export function BrowserFrame({
             src={image}
             alt={title}
             sizes={sizes}
+            quality={quality}
             loading={loading}
             className={`absolute inset-0 h-full w-full object-cover ${posClass}`}
           />
