@@ -165,6 +165,8 @@ export default async function CaseStudyPage({
             image={project.featuredImage}
             loading="eager"
             sizes="(max-width: 767px) calc(100vw - 3rem), calc(100vw - 6rem)"
+            overlayOnImage={false}
+            showStatusOnImage
           />
         </div>
 
@@ -322,6 +324,8 @@ export default async function CaseStudyPage({
                 height={220}
                 image={src}
                 sizes="(max-width: 767px) calc(100vw - 3rem), calc((100vw - 9rem) / 3)"
+                overlayOnImage={false}
+                showStatusOnImage
               />
             ))}
           </div>

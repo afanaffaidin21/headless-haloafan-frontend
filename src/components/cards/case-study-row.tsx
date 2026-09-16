@@ -21,6 +21,8 @@ export async function CaseStudyRow({ project }: { project: Project }) {
           title={project.title}
           height={300}
           image={project.featuredImage}
+          overlayOnImage={false}
+          showStatusOnImage
           className="h-full"
         />
       </Link>

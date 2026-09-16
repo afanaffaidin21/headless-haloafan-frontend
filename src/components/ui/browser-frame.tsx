@@ -22,8 +22,10 @@ interface BrowserFrameProps {
   loading?: "lazy" | "eager";
   sizes?: string;
   quality?: number;
-  /** Saat false + image: gambar tampil bersih, teks overlay (client/title/status) disembunyikan. */
+  /** Saat false + image: gambar tampil bersih, teks client/title disembunyikan. */
   overlayOnImage?: boolean;
+  /** Tampilkan status bawah di atas gambar bersih. */
+  showStatusOnImage?: boolean;
   /** Posisi object-fit gambar. Default "top". */
   objectPosition?: "top" | "center" | "bottom";
 }
@@ -43,9 +45,11 @@ export function BrowserFrame({
   sizes = "(max-width: 767px) calc(100vw - 3rem), (max-width: 1279px) calc(50vw - 4.5rem), 540px",
   quality,
   overlayOnImage = true,
+  showStatusOnImage = false,
   objectPosition = "top",
 }: BrowserFrameProps) {
-  const cleanImage = image && !overlayOnImage;
+  const imageOnly = Boolean(image && overlayOnImage === false);
+  const cleanImage = imageOnly;
   const posClass =
     objectPosition === "bottom"
       ? "object-bottom"
@@ -109,6 +113,17 @@ export function BrowserFrame({
           />
         )}
 
+        {cleanImage && showStatusOnImage && (
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-20"
+            style={{
+              background:
+                "linear-gradient(0deg, rgba(0,0,0,0.68) 0%, transparent 100%)",
+            }}
+            aria-hidden
+          />
+        )}
+
         {/* Top: tag + LIVE */}
         <div className="relative z-10 flex items-center justify-between">
           <span className="border border-white/20 bg-black/40 px-2.5 py-1 font-mono text-[9px] tracking-wider text-white">
@@ -123,7 +138,7 @@ export function BrowserFrame({
         </div>
 
         {/* Center: client + title (disembunyikan saat cleanImage) */}
-        {!cleanImage && (
+        {!imageOnly && (
           <div className="relative z-10 flex flex-col items-center gap-1.5 text-center">
             <span className="font-mono text-[10px] tracking-wider text-[#b9b9b9]">
               {client}
@@ -137,8 +152,8 @@ export function BrowserFrame({
           </div>
         )}
 
-        {/* Bottom: status (disembunyikan saat cleanImage) */}
-        {!cleanImage && (
+        {/* Bottom: status */}
+        {(!imageOnly || showStatusOnImage) && (
           <div className="relative z-10 flex items-center justify-between font-mono text-[9px]">
             <span className="text-[#4ade80]">✓ Production Ready</span>
             <span className="text-[#b9b9b9]">Click to open →</span>
